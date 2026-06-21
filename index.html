@@ -3,27 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的个人网站</title>
+    <meta name="description" content="SystemBlog: 记录系统、编码、算法和工程实验的个人技术博客。">
+    <title>SystemBlog | 技术实验与系统笔记</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html">首页</a>
-            <a href="about.html">关于</a>
-            <a href="blog/">博客</a>
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="主导航">
+            <a class="brand" href="index.html" aria-label="SystemBlog 首页">
+                <span class="brand-mark">S</span>
+                <span>SystemBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" aria-current="page">首页</a>
+                <a href="blog/">文章</a>
+                <a href="about.html">关于</a>
+            </div>
         </nav>
     </header>
 
     <main>
-        <h1>最新文章</h1>
-        <ul>
-            <li><a href="blog/ldpc-decoder-demo-tabs.html">LDPC 解码器演示</a></li>
-        </ul>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Systems / Coding / Signals</p>
+                <h1>把工程实验、算法推演和系统笔记整理成能反复回看的博客。</h1>
+                <p class="hero-text">这里会收纳可交互的技术演示、学习记录、问题复盘和一些偏底层的工程观察。</p>
+                <div class="hero-actions" aria-label="主要入口">
+                    <a class="button primary" href="blog/ldpc-decoder-demo-tabs.html">阅读 LDPC 可视化</a>
+                    <a class="button secondary" href="blog/">浏览全部文章</a>
+                </div>
+            </div>
+            <div class="hero-panel" aria-label="博客主题预览">
+                <div class="signal-card">
+                    <span class="status-dot"></span>
+                    <span>belief propagation</span>
+                </div>
+                <div class="matrix-grid" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <div class="terminal-card">
+                    <p>$ run notes --topic ldpc</p>
+                    <p class="muted">check nodes -> variable nodes -> posterior</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-head">
+            <div>
+                <p class="eyebrow">Latest</p>
+                <h2>最新文章</h2>
+            </div>
+            <a class="text-link" href="blog/">全部文章</a>
+        </section>
+
+        <section class="post-grid" aria-label="最新文章列表">
+            <article class="post-card featured">
+                <div class="post-meta">交互演示 · 编码理论</div>
+                <h3><a href="blog/ldpc-decoder-demo-tabs.html">LDPC 消息传递译码可视化</a></h3>
+                <p>用标签页组织译码流程、校验矩阵、概率消息和迭代收敛过程，适合边看边调参数。</p>
+            </article>
+
+        </section>
     </main>
 
-    <footer>
-        <p>© 2025 我的网站</p>
+    <footer class="site-footer">
+        <p>© 2026 SystemBlog. Built for GitHub Pages.</p>
     </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
