@@ -1,3 +1,10 @@
+---
+title: 博客内容结构说明
+category: 建站
+summary: 说明 SystemBlog 如何用 labs 管理交互 HTML，用 posts 管理 Markdown，并用 content.json 自动生成文章列表。
+date: 2026-06-21
+---
+
 # 博客内容结构说明
 
 SystemBlog 现在分成两类内容。
@@ -12,7 +19,21 @@ SystemBlog 现在分成两类内容。
 
 `blog/posts/` 用来放普通 Markdown 文章，比如技术笔记、问题复盘、数学推导、工具链记录和读书笔记。
 
-写文章时只需要新增一个 `.md` 文件，然后在 `blog/index.html` 里加一条链接：
+写文章时只需要新增一个 `.md` 文件，然后运行生成脚本：
+
+```powershell
+node scripts/generate-content.js
+```
+
+脚本会扫描 `blog/labs/` 和 `blog/posts/`，自动更新：
+
+```text
+blog/content.json
+```
+
+文章列表会读取这个清单自动渲染，不需要手动改 `blog/index.html`。
+
+Markdown 文章的访问地址长这样：
 
 ```html
 <a href="article.html?post=site-structure">博客内容结构说明</a>

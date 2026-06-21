@@ -1,0 +1,23 @@
+[
+  {
+    "type": "lab",
+    "slug": "ldpc-decoder-demo-tabs",
+    "source": "labs/ldpc-decoder-demo-tabs.html",
+    "url": "labs/ldpc-decoder-demo-tabs.html",
+    "title": "LDPC 消息传递译码可视化",
+    "category": "编码理论",
+    "summary": "用可交互标签页展示 LDPC belief propagation 的校验矩阵、消息传递、后验概率和迭代收敛过程。",
+    "date": "2026-06-21",
+    "draft": false
+  },
+  {
+    "type": "post",
+    "slug": "site-structure",
+    "source": "posts/site-structure.md",
+    "title": "博客内容结构说明",
+    "category": "建站",
+    "summary": "说明 SystemBlog 如何用 labs 管理交互 HTML，用 posts 管理 Markdown，并用 content.json 自动生成文章列表。",
+    "date": "2026-06-21",
+    "draft": false
+  }
+]

@@ -7,7 +7,8 @@
 
     const params = new URLSearchParams(window.location.search);
     const post = params.get("post") || "site-structure";
-    const safePost = /^[a-z0-9-]+$/i.test(post) ? post : "site-structure";
+    const isSafePost = /^[a-z0-9-\/]+$/i.test(post) && !post.includes("..") && !post.startsWith("/");
+    const safePost = isSafePost ? post : "site-structure";
 
     if (window.marked) {
         marked.setOptions({

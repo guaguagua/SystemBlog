@@ -60,7 +60,7 @@
             <a class="text-link" href="blog/">全部文章</a>
         </section>
 
-        <section class="post-grid" aria-label="最新文章列表">
+        <section class="post-grid" id="contentList" data-content-src="blog/content.json" data-url-prefix="blog/" data-limit="4" aria-label="最新文章列表">
             <article class="post-card featured">
                 <div class="post-meta">交互实验 · 编码理论</div>
                 <h3><a href="blog/labs/ldpc-decoder-demo-tabs.html">LDPC 消息传递译码可视化</a></h3>
@@ -80,5 +80,6 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/content-list.js"></script>
 </body>
 </html>
