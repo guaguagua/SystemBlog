@@ -19,5 +19,15 @@
     "summary": "说明 SystemBlog 如何用 labs 管理交互 HTML，用 posts 管理 Markdown，并用 content.json 自动生成文章列表。",
     "date": "2026-06-21",
     "draft": false
+  },
+  {
+    "type": "post",
+    "slug": "js-library-summary",
+    "source": "posts/js-library-summary.md",
+    "title": "GitHub Pages 博客可用的前端 JS 库汇总",
+    "category": "前端工具",
+    "summary": "用表格总结 Markdown 渲染、公式、图表、电路、3D、Vue、表格、CSV 和 Excel 等适合静态博客使用且许可边界清晰的前端库。",
+    "date": "2026-06-21",
+    "draft": false
   }
 ]
