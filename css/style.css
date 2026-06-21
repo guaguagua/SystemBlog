@@ -24,6 +24,7 @@ html {
 body {
     margin: 0;
     min-height: 100vh;
+    overflow-x: hidden;
     font-family: Inter, "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
     font-size: 16px;
     line-height: 1.65;
@@ -109,6 +110,72 @@ main {
     margin: 0 auto;
 }
 
+.home-main {
+    width: min(1280px, calc(100% - 48px));
+}
+
+.home-layout {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.home-content {
+    min-width: 0;
+}
+
+.contact-sidebar {
+    position: sticky;
+    top: 96px;
+    margin-top: 72px;
+    padding: 20px;
+    border: 1px solid rgba(216, 222, 232, 0.9);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 26px rgba(31, 41, 51, 0.08);
+}
+
+.contact-sidebar h2 {
+    margin-bottom: 10px;
+    color: #172033;
+    font-size: 1.35rem;
+}
+
+.contact-sidebar p {
+    margin-bottom: 16px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.wechat-card {
+    padding: 14px;
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    border-radius: 8px;
+    background: rgba(15, 118, 110, 0.08);
+}
+
+.wechat-label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--accent-dark);
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.wechat-card strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: var(--ink);
+    font-size: 1.05rem;
+}
+
+.contact-sidebar .contact-note {
+    margin: 12px 0 0;
+    font-size: 0.82rem;
+}
+
 .hero {
     min-height: calc(100vh - 96px);
     padding: 72px 0 48px;
@@ -116,6 +183,15 @@ main {
     grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
     align-items: center;
     gap: 54px;
+}
+
+.home-content .hero {
+    grid-template-columns: minmax(0, 1.16fr) minmax(260px, 0.68fr);
+    gap: 40px;
+}
+
+.home-content h1 {
+    font-size: 3.65rem;
 }
 
 .eyebrow {
@@ -139,6 +215,7 @@ h1 {
     color: #172033;
     font-size: 4.35rem;
     line-height: 1.08;
+    overflow-wrap: anywhere;
 }
 
 h2 {
@@ -158,6 +235,10 @@ h3 {
     margin-bottom: 28px;
     color: var(--muted);
     font-size: 1.08rem;
+}
+
+.hero-copy {
+    min-width: 0;
 }
 
 .hero-actions {
@@ -444,8 +525,27 @@ h3 {
     gap: 14px;
 }
 
+@media (max-width: 1020px) {
+    .home-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-sidebar {
+        position: static;
+        margin-top: 42px;
+    }
+
+    .home-content .hero {
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+    }
+}
+
 @media (max-width: 860px) {
     h1 {
+        font-size: 3.2rem;
+    }
+
+    .home-content h1 {
         font-size: 3.2rem;
     }
 
@@ -456,6 +556,10 @@ h3 {
     .hero {
         min-height: auto;
         padding-top: 48px;
+        grid-template-columns: 1fr;
+    }
+
+    .home-content .hero {
         grid-template-columns: 1fr;
     }
 
@@ -470,6 +574,10 @@ h3 {
 
 @media (max-width: 560px) {
     h1 {
+        font-size: 2.45rem;
+    }
+
+    .home-content h1 {
         font-size: 2.45rem;
     }
 
