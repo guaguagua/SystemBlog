@@ -9,7 +9,7 @@
 
 首页和文章列表通过 `blog/content.json` 自动生成文章卡片。
 
-仓库根目录里的 `.nojekyll` 会让 GitHub Pages 按纯静态文件发布，避免 `blog/posts/*.md` 被 Jekyll 转成 `.html` 后导致前端无法 `fetch()` 原始 Markdown。
+仓库根目录保留空的 `.nojekyll` 文件，尽量让 GitHub Pages 按纯静态文件发布。文章阅读页也会在原始 `.md` 不可用时回退读取 Jekyll 生成的同名 `.html`。
 
 ## 目录结构
 
