@@ -497,6 +497,35 @@ h3 {
     font-weight: 700;
 }
 
+.markdown-body table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 18px 0 24px;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.95rem;
+}
+
+.markdown-body th,
+.markdown-body td {
+    padding: 9px 12px;
+    border: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+}
+
+.markdown-body th {
+    color: #172033;
+    background: #f8fafc;
+    font-weight: 800;
+}
+
+.markdown-body tr:nth-child(even) td {
+    background: rgba(248, 250, 252, 0.72);
+}
+
 .markdown-body code {
     padding: 2px 5px;
     border-radius: 6px;
