@@ -24,8 +24,8 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 
 | 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
 |---|---|---|---|---|
-| `marked` | Markdown 转 HTML | 当前文章阅读页已经在用 | `blog/article.html` | 简单直接，适合轻量博客。 |
-| `markdown-it` | Markdown 转 HTML | 需要插件、容器、自定义语法时 | `blog/article.html` | 比 `marked` 更适合扩展。 |
+| `markdown-it` | Markdown 转 HTML | 当前文章阅读页已经在用 | `blog/article.html` | 和 VS Code Markdown Preview 的技术路线更接近，也更适合扩展。 |
+| `marked` | Markdown 转 HTML | 只需要很轻量的 Markdown 渲染时 | `blog/article.html` | 简单直接，但和 VS Code 预览可能有细微差异。 |
 | `Prism.js` | 代码高亮 | 技术文章、代码片段 | `blog/posts/` 全局增强 | 主题漂亮，适合手动指定语言。 |
 | `highlight.js` | 代码高亮 | 想要自动识别语言时 | `blog/posts/` 全局增强 | 配置简单，适合文章页统一启用。 |
 | `KaTeX` | 数学公式 | 大多数数学公式、推导文章 | `blog/posts/` 全局增强 | 渲染快，适合静态博客。 |
@@ -98,7 +98,7 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 
 | 优先级 | 建议 | 价值 |
 |---|---|---|
-| 1 | 加 `Prism.js` 或 `highlight.js` | 技术博客最常用，立刻改善阅读体验。 |
+| 1 | 使用 `markdown-it + highlight.js` | 更接近 VS Code 预览，并改善代码块阅读体验。 |
 | 2 | 加 `KaTeX` 和 `Mermaid` | 支持公式和结构图，适合技术笔记。 |
 | 3 | 加 `WaveDrom` 示例 | 先支持数字时序图，最适合硬件/RTL 笔记。 |
 | 4 | 在 `blog/labs/` 建一个 `netlist-demo.html` | 用 `netlistsvg` 或 `DigitalJS` 展示 Verilog/Yosys 结构。 |

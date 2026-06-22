@@ -27,10 +27,36 @@
 
     const stripFrontMatter = (markdown) => markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
 
+    const createMarkdownRenderer = () => {
+        if (!window.markdownit) {
+            return null;
+        }
+
+        return window.markdownit({
+            html: true,
+            linkify: true,
+            typographer: false,
+            breaks: false,
+            highlight(code, language) {
+                if (!window.hljs) {
+                    return escapeHtml(code);
+                }
+
+                if (language && hljs.getLanguage(language)) {
+                    return hljs.highlight(code, { language, ignoreIllegals: true }).value;
+                }
+
+                return hljs.highlightAuto(code).value;
+            }
+        });
+    };
+
+    const markdownRenderer = createMarkdownRenderer();
+
     const renderMarkdown = (markdown) => {
         const body = stripFrontMatter(markdown);
-        mount.innerHTML = window.marked
-            ? marked.parse(body)
+        mount.innerHTML = markdownRenderer
+            ? markdownRenderer.render(body)
             : `<pre>${escapeHtml(body)}</pre>`;
     };
 
@@ -59,13 +85,6 @@
             "<p>部署到 GitHub Pages 后可以正常通过 HTTP 加载；本地预览建议用一个静态服务器打开。</p>"
         ].join("");
     };
-
-    if (window.marked) {
-        marked.setOptions({
-            gfm: true,
-            breaks: false
-        });
-    }
 
     fetchText(`posts/${safePost}.md`)
         .then(renderMarkdown)
