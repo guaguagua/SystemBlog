@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "fayu-engineering-video",
+    "source": "labs/fayu-engineering-video.html",
+    "url": "labs/fayu-engineering-video.html",
+    "title": "发育工程",
+    "category": "视频",
+    "summary": "发育工程相关视频记录。",
+    "date": "2026-06-25",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "ldpc-decoder-demo-tabs",
     "source": "labs/ldpc-decoder-demo-tabs.html",
     "url": "labs/ldpc-decoder-demo-tabs.html",
