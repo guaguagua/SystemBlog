@@ -255,76 +255,92 @@
       right: 18px;
       bottom: 18px;
       display: flex;
-      gap: 10px;
-      z-index: 3;
+      gap: 8px;
+      z-index: 5;
     }
 
-    button {
+    .nav-btn {
       border: none;
-      border-radius: 999px;
-      padding: 12px 18px;
-      background: rgba(36, 75, 90, 0.92);
+      border-radius: 8px;
+      padding: 9px 16px;
+      background: rgba(36, 75, 90, 0.82);
       color: white;
       cursor: pointer;
-      font-size: 14px;
-      letter-spacing: 0.08em;
+      font-size: 15px;
+      backdrop-filter: blur(8px);
     }
+    .nav-btn:hover { background: rgba(36, 75, 90, 1); }
 
-    .audio-bar {
+    .audio-widget {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 52px;
-      background: rgba(28, 27, 25, 0.88);
-      backdrop-filter: blur(10px);
+      right: 22px;
+      bottom: 72px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
-      padding: 0 20px;
-      z-index: 4;
-      font-family: "Segoe UI", Arial, sans-serif;
+      gap: 5px;
+      z-index: 5;
     }
 
-    .audio-bar button {
-      border-radius: 6px;
-      padding: 6px 14px;
-      font-size: 13px;
-      background: rgba(255,255,255,0.12);
-      letter-spacing: 0;
-    }
-
-    .audio-bar button:hover { background: rgba(255,255,255,0.22); }
-    .audio-bar button.active { background: rgba(181,68,29,0.8); }
-
-    .audio-progress {
-      flex: 1;
-      height: 4px;
-      background: rgba(255,255,255,0.15);
-      border-radius: 2px;
-      overflow: hidden;
+    .ring-btn {
+      border: none;
+      background: transparent;
       cursor: pointer;
+      padding: 0;
+      width: 52px;
+      height: 52px;
+      display: block;
+    }
+    .ring-btn:hover .ring-bg { stroke: rgba(36,75,90,0.5); }
+
+    .ring-bg {
+      fill: rgba(255,252,245,0.72);
+      stroke: rgba(36, 75, 90, 0.22);
+      stroke-width: 2.5;
     }
 
-    .audio-progress-fill {
-      height: 100%;
-      background: rgba(181, 68, 29, 0.9);
-      width: 0%;
-      transition: width 0.25s linear;
-      border-radius: 2px;
+    .ring-track {
+      fill: none;
+      stroke: rgba(200,190,175,0.35);
+      stroke-width: 3;
     }
 
-    .audio-time {
-      color: rgba(255,255,255,0.55);
-      font-size: 12px;
-      min-width: 72px;
-      text-align: right;
+    .ring-fill {
+      fill: none;
+      stroke: #b5441d;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transform-origin: 22px 22px;
+      transform: rotate(-90deg);
+      transition: stroke-dashoffset 0.25s linear;
     }
 
-    .audio-label {
-      color: rgba(255,255,255,0.45);
-      font-size: 12px;
-      letter-spacing: 0.06em;
+    .ring-icon {
+      fill: #244b5a;
+      font-size: 13px;
+      font-family: sans-serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .auto-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 11px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: rgba(200,190,175,0.55);
+      color: #3a342c;
+      backdrop-filter: blur(6px);
+      transition: background 0.15s;
+    }
+    .auto-btn.on {
+      background: rgba(181,68,29,0.78);
+      color: #fff;
     }
   </style>
 </head>
@@ -334,19 +350,23 @@
   </div>
   <audio id="slide-audio" preload="auto"></audio>
 
-  <div class="audio-bar" id="audio-bar">
-    <button type="button" id="audio-play">▶ 播放</button>
-    <div class="audio-progress" id="audio-progress">
-      <div class="audio-progress-fill" id="audio-fill"></div>
-    </div>
-    <span class="audio-time" id="audio-time">0:00 / 0:00</span>
-    <button type="button" id="auto-advance" title="音频结束后自动切换下一页">自动翻页 OFF</button>
-    <span class="audio-label">◀ ▶ 键切换</span>
+  <div class="audio-widget">
+    <button class="ring-btn" id="audio-play" title="播放 / 暂停">
+      <svg viewBox="0 0 44 44" width="52" height="52">
+        <circle class="ring-bg" cx="22" cy="22" r="21"/>
+        <circle class="ring-track" cx="22" cy="22" r="17"
+                stroke-dasharray="106.8" stroke-dashoffset="0"/>
+        <circle class="ring-fill" id="ring-fill" cx="22" cy="22" r="17"
+                stroke-dasharray="106.8" stroke-dashoffset="106.8"/>
+        <text class="ring-icon" id="ring-icon" x="22" y="22">▶</text>
+      </svg>
+    </button>
+    <button class="auto-btn on" id="auto-advance" title="自动播放到最后一页">自动 ON</button>
   </div>
 
   <div class="nav" id="nav">
-    <button type="button" id="prev">Prev</button>
-    <button type="button" id="next">Next</button>
+    <button class="nav-btn" type="button" id="prev">◀</button>
+    <button class="nav-btn" type="button" id="next">▶</button>
   </div>
   <script>
     const slides = [{"title": "从 Harness 到 Ontogeny", "subtitle": "LLM 系统如何从流程编排走向能力发育", "bullets": ["问题不只是如何调用模型，而是下一阶段系统该如何继续演化", "Harness 已经解决了执行框架，但还没有回答能力如何在运行中长出来", "Ontogeny 关注的，是能力在环境中的激活、分化、稳定与成熟", "系统设计的重心，将从调度模型转向设计能力生长的条件"], "narration": "很多人已经会做 prompt，会做 context，也开始会做 harness。但问题是，当这些东西都做起来之后，下一步到底是什么。我的判断是，下一步不是继续堆更多流程，而是进入 ontogeny，也就是发育工程。系统设计的重点，将从如何调度模型，转向如何让能力在环境中逐步长出来。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "为什么传统 LLM 系统越来越重", "bullets": ["为了提成功率，不断加 prompt、补规则、塞上下文", "系统短期看似更稳，长期却越来越臃肿和难维护", "错误一旦进入链路，就会在长上下文里被放大", "真正缺的不是更多规则，而是组织不确定性的结构"], "narration": "传统 LLM 系统经常会越做越重。为了提高成功率，大家会不断加 prompt，不断补规则，不断塞上下文。短期看似乎更稳了一点，但长期结果往往是系统越来越臃肿，信息越来越混乱，错误越来越难定位。真正的问题不是规则不够多，而是缺少一个能持续组织不确定性的结构。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "Prompt、Context、Harness 之后还缺什么", "bullets": ["Prompt engineering 解决的是怎么说", "Context engineering 解决的是给什么信息", "Harness engineering 解决的是怎么组织模型、工具和状态", "继续往下的问题，是能力本身如何在运行时逐步形成"], "narration": "如果回看这条演化路径，会发现每一步都在解决一个更深层的问题。Prompt engineering 解决的是怎么说，context engineering 解决的是给什么信息，harness engineering 解决的是怎么把模型、工具和状态组织起来。但继续往下问，就会出现一个更关键的问题：能力本身是如何在运行时逐步形成的。这正是 ontogeny 要回答的事情。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "为什么需要新的第一性原则", "bullets": ["不能再默认模型第一次就会答对", "不能再默认历史越多越有帮助", "不能再把聊天历史当成真正的计算结构", "必须承认微观不确定性，并在宏观上组织出稳定收敛"], "narration": "一旦问题变成复杂目标求解，原来的很多默认前提就不够用了。我们不能再假设模型第一次就会答对，也不能再假设历史越多越有帮助，更不能把对话历史当成真正的计算结构。系统需要新的第一性原则，也就是承认微观上存在不确定性，但在宏观上必须通过组织、验证和反馈实现稳定收敛。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "什么是最小信息环境", "bullets": ["每个子任务只看到完成自己所必需的信息", "无关信息一旦混入，上下文就会污染，判断就会漂移", "任务完成后应立刻验证，并压缩成状态对象", "系统通过上下文收缩，持续降低问题复杂度"], "narration": "最小信息环境的核心意思是，每一个子任务只看到完成自己所必需的信息，而不是整个世界。因为一旦无关信息混进来，上下文就会污染，模型就容易漂。相反，如果系统能为每一步构造一个刚刚好的局部工作台，让问题边界保持清晰，那么复杂任务就会更容易被拆开、验证和推进。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "为什么要用闭包和递归看任务求解", "bullets": ["每个子任务都像一个带局部环境的闭包", "子任务不需要背负全部历史，只携带最小必要状态", "无法直接完成时继续递归拆分，直到足够小、足够清晰、足够可验证", "大问题最终通过一层层局部求值组合起来"], "narration": "如果从闭包和递归的角度来看，复杂任务求解会变得非常清楚。每个子任务都像一个带局部环境的闭包，它不需要背负全部历史，只需要携带当前所需的最小状态。如果这个子任务无法直接完成，就继续递归拆分，直到问题被降到足够小、足够清晰、足够可验证的程度。这样一来，大问题就不是一次硬解，而是一层层局部求值的组合。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "为什么系统需要滤波与反馈", "bullets": ["LLM 输出不是纯净答案，而是信号和噪声的混合物", "格式校验滤掉结构错误，规则检查滤掉越界行为", "测试滤掉不可执行结果，目标对齐滤掉方向性偏差", "系统稳定的关键，不是没有噪声，而是噪声被持续衰减"], "narration": "LLM 的输出本来就不是纯净答案，而是信号和噪声的混合物。所以真正重要的，不是要求它一次输出完美结果，而是给系统加入滤波和反馈。格式校验在滤掉结构错误，规则检查在滤掉越界行为，测试在滤掉不可执行结果，目标对齐在滤掉方向性偏差。系统之所以能够稳定，不是因为没有噪声，而是因为噪声被不断衰减。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "Goal Stack 为什么是计算结构", "bullets": ["聊天历史只按时间推进，Goal Stack 按目标依赖推进", "当前焦点永远落在栈顶目标上", "已完成问题出栈并沉淀为状态，未完成问题继续保留在计算结构里", "系统因此知道当前在解什么、下一步该解什么、哪些结果可安全复用"], "narration": "聊天历史只是叙事结构，但 Goal Stack 才是真正的计算结构。因为系统并不是靠时间顺序推进问题，而是靠目标依赖关系推进问题。当前焦点永远落在栈顶目标上，已经完成的问题出栈并沉淀为状态，尚未解决的问题继续保留在计算结构里。这样系统才知道自己当前在解什么、下一步该解什么、哪些结果可以安全复用。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "闭包递进执行如何让大问题收敛", "bullets": ["系统先用较粗的闭包尝试求解", "如果目标太大、信息太杂或结果不可验证，就继续拆小", "每个更小的闭包只负责一个局部问题", "验证过的局部结果逐层返回上层，最终完成全局收敛"], "narration": "真正的收敛不是一口气跳到答案，而是通过闭包递进一步一步逼近。系统先用一个较粗的闭包尝试解决问题，如果发现任务太大、信息太杂或者结果无法验证，就继续拆成更小的闭包。每个更小的闭包只负责解决一个局部问题，完成之后把验证过的结果返回上层。正是这种由粗到细、由局部到整体的递进过程，让大问题最终能够稳定收敛。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "动态约束为什么不是限制而是塑形", "bullets": ["没有约束，模型行为会发散；约束写死了，系统又会变僵", "动态约束会根据阶段、目标类型和失败反馈不断调整", "约束的作用是塑造搜索空间，而不是单纯限制模型", "好的约束让系统更稳，而不是更僵"], "narration": "很多人一听到约束，就觉得那是在限制模型。但更准确地说，约束是在塑造搜索空间。没有约束，模型的行为会发散；约束写死了，系统又会变僵。真正好的动态约束，是根据阶段、目标类型和失败反馈不断调整的。它不是把模型锁住，而是让模型在更合适的空间里探索，并逐渐形成更稳定的行为模式。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "校验与修复如何阻断错误传播", "bullets": ["最危险的不是局部犯错，而是错误被当成正确前提继续传播", "执行之后必须立即校验，校验不过就必须修复", "修复不了就继续拆解或重规划", "系统目标不是消灭所有错误，而是阻断错误传播路径"], "narration": "复杂系统里最危险的，不是局部犯错，而是错误被当成正确前提继续向后传播。所以执行之后必须立刻校验，校验不过就必须修复，修复不了就继续拆解或重规划。整个系统要做的，不是消灭所有错误，而是阻断错误传播路径，让错误停留在最小作用域里。只有这样，局部试错才会变成系统优势，而不是系统风险。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "状态压缩如何避免上下文污染", "bullets": ["如果每一步都把全过程原样带到后面，上下文很快就会膨胀失控", "更好的方式是把完成后的问题从思考对象变成状态对象", "保留结论、必要证据和关键影响，而不是保留全部过程", "这样既能保证后续可引用，又不会让历史噪声挤占当前工作空间"], "narration": "如果系统每做完一步，都把全过程原样带到后面，那么上下文很快就会膨胀失控。更好的方式是把完成后的问题从思考对象变成状态对象。也就是说，保留结论，保留必要证据，保留关键影响，但不再保留整段冗长过程。这样既能保证后续可引用，又不会让历史噪声不断挤占当前工作空间。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}, {"title": "从 Harness 到 Ontogeny意味着什么", "bullets": ["Harness 关注的是如何把系统跑起来，Ontogeny 关注的是能力如何在运行中长出来", "前者偏流程控制，后者偏结构生成", "预训练提供能力边界，运行时环境决定能力如何被激活、约束和稳定", "系统设计的中心，将从调用模型转向设计能力生长的环境"], "narration": "如果说 harness 关注的是如何把系统跑起来，那么 ontogeny 关注的就是能力如何在运行中长出来。Harness 更偏流程控制，Ontogeny 更偏结构生成。前者解决的是执行框架，后者解决的是能力形成。也正因为如此，从 Harness 到 Ontogeny，不只是工程层级的一次升级，更是理解 LLM 系统方式的一次转变。系统设计的中心，将不再只是如何调用模型，而是如何设计环境，让能力在其中逐步发育、分化、稳定并成熟。", "quote": "目标不是一次说对，而是在局部试错中持续收敛。", "legend": "把问题拆小，把上下文做小，把状态做实，把错误留在局部。"}];
@@ -413,35 +433,33 @@
     // --- Audio ---
     const audio = document.getElementById('slide-audio');
     const btnPlay = document.getElementById('audio-play');
-    const fill = document.getElementById('audio-fill');
-    const timeLabel = document.getElementById('audio-time');
+    const ringFill = document.getElementById('ring-fill');
+    const ringIcon = document.getElementById('ring-icon');
     const btnAuto = document.getElementById('auto-advance');
-    const progressBar = document.getElementById('audio-progress');
-    let autoAdvance = false;
+    const CIRC = 106.8;
+    let autoAdvance = true;
 
-    function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
-    function fmt(s) { return isNaN(s) ? '0:00' : `${Math.floor(s/60)}:${pad(s%60)}`; }
+    function updateRing() {
+      if (audio.duration) {
+        const pct = audio.currentTime / audio.duration;
+        ringFill.style.strokeDashoffset = CIRC * (1 - pct);
+      }
+    }
 
     function loadAudio() {
       const n = String(index + 1).padStart(2, '0');
       audio.src = `../assets/fayu-engineering/audio/slide_${n}.mp3`;
       audio.load();
-      btnPlay.textContent = '▶ 播放';
-      fill.style.width = '0%';
-      timeLabel.textContent = '0:00 / 0:00';
+      ringFill.style.strokeDashoffset = CIRC;
+      ringIcon.textContent = '▶';
     }
 
-    audio.addEventListener('timeupdate', () => {
-      if (audio.duration) {
-        fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
-        timeLabel.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
-      }
-    });
-
-    audio.addEventListener('play', () => { btnPlay.textContent = '⏸ 暂停'; });
-    audio.addEventListener('pause', () => { btnPlay.textContent = '▶ 播放'; });
+    audio.addEventListener('timeupdate', updateRing);
+    audio.addEventListener('play',  () => { ringIcon.textContent = '⏸'; });
+    audio.addEventListener('pause', () => { ringIcon.textContent = '▶'; });
     audio.addEventListener('ended', () => {
-      btnPlay.textContent = '▶ 播放';
+      ringIcon.textContent = '▶';
+      ringFill.style.strokeDashoffset = CIRC;
       if (autoAdvance && index < total - 1) { move(1); audio.play(); }
     });
 
@@ -451,14 +469,8 @@
 
     btnAuto.addEventListener('click', () => {
       autoAdvance = !autoAdvance;
-      btnAuto.textContent = `自动翻页 ${autoAdvance ? 'ON' : 'OFF'}`;
-      btnAuto.classList.toggle('active', autoAdvance);
-    });
-
-    progressBar.addEventListener('click', (e) => {
-      if (audio.duration) {
-        audio.currentTime = (e.offsetX / progressBar.offsetWidth) * audio.duration;
-      }
+      btnAuto.textContent = `自动 ${autoAdvance ? 'ON' : 'OFF'}`;
+      btnAuto.classList.toggle('on', autoAdvance);
     });
 
     function move(delta) {
@@ -473,10 +485,11 @@
     document.getElementById('prev').addEventListener('click', () => move(-1));
     document.getElementById('next').addEventListener('click', () => move(1));
     window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') move(1);
-      if (event.key === 'ArrowLeft' || event.key === 'PageUp') move(-1);
-      if (event.key === 'Home') { audio.pause(); index = 0; render(); loadAudio(); }
-      if (event.key === 'End') { audio.pause(); index = total - 1; render(); loadAudio(); }
+      if (event.key === 'ArrowRight' || event.key === 'PageDown') move(1);
+      if (event.key === 'ArrowLeft'  || event.key === 'PageUp')   move(-1);
+      if (event.key === ' ') { if (audio.paused) audio.play(); else audio.pause(); event.preventDefault(); }
+      if (event.key === 'Home') { audio.pause(); index = 0;         render(); loadAudio(); }
+      if (event.key === 'End')  { audio.pause(); index = total - 1; render(); loadAudio(); }
     });
 
     render();
