@@ -269,12 +269,81 @@
       font-size: 14px;
       letter-spacing: 0.08em;
     }
+
+    .audio-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 52px;
+      background: rgba(28, 27, 25, 0.88);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 20px;
+      z-index: 4;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .audio-bar button {
+      border-radius: 6px;
+      padding: 6px 14px;
+      font-size: 13px;
+      background: rgba(255,255,255,0.12);
+      letter-spacing: 0;
+    }
+
+    .audio-bar button:hover { background: rgba(255,255,255,0.22); }
+    .audio-bar button.active { background: rgba(181,68,29,0.8); }
+
+    .audio-progress {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .audio-progress-fill {
+      height: 100%;
+      background: rgba(181, 68, 29, 0.9);
+      width: 0%;
+      transition: width 0.25s linear;
+      border-radius: 2px;
+    }
+
+    .audio-time {
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      min-width: 72px;
+      text-align: right;
+    }
+
+    .audio-label {
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+    }
   </style>
 </head>
 <body>
   <div class="shell">
     <article class="slide" id="slide-root"></article>
   </div>
+  <audio id="slide-audio" preload="auto"></audio>
+
+  <div class="audio-bar" id="audio-bar">
+    <button type="button" id="audio-play">▶ 播放</button>
+    <div class="audio-progress" id="audio-progress">
+      <div class="audio-progress-fill" id="audio-fill"></div>
+    </div>
+    <span class="audio-time" id="audio-time">0:00 / 0:00</span>
+    <button type="button" id="auto-advance" title="音频结束后自动切换下一页">自动翻页 OFF</button>
+    <span class="audio-label">◀ ▶ 键切换</span>
+  </div>
+
   <div class="nav" id="nav">
     <button type="button" id="prev">Prev</button>
     <button type="button" id="next">Next</button>
@@ -341,9 +410,64 @@
       history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
     }
 
+    // --- Audio ---
+    const audio = document.getElementById('slide-audio');
+    const btnPlay = document.getElementById('audio-play');
+    const fill = document.getElementById('audio-fill');
+    const timeLabel = document.getElementById('audio-time');
+    const btnAuto = document.getElementById('auto-advance');
+    const progressBar = document.getElementById('audio-progress');
+    let autoAdvance = false;
+
+    function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+    function fmt(s) { return isNaN(s) ? '0:00' : `${Math.floor(s/60)}:${pad(s%60)}`; }
+
+    function loadAudio() {
+      const n = String(index + 1).padStart(2, '0');
+      audio.src = `../assets/audio/slide_${n}.mp3`;
+      audio.load();
+      btnPlay.textContent = '▶ 播放';
+      fill.style.width = '0%';
+      timeLabel.textContent = '0:00 / 0:00';
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+        timeLabel.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      }
+    });
+
+    audio.addEventListener('play', () => { btnPlay.textContent = '⏸ 暂停'; });
+    audio.addEventListener('pause', () => { btnPlay.textContent = '▶ 播放'; });
+    audio.addEventListener('ended', () => {
+      btnPlay.textContent = '▶ 播放';
+      if (autoAdvance && index < total - 1) { move(1); audio.play(); }
+    });
+
+    btnPlay.addEventListener('click', () => {
+      if (audio.paused) audio.play(); else audio.pause();
+    });
+
+    btnAuto.addEventListener('click', () => {
+      autoAdvance = !autoAdvance;
+      btnAuto.textContent = `自动翻页 ${autoAdvance ? 'ON' : 'OFF'}`;
+      btnAuto.classList.toggle('active', autoAdvance);
+    });
+
+    progressBar.addEventListener('click', (e) => {
+      if (audio.duration) {
+        audio.currentTime = (e.offsetX / progressBar.offsetWidth) * audio.duration;
+      }
+    });
+
     function move(delta) {
+      const wasPlaying = !audio.paused;
+      audio.pause();
       index = (index + delta + total) % total;
       render();
+      loadAudio();
+      if (wasPlaying) audio.play();
     }
 
     document.getElementById('prev').addEventListener('click', () => move(-1));
@@ -351,11 +475,12 @@
     window.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') move(1);
       if (event.key === 'ArrowLeft' || event.key === 'PageUp') move(-1);
-      if (event.key === 'Home') { index = 0; render(); }
-      if (event.key === 'End') { index = total - 1; render(); }
+      if (event.key === 'Home') { audio.pause(); index = 0; render(); loadAudio(); }
+      if (event.key === 'End') { audio.pause(); index = total - 1; render(); loadAudio(); }
     });
 
     render();
+    loadAudio();
   </script>
 </body>
 </html>
