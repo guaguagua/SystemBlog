@@ -354,7 +354,7 @@
     // inject back-link
     const backBar = document.createElement('div');
     backBar.style.cssText = 'position:fixed;top:12px;left:18px;z-index:10;';
-    backBar.innerHTML = '<a href="fayu-engineering-video.html" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:rgba(255,253,247,0.92);border:1px solid rgba(28,27,25,0.12);font-size:13px;color:#1c1b19;text-decoration:none;font-family:sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.1);">← 返回视频页</a>';
+    backBar.innerHTML = '<a href="../../index.html" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:rgba(255,253,247,0.92);border:1px solid rgba(28,27,25,0.12);font-size:13px;color:#1c1b19;text-decoration:none;font-family:sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.1);">← 返回首页</a>';
     document.body.appendChild(backBar);
 
     const params = new URLSearchParams(window.location.search);
@@ -424,7 +424,7 @@
 
     function loadAudio() {
       const n = String(index + 1).padStart(2, '0');
-      audio.src = `../assets/audio/slide_${n}.mp3`;
+      audio.src = `../assets/fayu-engineering/audio/slide_${n}.mp3`;
       audio.load();
       btnPlay.textContent = '▶ 播放';
       fill.style.width = '0%';
