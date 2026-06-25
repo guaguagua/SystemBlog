@@ -12,6 +12,17 @@
   },
   {
     "type": "lab",
+    "slug": "fayu-engineering-ppt",
+    "source": "labs/fayu-engineering-ppt.html",
+    "url": "labs/fayu-engineering-ppt.html",
+    "title": "从 Harness 到 Ontogeny",
+    "category": "PPT",
+    "summary": "LLM 系统如何从流程编排走向能力发育，涵盖最小信息环境、Goal Stack、闭包递进求解与动态约束等核心概念。",
+    "date": "2026-06-25",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "ldpc-decoder-demo-tabs",
     "source": "labs/ldpc-decoder-demo-tabs.html",
     "url": "labs/ldpc-decoder-demo-tabs.html",

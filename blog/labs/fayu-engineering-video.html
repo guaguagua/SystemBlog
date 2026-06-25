@@ -121,6 +121,28 @@
       image-rendering: auto;
     }
 
+    .related-links {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+    .related-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+      background: var(--panel);
+      color: var(--ink);
+      border: 1px solid var(--line);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      transition: box-shadow 0.15s;
+    }
+    .related-links a:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
     .site-footer {
       text-align: center;
       padding: 2rem;
@@ -165,6 +187,10 @@
         <source src="../assets/videos/发育工程.mp4" type="video/mp4">
         您的浏览器不支持 video 标签。
       </video>
+    </div>
+
+    <div class="related-links">
+      <a href="fayu-engineering-ppt.html">📑 配套 PPT：从 Harness 到 Ontogeny</a>
     </div>
   </main>
 
