@@ -342,6 +342,26 @@
       background: rgba(181,68,29,0.78);
       color: #fff;
     }
+
+    #subtitle-bar {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 72px;
+      width: min(1560px, calc(100vw - 56px));
+      background: rgba(0, 0, 0, 0.80);
+      color: #f5f0e8;
+      font-size: clamp(13px, 1.15vw, 19px);
+      line-height: 1.9;
+      padding: 12px 28px 14px;
+      border-radius: 6px;
+      display: none;
+      z-index: 20;
+      font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", serif;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+    }
+    #subtitle-bar.show { display: block; }
   </style>
 </head>
 <body>
@@ -349,6 +369,7 @@
     <article class="slide" id="slide-root"></article>
   </div>
   <audio id="slide-audio" preload="auto"></audio>
+  <div id="subtitle-bar"></div>
 
   <div class="audio-widget">
     <button class="ring-btn" id="audio-play" title="播放 / 暂停">
@@ -362,6 +383,7 @@
       </svg>
     </button>
     <button class="auto-btn on" id="auto-advance" title="自动播放到最后一页">自动 ON</button>
+    <button class="auto-btn on" id="cc-toggle" title="显示/隐藏字幕">字幕 CC</button>
   </div>
 
   <div class="nav" id="nav">
@@ -381,6 +403,10 @@
     let index = Math.max(0, Math.min(total - 1, Number(params.get('slide') || '1') - 1));
     const root = document.getElementById('slide-root');
     const nav = document.getElementById('nav');
+    const subBar = document.getElementById('subtitle-bar');
+    const btnCC = document.getElementById('cc-toggle');
+    let showCC = true;
+    subBar.classList.add('show');
 
     if (params.get('screenshot') === '1') {
       document.body.classList.add('screenshot');
@@ -428,6 +454,7 @@
       `;
       params.set('slide', String(index + 1));
       history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+      subBar.textContent = slide.narration || '';
     }
 
     // --- Audio ---
@@ -471,6 +498,12 @@
       autoAdvance = !autoAdvance;
       btnAuto.textContent = `自动 ${autoAdvance ? 'ON' : 'OFF'}`;
       btnAuto.classList.toggle('on', autoAdvance);
+    });
+
+    btnCC.addEventListener('click', () => {
+      showCC = !showCC;
+      btnCC.classList.toggle('on', showCC);
+      subBar.classList.toggle('show', showCC);
     });
 
     function move(delta) {
