@@ -347,19 +347,22 @@
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 72px;
-      width: min(1560px, calc(100vw - 56px));
-      background: rgba(0, 0, 0, 0.80);
-      color: #f5f0e8;
-      font-size: clamp(13px, 1.15vw, 19px);
-      line-height: 1.9;
-      padding: 12px 28px 14px;
-      border-radius: 6px;
+      bottom: 100px;
+      width: min(640px, calc(100vw - 80px));
+      background: none;
+      color: #1c1b19;
+      text-shadow: 0 0 8px rgba(255,252,245,1), 0 1px 6px rgba(255,252,245,0.95);
+      font-size: clamp(13px, 1.05vw, 16px);
+      line-height: 1.75;
+      padding: 4px 10px;
       display: none;
       z-index: 20;
+      cursor: move;
+      user-select: none;
       font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", serif;
       letter-spacing: 0.04em;
-      pointer-events: none;
+      text-align: center;
+      pointer-events: auto;
     }
     #subtitle-bar.show { display: block; }
   </style>
@@ -406,7 +409,38 @@
     const subBar = document.getElementById('subtitle-bar');
     const btnCC = document.getElementById('cc-toggle');
     let showCC = true;
+    let narrationChunks = [];
     subBar.classList.add('show');
+
+    function splitNarration(text, parts) {
+      const sentences = text.match(/[^。！？]+[。！？]/g) || [text];
+      const size = Math.ceil(sentences.length / parts);
+      const chunks = [];
+      for (let i = 0; i < parts; i++) {
+        const s = sentences.slice(i * size, (i + 1) * size).join('');
+        if (s) chunks.push(s);
+      }
+      return chunks.length ? chunks : [text];
+    }
+
+    // Drag
+    let dragging = false, dragOX = 0, dragOY = 0;
+    subBar.addEventListener('mousedown', e => {
+      dragging = true;
+      const r = subBar.getBoundingClientRect();
+      dragOX = e.clientX - r.left; dragOY = e.clientY - r.top;
+      subBar.style.transform = 'none';
+      subBar.style.left = r.left + 'px';
+      subBar.style.top = r.top + 'px';
+      subBar.style.bottom = 'auto';
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      subBar.style.left = (e.clientX - dragOX) + 'px';
+      subBar.style.top  = (e.clientY - dragOY) + 'px';
+    });
+    document.addEventListener('mouseup', () => { dragging = false; });
 
     if (params.get('screenshot') === '1') {
       document.body.classList.add('screenshot');
@@ -454,7 +488,8 @@
       `;
       params.set('slide', String(index + 1));
       history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
-      subBar.textContent = slide.narration || '';
+      narrationChunks = splitNarration(slide.narration || '', 3);
+      subBar.textContent = narrationChunks[0] || '';
     }
 
     // --- Audio ---
@@ -481,7 +516,16 @@
       ringIcon.textContent = '▶';
     }
 
-    audio.addEventListener('timeupdate', updateRing);
+    audio.addEventListener('timeupdate', () => {
+      updateRing();
+      if (showCC && narrationChunks.length && audio.duration) {
+        const idx = Math.min(
+          Math.floor(audio.currentTime / audio.duration * narrationChunks.length),
+          narrationChunks.length - 1
+        );
+        subBar.textContent = narrationChunks[idx];
+      }
+    });
     audio.addEventListener('play',  () => { ringIcon.textContent = '⏸'; });
     audio.addEventListener('pause', () => { ringIcon.textContent = '▶'; });
     audio.addEventListener('ended', () => {
