@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="寄存器计算器：可视化点击翻转 bit，定义位域并解析，hex/dec/bin 三向同步。">
+    <title>寄存器计算器 | SystemBlog</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tool-main { max-width: 980px; padding: 56px 0 72px; }
+        .tool-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; color: var(--accent-dark); font-weight: 700; font-size: 0.9rem; }
+        .tool-panel { padding: 24px; border: 1px solid rgba(216,222,232,0.9); border-radius: 8px; background: rgba(255,255,255,0.92); box-shadow: 0 10px 26px rgba(31,41,51,0.08); margin-bottom: 18px; }
+        .tool-panel h2 { font-size: 1.15rem; margin-bottom: 16px; color: var(--ink); }
+
+        .controls-row { display: flex; flex-wrap: wrap; gap: 18px 26px; align-items: flex-end; }
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field label { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+        .field input, .field select {
+            min-height: 42px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px;
+            background: #fff; color: var(--text); font-size: 1rem;
+            font-family: "Cascadia Code", Consolas, monospace;
+        }
+        .field input:focus, .field select:focus { outline: 2px solid rgba(15,118,110,0.4); border-color: var(--accent); }
+        .field.grow input { width: 100%; }
+        .field.grow { flex: 1 1 240px; }
+
+        .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+        .seg button {
+            min-height: 42px; padding: 8px 16px; border: 0; background: #fff; color: var(--muted);
+            font-weight: 700; cursor: pointer; font-family: inherit;
+        }
+        .seg button + button { border-left: 1px solid var(--line); }
+        .seg button[aria-pressed="true"] { background: var(--accent-dark); color: #fff; }
+
+        .btn-ghost {
+            min-height: 42px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px;
+            background: #fff; color: var(--ink); font-weight: 700; cursor: pointer;
+        }
+        .btn-ghost:hover { border-color: var(--accent); color: var(--accent-dark); }
+
+        /* bit grid */
+        .bits-wrap { overflow-x: auto; padding-bottom: 6px; }
+        .bit-row { display: flex; gap: 4px; margin-bottom: 10px; }
+        .bit-row:last-child { margin-bottom: 0; }
+        .bit {
+            position: relative; width: 38px; flex: 0 0 38px; display: flex; flex-direction: column;
+            align-items: center; gap: 3px; cursor: pointer; user-select: none;
+        }
+        .bit .bit-idx { font-size: 0.64rem; color: var(--muted); font-family: "Cascadia Code", Consolas, monospace; }
+        .bit .bit-cell {
+            width: 100%; height: 34px; display: grid; place-items: center; border-radius: 6px;
+            border: 1px solid var(--line); background: #f1f5f9; color: var(--muted);
+            font-family: "Cascadia Code", Consolas, monospace; font-weight: 800; font-size: 1.05rem;
+            transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+        }
+        .bit[data-on="1"] .bit-cell { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
+        .bit:hover .bit-cell { border-color: var(--accent); }
+        .bit.nibble-edge { margin-right: 8px; }
+        .bit[data-field] .bit-cell { box-shadow: inset 0 0 0 2px var(--field-color, transparent); }
+
+        .nibble-label { font-size: 0.7rem; color: var(--muted); font-family: "Cascadia Code", Consolas, monospace; margin: 0 0 4px; }
+
+        .actions-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+        /* fields table */
+        table.fields { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+        table.fields th, table.fields td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); }
+        table.fields th { font-size: 0.76rem; text-transform: uppercase; color: var(--muted); }
+        table.fields td input { width: 100%; min-height: 36px; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; font-family: "Cascadia Code", Consolas, monospace; }
+        table.fields td.val { font-family: "Cascadia Code", Consolas, monospace; font-weight: 700; color: var(--ink); }
+        .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: middle; margin-right: 6px; }
+        .row-del { border: 0; background: transparent; color: var(--warm); cursor: pointer; font-weight: 800; font-size: 1.1rem; }
+        .hint { color: var(--muted); font-size: 0.86rem; margin-top: 10px; }
+        .field-add { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-top: 14px; }
+        .field-add .field input { min-height: 38px; }
+        .add-btn { min-height: 38px; padding: 8px 16px; border: 0; border-radius: 8px; background: var(--accent-dark); color: #fff; font-weight: 800; cursor: pointer; }
+        .add-btn:hover { background: #0b4f4a; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="主导航">
+            <a class="brand" href="../index.html" aria-label="SystemBlog 首页">
+                <span class="brand-mark">S</span>
+                <span>SystemBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../blog/">文章</a>
+                <a href="./">工具</a>
+                <a href="../about.html">关于</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="tool-main">
+        <a class="tool-back" href="./">← 返回工具区</a>
+        <p class="eyebrow">Tools</p>
+        <h1 style="font-size:2.6rem;">寄存器计算器</h1>
+        <p class="page-intro">点击下方任意 bit 翻转 0/1，三种进制实时联动；下面可定义位域来解析寄存器各字段含义。全部本地计算，使用 BigInt 精确支持到 64-bit。</p>
+
+        <section class="tool-panel">
+            <div class="controls-row">
+                <div class="field">
+                    <label>寄存器宽度</label>
+                    <div class="seg" id="widthSeg" role="group" aria-label="寄存器宽度">
+                        <button data-width="8">8</button>
+                        <button data-width="16">16</button>
+                        <button data-width="32" aria-pressed="true">32</button>
+                        <button data-width="64">64</button>
+                    </div>
+                </div>
+                <div class="field grow">
+                    <label for="hexIn">HEX</label>
+                    <input id="hexIn" type="text" spellcheck="false" autocomplete="off" value="0x00000000">
+                </div>
+                <div class="field grow">
+                    <label for="decIn">DEC (无符号)</label>
+                    <input id="decIn" type="text" spellcheck="false" autocomplete="off" value="0">
+                </div>
+            </div>
+            <div class="controls-row" style="margin-top:16px;">
+                <div class="field grow">
+                    <label for="binIn">BIN</label>
+                    <input id="binIn" type="text" spellcheck="false" autocomplete="off" value="0">
+                </div>
+                <div class="field">
+                    <label for="signedOut">DEC (有符号)</label>
+                    <input id="signedOut" type="text" readonly value="0" style="min-width:160px;">
+                </div>
+            </div>
+            <div class="actions-row">
+                <button class="btn-ghost" data-op="set0">全 0</button>
+                <button class="btn-ghost" data-op="set1">全 1</button>
+                <button class="btn-ghost" data-op="not">取反 ~</button>
+                <button class="btn-ghost" data-op="shl">&lt;&lt; 1</button>
+                <button class="btn-ghost" data-op="shr">&gt;&gt; 1</button>
+                <button class="btn-ghost" data-op="copy">复制 HEX</button>
+            </div>
+        </section>
+
+        <section class="tool-panel">
+            <h2>位视图</h2>
+            <div class="bits-wrap" id="bitsWrap"></div>
+            <p class="hint">高位在左、低位在右，每 4 位（nibble）留出间隔。点击翻转，按住可拖选连续翻转。</p>
+        </section>
+
+        <section class="tool-panel">
+            <h2>位域解析（Bit Fields）</h2>
+            <table class="fields" id="fieldsTable">
+                <thead>
+                    <tr>
+                        <th style="width:34%;">字段名</th>
+                        <th style="width:11%;">高位</th>
+                        <th style="width:11%;">低位</th>
+                        <th style="width:14%;">宽度</th>
+                        <th style="width:22%;">值</th>
+                        <th style="width:8%;"></th>
+                    </tr>
+                </thead>
+                <tbody id="fieldsBody"></tbody>
+            </table>
+            <div class="field-add">
+                <div class="field">
+                    <label for="fName">名称</label>
+                    <input id="fName" type="text" placeholder="EN" style="width:140px;">
+                </div>
+                <div class="field">
+                    <label for="fMsb">高位</label>
+                    <input id="fMsb" type="number" min="0" value="3" style="width:80px;">
+                </div>
+                <div class="field">
+                    <label for="fLsb">低位</label>
+                    <input id="fLsb" type="number" min="0" value="0" style="width:80px;">
+                </div>
+                <button class="add-btn" id="addField">+ 添加位域</button>
+            </div>
+            <p class="hint">位域会在位视图里高亮，并显示当前提取出的字段值（hex/dec）。修改字段值的输入框可反写回寄存器。</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SystemBlog. Built for GitHub Pages.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+    (function () {
+        const FIELD_COLORS = ["#0f766e", "#c2410c", "#2563eb", "#9333ea", "#0891b2", "#ca8a04", "#be123c", "#15803d"];
+        let width = 32;
+        let value = 0n;
+        let fields = [];           // {id,name,msb,lsb,color}
+        let nextFieldId = 1;
+
+        const $ = (id) => document.getElementById(id);
+        const mask = () => (1n << BigInt(width)) - 1n;
+        const clampVal = () => { value &= mask(); };
+
+        function fmtHex(v) {
+            const digits = Math.ceil(width / 4);
+            return "0x" + v.toString(16).toUpperCase().padStart(digits, "0");
+        }
+        function fmtBin(v) {
+            return v.toString(2).padStart(width, "0");
+        }
+        function signed(v) {
+            const signBit = 1n << BigInt(width - 1);
+            return (v & signBit) ? v - (1n << BigInt(width)) : v;
+        }
+
+        function parseInput(raw) {
+            let s = raw.trim().replace(/[_\s]/g, "");
+            if (s === "") return null;
+            let neg = false;
+            if (s[0] === "-") { neg = true; s = s.slice(1); }
+            let v;
+            try {
+                if (/^0x[0-9a-f]+$/i.test(s)) v = BigInt(s);
+                else if (/^0b[01]+$/i.test(s)) v = BigInt(s);
+                else if (/^[0-9]+$/.test(s)) v = BigInt(s);
+                else return null;
+            } catch (e) { return null; }
+            if (neg) v = (1n << BigInt(width)) + ((-v) % (1n << BigInt(width))) * -1n;
+            return v;
+        }
+
+        // ---------- rendering ----------
+        function renderInputs() {
+            $("hexIn").value = fmtHex(value);
+            $("decIn").value = value.toString(10);
+            $("binIn").value = fmtBin(value);
+            $("signedOut").value = signed(value).toString(10);
+        }
+
+        function fieldOfBit(idx) {
+            for (const f of fields) {
+                if (idx <= f.msb && idx >= f.lsb) return f;
+            }
+            return null;
+        }
+
+        function renderBits() {
+            const wrap = $("bitsWrap");
+            wrap.innerHTML = "";
+            const perRow = width <= 16 ? width : (width === 64 ? 32 : width);
+            // For 64-bit, split into two rows of 32
+            const rows = width === 64 ? [[63, 32], [31, 0]] : [[width - 1, 0]];
+            rows.forEach(([hi, lo]) => {
+                const row = document.createElement("div");
+                row.className = "bit-row";
+                for (let i = hi; i >= lo; i--) {
+                    const f = fieldOfBit(i);
+                    const cell = document.createElement("div");
+                    cell.className = "bit";
+                    if ((i % 4) === 0 && i !== lo) cell.classList.add("nibble-edge");
+                    cell.dataset.idx = i;
+                    cell.dataset.on = ((value >> BigInt(i)) & 1n).toString();
+                    if (f) { cell.dataset.field = f.id; cell.style.setProperty("--field-color", f.color); }
+                    cell.innerHTML = '<span class="bit-idx">' + i + '</span>' +
+                        '<span class="bit-cell">' + (((value >> BigInt(i)) & 1n)) + '</span>';
+                    row.appendChild(cell);
+                }
+                wrap.appendChild(row);
+            });
+        }
+
+        function renderFields() {
+            const body = $("fieldsBody");
+            body.innerHTML = "";
+            if (fields.length === 0) {
+                const tr = document.createElement("tr");
+                tr.innerHTML = '<td colspan="6" class="hint" style="text-align:center;padding:18px;">还没有定义位域，可在下方添加。</td>';
+                body.appendChild(tr);
+                return;
+            }
+            fields.forEach((f) => {
+                const w = f.msb - f.lsb + 1;
+                const fv = (value >> BigInt(f.lsb)) & ((1n << BigInt(w)) - 1n);
+                const tr = document.createElement("tr");
+                tr.innerHTML =
+                    '<td><span class="swatch" style="background:' + f.color + '"></span>' +
+                        '<span style="font-family:Consolas,monospace;font-weight:700;">' + escapeHtml(f.name) + '</span></td>' +
+                    '<td class="val">' + f.msb + '</td>' +
+                    '<td class="val">' + f.lsb + '</td>' +
+                    '<td class="val">' + w + ' bit</td>' +
+                    '<td><input data-fid="' + f.id + '" value="0x' + fv.toString(16).toUpperCase() + '" spellcheck="false"></td>' +
+                    '<td><button class="row-del" data-del="' + f.id + '" title="删除">×</button></td>';
+                body.appendChild(tr);
+            });
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        }
+
+        function renderAll() { renderInputs(); renderBits(); renderFields(); }
+
+        // ---------- events ----------
+        function commit(v) {
+            value = ((v % (1n << BigInt(width))) + (1n << BigInt(width))) % (1n << BigInt(width));
+            renderAll();
+        }
+
+        document.querySelectorAll("#widthSeg button").forEach((b) => {
+            b.addEventListener("click", () => {
+                document.querySelectorAll("#widthSeg button").forEach((x) => x.removeAttribute("aria-pressed"));
+                b.setAttribute("aria-pressed", "true");
+                width = parseInt(b.dataset.width, 10);
+                // drop fields out of range
+                fields = fields.filter((f) => f.msb < width);
+                clampVal();
+                renderAll();
+            });
+        });
+
+        function bindInput(id, parser) {
+            const el = $(id);
+            el.addEventListener("input", () => {
+                const v = parser(el.value);
+                if (v === null) return;
+                value = v & mask();
+                // update siblings but keep caret in current field
+                if (id !== "hexIn") $("hexIn").value = fmtHex(value);
+                if (id !== "decIn") $("decIn").value = value.toString(10);
+                if (id !== "binIn") $("binIn").value = fmtBin(value);
+                $("signedOut").value = signed(value).toString(10);
+                renderBits(); renderFields();
+            });
+            el.addEventListener("blur", renderInputs);
+        }
+        bindInput("hexIn", (s) => parseInput(s.trim().match(/^0x/i) ? s : (/^[0-9a-f]+$/i.test(s.trim()) ? "0x" + s.trim() : s)));
+        bindInput("decIn", (s) => parseInput(s));
+        bindInput("binIn", (s) => parseInput(s.trim().match(/^0b/i) ? s : (/^[01]+$/.test(s.trim().replace(/[_\s]/g, "")) ? "0b" + s.trim() : s)));
+
+        // bit click + drag
+        let dragMode = null; // 'set' or 'clear'
+        let dragging = false;
+        function applyBit(idx, on) {
+            const b = BigInt(idx);
+            if (on) value |= (1n << b); else value &= ~(1n << b);
+            value &= mask();
+        }
+        $("bitsWrap").addEventListener("mousedown", (e) => {
+            const cell = e.target.closest(".bit");
+            if (!cell) return;
+            e.preventDefault();
+            const idx = parseInt(cell.dataset.idx, 10);
+            const cur = (value >> BigInt(idx)) & 1n;
+            dragMode = cur === 1n ? false : true;
+            dragging = true;
+            applyBit(idx, dragMode);
+            renderAll();
+        });
+        $("bitsWrap").addEventListener("mouseover", (e) => {
+            if (!dragging) return;
+            const cell = e.target.closest(".bit");
+            if (!cell) return;
+            applyBit(parseInt(cell.dataset.idx, 10), dragMode);
+            renderAll();
+        });
+        window.addEventListener("mouseup", () => { dragging = false; dragMode = null; });
+
+        // op buttons
+        document.querySelector(".actions-row").addEventListener("click", (e) => {
+            const op = e.target.dataset.op;
+            if (!op) return;
+            if (op === "set0") commit(0n);
+            else if (op === "set1") commit(mask());
+            else if (op === "not") commit(~value);
+            else if (op === "shl") commit(value << 1n);
+            else if (op === "shr") commit(value >> 1n);
+            else if (op === "copy") {
+                navigator.clipboard && navigator.clipboard.writeText(fmtHex(value));
+                e.target.textContent = "已复制 ✓";
+                setTimeout(() => (e.target.textContent = "复制 HEX"), 1200);
+            }
+        });
+
+        // fields add/delete/edit
+        $("addField").addEventListener("click", () => {
+            const name = $("fName").value.trim() || ("FIELD" + nextFieldId);
+            let msb = parseInt($("fMsb").value, 10);
+            let lsb = parseInt($("fLsb").value, 10);
+            if (isNaN(msb) || isNaN(lsb)) return;
+            if (msb < lsb) [msb, lsb] = [lsb, msb];
+            msb = Math.min(msb, width - 1); lsb = Math.max(lsb, 0);
+            fields.push({ id: nextFieldId, name, msb, lsb, color: FIELD_COLORS[(nextFieldId - 1) % FIELD_COLORS.length] });
+            nextFieldId++;
+            $("fName").value = "";
+            renderBits(); renderFields();
+        });
+
+        $("fieldsBody").addEventListener("click", (e) => {
+            const del = e.target.dataset.del;
+            if (del) {
+                fields = fields.filter((f) => f.id !== parseInt(del, 10));
+                renderBits(); renderFields();
+            }
+        });
+        $("fieldsBody").addEventListener("change", (e) => {
+            const fid = e.target.dataset.fid;
+            if (!fid) return;
+            const f = fields.find((x) => x.id === parseInt(fid, 10));
+            if (!f) return;
+            const w = f.msb - f.lsb + 1;
+            const parsed = parseInput(e.target.value);
+            if (parsed === null) { renderFields(); return; }
+            const fieldMask = (1n << BigInt(w)) - 1n;
+            const clean = parsed & fieldMask;
+            value &= ~(fieldMask << BigInt(f.lsb));
+            value |= (clean << BigInt(f.lsb));
+            value &= mask();
+            renderAll();
+        });
+
+        renderAll();
+    })();
+    </script>
+</body>
+</html>

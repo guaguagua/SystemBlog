@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="位运算计算器：进制转换、AND/OR/XOR/NOT/移位、掩码生成与补码。">
+    <title>位运算计算器 | SystemBlog</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tool-main { max-width: 980px; padding: 56px 0 72px; }
+        .tool-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; color: var(--accent-dark); font-weight: 700; font-size: 0.9rem; }
+        .tool-panel { padding: 24px; border: 1px solid rgba(216,222,232,0.9); border-radius: 8px; background: rgba(255,255,255,0.92); box-shadow: 0 10px 26px rgba(31,41,51,0.08); margin-bottom: 18px; }
+        .tool-panel h2 { font-size: 1.15rem; margin-bottom: 16px; color: var(--ink); }
+
+        .field { display: flex; flex-direction: column; gap: 6px; }
+        .field label { font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.02em; }
+        .field input, .field select {
+            min-height: 42px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px;
+            background: #fff; color: var(--text); font-size: 1rem; font-family: "Cascadia Code", Consolas, monospace;
+        }
+        .field input:focus, .field select:focus { outline: 2px solid rgba(15,118,110,0.4); border-color: var(--accent); }
+
+        .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+        .seg button { min-height: 42px; padding: 8px 14px; border: 0; background: #fff; color: var(--muted); font-weight: 700; cursor: pointer; font-family: inherit; }
+        .seg button + button { border-left: 1px solid var(--line); }
+        .seg button[aria-pressed="true"] { background: var(--accent-dark); color: #fff; }
+
+        .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+        @media (max-width: 720px){ .grid2,.grid4{ grid-template-columns: 1fr; } }
+
+        .out-box { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: #f8fafc; }
+        .out-box .k { font-size: 0.72rem; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+        .out-box .v { font-family: "Cascadia Code", Consolas, monospace; font-weight: 800; color: var(--ink); font-size: 1.05rem; word-break: break-all; margin-top: 4px; }
+
+        .op-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .op-row button { min-height: 40px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--ink); font-weight: 700; cursor: pointer; font-family: "Cascadia Code", Consolas, monospace; }
+        .op-row button:hover { border-color: var(--accent); color: var(--accent-dark); }
+
+        .bin-out { font-family: "Cascadia Code", Consolas, monospace; font-size: 0.95rem; word-break: break-all; line-height: 1.9; }
+        .bin-out .nib { display: inline-block; padding: 1px 5px; margin: 2px; border-radius: 5px; background: #eef2f7; border: 1px solid var(--line); }
+        .err { color: var(--warm); font-weight: 700; }
+        .small { font-size: 0.86rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="主导航">
+            <a class="brand" href="../index.html" aria-label="SystemBlog 首页">
+                <span class="brand-mark">S</span>
+                <span>SystemBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../blog/">文章</a>
+                <a href="./">工具</a>
+                <a href="../about.html">关于</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="tool-main">
+        <a class="tool-back" href="./">← 返回工具区</a>
+        <p class="eyebrow">Tools</p>
+        <h1 style="font-size:2.6rem;">位运算计算器</h1>
+        <p class="page-intro">进制互转、两操作数按位运算、移位与掩码生成，BigInt 精确支持到 64-bit。所有结果都按选定位宽截断显示。</p>
+
+        <section class="tool-panel">
+            <div style="display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;margin-bottom:18px;">
+                <div class="field">
+                    <label>位宽</label>
+                    <div class="seg" id="widthSeg" role="group" aria-label="位宽">
+                        <button data-width="8">8</button>
+                        <button data-width="16">16</button>
+                        <button data-width="32" aria-pressed="true">32</button>
+                        <button data-width="64">64</button>
+                    </div>
+                </div>
+                <div class="field" style="flex:1 1 260px;">
+                    <label for="aIn">操作数 A（支持 0x / 0b / 十进制）</label>
+                    <input id="aIn" type="text" spellcheck="false" autocomplete="off" value="0xF0">
+                </div>
+                <div class="field" style="flex:1 1 260px;">
+                    <label for="bIn">操作数 B</label>
+                    <input id="bIn" type="text" spellcheck="false" autocomplete="off" value="0x0F">
+                </div>
+            </div>
+            <p id="parseErr" class="err" hidden></p>
+        </section>
+
+        <section class="tool-panel">
+            <h2>进制转换</h2>
+            <div class="grid2">
+                <div>
+                    <p class="small">操作数 A</p>
+                    <div class="grid2">
+                        <div class="out-box"><div class="k">HEX</div><div class="v" id="aHex">-</div></div>
+                        <div class="out-box"><div class="k">DEC</div><div class="v" id="aDec">-</div></div>
+                        <div class="out-box"><div class="k">OCT</div><div class="v" id="aOct">-</div></div>
+                        <div class="out-box"><div class="k">DEC (signed)</div><div class="v" id="aSig">-</div></div>
+                    </div>
+                </div>
+                <div>
+                    <p class="small">操作数 B</p>
+                    <div class="grid2">
+                        <div class="out-box"><div class="k">HEX</div><div class="v" id="bHex">-</div></div>
+                        <div class="out-box"><div class="k">DEC</div><div class="v" id="bDec">-</div></div>
+                        <div class="out-box"><div class="k">OCT</div><div class="v" id="bOct">-</div></div>
+                        <div class="out-box"><div class="k">DEC (signed)</div><div class="v" id="bSig">-</div></div>
+                    </div>
+                </div>
+            </div>
+            <p class="small" style="margin-top:12px;">A 的二进制（按 nibble 分组）：</p>
+            <div class="bin-out" id="aBin"></div>
+        </section>
+
+        <section class="tool-panel">
+            <h2>按位运算结果</h2>
+            <div class="grid4">
+                <div class="out-box"><div class="k">A &amp; B</div><div class="v" id="rAnd">-</div></div>
+                <div class="out-box"><div class="k">A | B</div><div class="v" id="rOr">-</div></div>
+                <div class="out-box"><div class="k">A ^ B</div><div class="v" id="rXor">-</div></div>
+                <div class="out-box"><div class="k">~A</div><div class="v" id="rNotA">-</div></div>
+                <div class="out-box"><div class="k">~B</div><div class="v" id="rNotB">-</div></div>
+                <div class="out-box"><div class="k">A &amp; ~B</div><div class="v" id="rAndn">-</div></div>
+                <div class="out-box"><div class="k">A + B</div><div class="v" id="rAdd">-</div></div>
+                <div class="out-box"><div class="k">A − B</div><div class="v" id="rSub">-</div></div>
+            </div>
+        </section>
+
+        <section class="tool-panel">
+            <h2>移位（作用于 A，移位量取 B）</h2>
+            <div class="grid4">
+                <div class="out-box"><div class="k">A &lt;&lt; B</div><div class="v" id="rShl">-</div></div>
+                <div class="out-box"><div class="k">A &gt;&gt; B（逻辑）</div><div class="v" id="rShrL">-</div></div>
+                <div class="out-box"><div class="k">A &gt;&gt; B（算术）</div><div class="v" id="rShrA">-</div></div>
+                <div class="out-box"><div class="k">popcount(A)</div><div class="v" id="rPop">-</div></div>
+            </div>
+        </section>
+
+        <section class="tool-panel">
+            <h2>掩码生成</h2>
+            <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;">
+                <div class="field"><label for="mHi">高位</label><input id="mHi" type="number" min="0" value="7" style="width:90px;"></div>
+                <div class="field"><label for="mLo">低位</label><input id="mLo" type="number" min="0" value="4" style="width:90px;"></div>
+                <div class="out-box" style="flex:1 1 240px;"><div class="k">MASK [hi:lo]</div><div class="v" id="maskOut">-</div></div>
+            </div>
+            <p class="small" style="margin-top:10px;">常用：</p>
+            <div class="op-row" id="quickMasks"></div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SystemBlog. Built for GitHub Pages.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+    (function () {
+        let width = 32;
+        const $ = (id) => document.getElementById(id);
+        const mask = () => (1n << BigInt(width)) - 1n;
+
+        function parse(raw) {
+            let s = String(raw).trim().replace(/[_\s]/g, "");
+            if (s === "") return null;
+            let neg = false;
+            if (s[0] === "-") { neg = true; s = s.slice(1); }
+            let v;
+            try {
+                if (/^0x[0-9a-f]+$/i.test(s)) v = BigInt(s);
+                else if (/^0b[01]+$/i.test(s)) v = BigInt(s);
+                else if (/^0o[0-7]+$/i.test(s)) v = BigInt(s);
+                else if (/^[0-9]+$/.test(s)) v = BigInt(s);
+                else return null;
+            } catch (e) { return null; }
+            if (neg) v = (mask() + 1n) - (v & mask());
+            return v & mask();
+        }
+        const hexDigits = () => Math.ceil(width / 4);
+        const fmtHex = (v) => "0x" + (v & mask()).toString(16).toUpperCase().padStart(hexDigits(), "0");
+        const trunc = (v) => ((v % (mask() + 1n)) + (mask() + 1n)) % (mask() + 1n);
+        function signed(v) {
+            v &= mask();
+            const sb = 1n << BigInt(width - 1);
+            return (v & sb) ? v - (mask() + 1n) : v;
+        }
+        function popcount(v) { let c = 0n; v &= mask(); while (v) { c += v & 1n; v >>= 1n; } return c; }
+
+        function binGrouped(v) {
+            const s = (v & mask()).toString(2).padStart(width, "0");
+            let html = "";
+            for (let i = 0; i < s.length; i += 4) html += '<span class="nib">' + s.slice(i, i + 4) + '</span>';
+            return html;
+        }
+
+        function renderConv(prefix, v) {
+            $(prefix + "Hex").textContent = fmtHex(v);
+            $(prefix + "Dec").textContent = (v & mask()).toString(10);
+            $(prefix + "Oct").textContent = "0o" + (v & mask()).toString(8);
+            $(prefix + "Sig").textContent = signed(v).toString(10);
+        }
+
+        function recompute() {
+            const a = parse($("aIn").value);
+            const b = parse($("bIn").value);
+            const err = $("parseErr");
+            if (a === null || b === null) {
+                err.hidden = false;
+                err.textContent = "无法解析输入：请使用 0x.. / 0b.. / 0o.. 或十进制数字。";
+                return;
+            }
+            err.hidden = true;
+
+            renderConv("a", a);
+            renderConv("b", b);
+            $("aBin").innerHTML = binGrouped(a);
+
+            $("rAnd").textContent = fmtHex(a & b);
+            $("rOr").textContent = fmtHex(a | b);
+            $("rXor").textContent = fmtHex(a ^ b);
+            $("rNotA").textContent = fmtHex(~a);
+            $("rNotB").textContent = fmtHex(~b);
+            $("rAndn").textContent = fmtHex(a & ~b);
+            $("rAdd").textContent = fmtHex(trunc(a + b));
+            $("rSub").textContent = fmtHex(trunc(a - b));
+
+            const sh = b & mask();
+            const shAmt = sh % BigInt(width); // shift amount mod width to stay meaningful
+            $("rShl").textContent = fmtHex((a << shAmt));
+            $("rShrL").textContent = fmtHex((a & mask()) >> shAmt);
+            // arithmetic shift right: preserve sign
+            let ar = signed(a) >> shAmt;
+            $("rShrA").textContent = fmtHex(ar & mask());
+            $("rPop").textContent = popcount(a).toString() + " 个 1";
+
+            renderMask();
+        }
+
+        function buildMask(hi, lo) {
+            if (hi < lo) [hi, lo] = [lo, hi];
+            hi = Math.min(hi, width - 1); lo = Math.max(lo, 0);
+            const w = BigInt(hi - lo + 1);
+            return (((1n << w) - 1n) << BigInt(lo)) & mask();
+        }
+        function renderMask() {
+            const hi = parseInt($("mHi").value, 10);
+            const lo = parseInt($("mLo").value, 10);
+            if (isNaN(hi) || isNaN(lo)) { $("maskOut").textContent = "-"; return; }
+            $("maskOut").textContent = fmtHex(buildMask(hi, lo));
+        }
+
+        function renderQuickMasks() {
+            const row = $("quickMasks");
+            row.innerHTML = "";
+            const presets = width >= 32 ? [1, 4, 8, 16, 24, 32] : (width === 16 ? [1, 4, 8, 16] : [1, 2, 4, 8]);
+            presets.forEach((n) => {
+                if (n > width) return;
+                const b = document.createElement("button");
+                const m = (n >= width ? mask() : ((1n << BigInt(n)) - 1n));
+                b.textContent = "低 " + n + " 位 = " + fmtHex(m);
+                b.addEventListener("click", () => {
+                    navigator.clipboard && navigator.clipboard.writeText(fmtHex(m));
+                    const t = b.textContent; b.textContent = "已复制 ✓";
+                    setTimeout(() => (b.textContent = t), 1000);
+                });
+                row.appendChild(b);
+            });
+        }
+
+        document.querySelectorAll("#widthSeg button").forEach((bt) => {
+            bt.addEventListener("click", () => {
+                document.querySelectorAll("#widthSeg button").forEach((x) => x.removeAttribute("aria-pressed"));
+                bt.setAttribute("aria-pressed", "true");
+                width = parseInt(bt.dataset.width, 10);
+                renderQuickMasks();
+                recompute();
+            });
+        });
+        ["aIn", "bIn", "mHi", "mLo"].forEach((id) => $(id).addEventListener("input", recompute));
+
+        renderQuickMasks();
+        recompute();
+    })();
+    </script>
+</body>
+</html>

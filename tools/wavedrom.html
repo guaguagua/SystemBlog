@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WaveDrom 波形编辑器：编辑 WaveJSON 实时渲染数字时序波形，可导出 SVG。">
+    <title>WaveDrom 波形编辑器 | SystemBlog</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tool-main { max-width: 1100px; padding: 56px 0 72px; }
+        .tool-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; color: var(--accent-dark); font-weight: 700; font-size: 0.9rem; }
+        .tool-panel { padding: 22px; border: 1px solid rgba(216,222,232,0.9); border-radius: 8px; background: rgba(255,255,255,0.92); box-shadow: 0 10px 26px rgba(31,41,51,0.08); margin-bottom: 18px; }
+
+        .editor-grid { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 18px; }
+        @media (max-width: 860px){ .editor-grid{ grid-template-columns: 1fr; } }
+
+        .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+        .toolbar label { font-size: 0.8rem; font-weight: 700; color: var(--muted); }
+        select, .btn {
+            min-height: 40px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px;
+            background: #fff; color: var(--ink); font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.92rem;
+        }
+        .btn.primary { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
+        .btn.primary:hover { background: #0b4f4a; }
+        .btn:hover { border-color: var(--accent); }
+
+        textarea#src {
+            width: 100%; min-height: 460px; resize: vertical; padding: 14px; border: 1px solid var(--line);
+            border-radius: 8px; background: #0f172a; color: #e2e8f0; line-height: 1.6;
+            font-family: "Cascadia Code", Consolas, monospace; font-size: 0.92rem; tab-size: 2;
+        }
+        textarea#src:focus { outline: 2px solid rgba(15,118,110,0.5); }
+
+        .preview { min-height: 460px; overflow: auto; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+        .preview svg { max-width: 100%; }
+        .status { margin-top: 10px; font-size: 0.86rem; min-height: 1.2em; }
+        .status.ok { color: var(--accent-dark); }
+        .status.err { color: var(--warm); font-weight: 700; }
+        .lib-warn { display:none; margin-top:10px; padding:10px 12px; border-radius:8px; background:rgba(194,65,12,0.08); color:var(--warm); font-size:0.88rem; }
+        .small { font-size: 0.86rem; color: var(--muted); }
+        code.inline { font-family: "Cascadia Code", Consolas, monospace; background: #eef2f7; padding: 1px 6px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="主导航">
+            <a class="brand" href="../index.html" aria-label="SystemBlog 首页">
+                <span class="brand-mark">S</span>
+                <span>SystemBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../blog/">文章</a>
+                <a href="./">工具</a>
+                <a href="../about.html">关于</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="tool-main">
+        <a class="tool-back" href="./">← 返回工具区</a>
+        <p class="eyebrow">Tools</p>
+        <h1 style="font-size:2.6rem;">WaveDrom 波形编辑器</h1>
+        <p class="page-intro">左侧编辑 WaveJSON，右侧实时渲染数字时序波形。支持注释和无引号键（与官方 WaveDrom 一致），可一键导出 SVG 贴进文档或 PPT。</p>
+
+        <section class="tool-panel">
+            <div class="toolbar">
+                <label for="tpl">模板：</label>
+                <select id="tpl">
+                    <option value="basic">基础时钟/信号</option>
+                    <option value="bus">数据总线 + 时钟</option>
+                    <option value="reg">寄存器读写时序</option>
+                    <option value="gaps">间隔与省略</option>
+                    <option value="spi">SPI 传输</option>
+                </select>
+                <button class="btn primary" id="renderBtn">渲染</button>
+                <button class="btn" id="exportSvg">导出 SVG</button>
+                <button class="btn" id="copyJson">复制 WaveJSON</button>
+                <label style="margin-left:auto;display:inline-flex;gap:6px;align-items:center;">
+                    <input type="checkbox" id="autoRender" checked> 自动渲染
+                </label>
+            </div>
+
+            <div class="editor-grid">
+                <div>
+                    <textarea id="src" spellcheck="false" autocomplete="off"></textarea>
+                    <div class="status" id="status"></div>
+                </div>
+                <div>
+                    <div class="preview" id="preview">
+                        <div id="WaveDrom_Display_0"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lib-warn" id="libWarn">
+                WaveDrom 库未能从 CDN 加载（可能离线或被网络拦截）。请联网后刷新，或将
+                <code class="inline">wavedrom.min.js</code> 与 <code class="inline">skins/default.js</code> 下载到本地 <code class="inline">js/</code> 目录再引用。
+            </div>
+            <p class="small" style="margin-top:14px;">
+                语法参考：信号用 <code class="inline">wave</code> 字符串描述，<code class="inline">p</code>/<code class="inline">P</code> 时钟、
+                <code class="inline">0 1</code> 电平、<code class="inline">.</code> 保持、<code class="inline">x</code> 不定、
+                <code class="inline">=</code> 数据（配合 <code class="inline">data</code>）、<code class="inline">|</code> 间隔。
+            </p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SystemBlog. Built for GitHub Pages.</p>
+    </footer>
+
+    <!-- WaveDrom (MIT License) via CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/skins/default.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/wavedrom.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+    (function () {
+        const $ = (id) => document.getElementById(id);
+        const TEMPLATES = {
+            basic:
+`{ "signal": [
+  { "name": "clk",  "wave": "p.....|..." },
+  { "name": "req",  "wave": "0.1..0|1.0" },
+  { "name": "ack",  "wave": "0..1.0|..1", "phase": 0.1 }
+]}`,
+            bus:
+`{ "signal": [
+  { "name": "clk",  "wave": "P........" },
+  { "name": "addr", "wave": "x.=.=.=.x", "data": ["A0", "A1", "A2"] },
+  { "name": "data", "wave": "x..=.=.=x", "data": ["D0", "D1", "D2"] },
+  { "name": "wr",   "wave": "0.1.....0" }
+]}`,
+            reg:
+`{ "signal": [
+  { "name": "clk",   "wave": "p........" },
+  { "name": "wen",   "wave": "01.0....." },
+  { "name": "waddr", "wave": "x=..x....", "data": ["0x10"] },
+  { "name": "wdata", "wave": "x=..x....", "data": ["0xDEAD"] },
+  { "name": "ren",   "wave": "0....1.0." },
+  { "name": "rdata", "wave": "x.....=.x", "data": ["0xDEAD"] }
+]}`,
+            gaps:
+`{ "signal": [
+  { "name": "clk",  "wave": "p.....|..." },
+  { "name": "busy", "wave": "0.1...|..0" },
+  { "name": "done", "wave": "0.....|.10" }
+],
+ "config": { "hscale": 1 }
+}`,
+            spi:
+`{ "signal": [
+  { "name": "sclk", "wave": "0.p......0" },
+  { "name": "cs",   "wave": "10.......1" },
+  { "name": "mosi", "wave": "x.=.=.=.=x", "data": ["b7","b6","b5","b4"] },
+  { "name": "miso", "wave": "x.=.=.=.=x", "data": ["d7","d6","d5","d4"] }
+]}`
+        };
+
+        let timer = null;
+        const libReady = () => (typeof WaveDrom !== "undefined" && WaveDrom && typeof WaveDrom.RenderWaveForm === "function");
+
+        function setStatus(msg, cls) {
+            const el = $("status");
+            el.textContent = msg || "";
+            el.className = "status" + (cls ? " " + cls : "");
+        }
+
+        function parseSource(text) {
+            // WaveJSON allows comments / unquoted keys like JS objects. Try JSON first, then Function.
+            try { return JSON.parse(text); } catch (e) { /* fall through */ }
+            // eslint-disable-next-line no-new-func
+            return (new Function("return (" + text + ");"))();
+        }
+
+        function render() {
+            if (!libReady()) { $("libWarn").style.display = "block"; setStatus("WaveDrom 库未加载", "err"); return; }
+            let obj;
+            try {
+                obj = parseSource($("src").value);
+            } catch (e) {
+                setStatus("解析失败：" + e.message, "err");
+                return;
+            }
+            try {
+                $("WaveDrom_Display_0").innerHTML = "";
+                WaveDrom.RenderWaveForm(0, obj, "WaveDrom_Display_");
+                setStatus("已渲染 ✓", "ok");
+            } catch (e) {
+                setStatus("渲染失败：" + e.message, "err");
+            }
+        }
+
+        function scheduleRender() {
+            if (!$("autoRender").checked) return;
+            clearTimeout(timer);
+            timer = setTimeout(render, 350);
+        }
+
+        $("tpl").addEventListener("change", () => {
+            $("src").value = TEMPLATES[$("tpl").value];
+            render();
+        });
+        $("renderBtn").addEventListener("click", render);
+        $("src").addEventListener("input", scheduleRender);
+
+        $("exportSvg").addEventListener("click", () => {
+            const svg = $("preview").querySelector("svg");
+            if (!svg) { setStatus("没有可导出的 SVG，请先渲染", "err"); return; }
+            const clone = svg.cloneNode(true);
+            clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+            const data = '<?xml version="1.0" encoding="UTF-8"?>\n' + clone.outerHTML;
+            const blob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url; a.download = "wavedrom.svg";
+            document.body.appendChild(a); a.click(); a.remove();
+            URL.revokeObjectURL(url);
+            setStatus("已导出 wavedrom.svg ✓", "ok");
+        });
+
+        $("copyJson").addEventListener("click", () => {
+            navigator.clipboard && navigator.clipboard.writeText($("src").value);
+            setStatus("WaveJSON 已复制 ✓", "ok");
+        });
+
+        // init
+        $("src").value = TEMPLATES.basic;
+        window.addEventListener("load", () => {
+            if (!libReady()) { $("libWarn").style.display = "block"; setStatus("WaveDrom 库未加载", "err"); }
+            else render();
+        });
+    })();
+    </script>
+</body>
+</html>

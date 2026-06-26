@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SystemBlog 工具区：寄存器计算器、位运算计算器、WaveDrom 波形编辑器等实用前端小工具。">
+    <title>工具 | SystemBlog</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tools-grid {
+            padding-bottom: 72px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .tool-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 200px;
+            padding: 24px;
+            border: 1px solid rgba(216, 222, 232, 0.9);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 26px rgba(31, 41, 51, 0.08);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(15, 118, 110, 0.5);
+            box-shadow: 0 18px 38px rgba(31, 41, 51, 0.14);
+        }
+
+        .tool-card .tool-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 14px;
+            border-radius: 8px;
+            font-family: "Cascadia Code", Consolas, monospace;
+            font-weight: 800;
+            color: #fff;
+            background: linear-gradient(135deg, var(--ink), var(--accent));
+        }
+
+        .tool-card h3 {
+            margin-bottom: 8px;
+            color: var(--ink);
+        }
+
+        .tool-card p {
+            flex: 1;
+            margin-bottom: 16px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .tool-card .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tool-card .tool-tags span {
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+            background: rgba(15, 118, 110, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav-shell" aria-label="主导航">
+            <a class="brand" href="../index.html" aria-label="SystemBlog 首页">
+                <span class="brand-mark">S</span>
+                <span>SystemBlog</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../blog/">文章</a>
+                <a href="./" aria-current="page">工具</a>
+                <a href="../about.html">关于</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page">
+        <p class="eyebrow">Tools</p>
+        <h1>工具区</h1>
+        <p class="page-intro">收纳一些反复用得上的纯前端小工具，全部本地运行、无需后端，适合 RTL、嵌入式和信号处理日常。</p>
+
+        <section class="tools-grid" aria-label="工具列表">
+            <a class="tool-card" href="register-calculator.html">
+                <span class="tool-icon" aria-hidden="true">0x</span>
+                <h3>寄存器计算器</h3>
+                <p>可视化点击翻转每个 bit，定义位域（field）并解析数值，hex / dec / bin 三向实时同步。</p>
+                <div class="tool-tags">
+                    <span>位域</span><span>32/64-bit</span><span>无依赖</span>
+                </div>
+            </a>
+
+            <a class="tool-card" href="bit-calculator.html">
+                <span class="tool-icon" aria-hidden="true">&amp;|</span>
+                <h3>位运算计算器</h3>
+                <p>进制转换、AND / OR / XOR / NOT / 移位、掩码生成与补码，支持 8/16/32/64-bit 宽度。</p>
+                <div class="tool-tags">
+                    <span>按位运算</span><span>进制转换</span><span>掩码</span>
+                </div>
+            </a>
+
+            <a class="tool-card" href="wavedrom.html">
+                <span class="tool-icon" aria-hidden="true">⎍</span>
+                <h3>WaveDrom 波形编辑器</h3>
+                <p>编辑 WaveJSON 实时渲染数字时序波形，内置常用模板，可导出 SVG 直接贴进文档。</p>
+                <div class="tool-tags">
+                    <span>时序图</span><span>WaveJSON</span><span>导出 SVG</span>
+                </div>
+            </a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>© 2026 SystemBlog. Built for GitHub Pages.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
