@@ -6,10 +6,13 @@
     <meta name="description" content="WaveDrom 波形编辑器：编辑 WaveJSON 实时渲染数字时序波形，可导出 SVG。">
     <title>WaveDrom 波形编辑器 | SystemBlog</title>
     <link rel="stylesheet" href="../css/style.css">
+    <!-- CodeMirror (MIT) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
     <style>
         html, body { height: 100%; }
         body { display: flex; flex-direction: column; }
 
+        /* ── 工作区：header 下面撑满剩余空间 ── */
         .wd-workspace {
             flex: 1 1 auto;
             display: flex;
@@ -18,101 +21,70 @@
             overflow: hidden;
         }
 
+        /* ── 工具栏 ── */
         .wd-toolbar {
             flex: 0 0 auto;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 8px;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-bottom: 1px solid var(--line);
             background: rgba(246,248,251,0.97);
             z-index: 2;
         }
-
         .wd-toolbar a.back {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--accent-dark);
-            font-weight: 700;
-            font-size: 0.88rem;
-            padding: 6px 10px;
-            border: 1px solid var(--line);
-            border-radius: 7px;
-            background: #fff;
-            white-space: nowrap;
+            display: inline-flex; align-items: center; gap: 5px;
+            color: var(--accent-dark); font-weight: 700; font-size: 0.86rem;
+            padding: 5px 10px; border: 1px solid var(--line); border-radius: 7px;
+            background: #fff; white-space: nowrap;
         }
         .wd-toolbar a.back:hover { border-color: var(--accent); }
-
-        .wd-divider-v { width: 1px; height: 24px; background: var(--line); margin: 0 4px; flex-shrink: 0; }
-
+        .wd-sep { width: 1px; height: 22px; background: var(--line); flex-shrink: 0; margin: 0 2px; }
         .wd-toolbar select,
         .wd-toolbar .btn {
-            min-height: 36px;
-            padding: 6px 13px;
-            border: 1px solid var(--line);
-            border-radius: 7px;
-            background: #fff;
-            color: var(--ink);
-            font-weight: 700;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.88rem;
-            white-space: nowrap;
+            min-height: 34px; padding: 5px 12px;
+            border: 1px solid var(--line); border-radius: 7px;
+            background: #fff; color: var(--ink); font-weight: 700;
+            cursor: pointer; font-family: inherit; font-size: 0.86rem; white-space: nowrap;
         }
         .wd-toolbar .btn.primary { background: var(--accent-dark); color: #fff; border-color: var(--accent-dark); }
         .wd-toolbar .btn.primary:hover { background: #0b4f4a; }
         .wd-toolbar .btn:hover { border-color: var(--accent); }
-
-        .wd-toolbar .auto-label {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 0.86rem; font-weight: 700; color: var(--muted);
-            cursor: pointer; margin-left: 4px;
-        }
-
         .wd-status {
-            margin-left: auto;
-            font-size: 0.82rem;
-            font-weight: 700;
-            min-width: 80px;
-            text-align: right;
+            margin-left: auto; font-size: 0.8rem; font-weight: 700;
+            min-width: 72px; text-align: right; color: var(--muted);
         }
-        .wd-status.ok { color: var(--accent-dark); }
+        .wd-status.ok  { color: var(--accent-dark); }
         .wd-status.err { color: var(--warm); }
 
+        /* ── 编辑器面板 ── */
         .wd-editor-pane {
             flex: 0 0 auto;
             min-height: 60px;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
-        textarea#src {
+        /* CodeMirror 铺满编辑器面板 */
+        .wd-editor-pane .CodeMirror {
             flex: 1 1 auto;
-            width: 100%;
             height: 100%;
-            resize: none;
-            padding: 14px 18px;
+            font-family: "Cascadia Code", "Fira Code", "Ubuntu Mono", Consolas, monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
             border: none;
-            outline: none;
-            background: #0d1117;
-            color: #c9d1d9;
-            line-height: 1.65;
-            font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
-            font-size: 0.93rem;
-            tab-size: 2;
-            box-sizing: border-box;
         }
 
+        /* ── 拖动分隔条（与官网风格一致） ── */
         .wd-splitter {
-            flex: 0 0 6px;
+            flex: 0 0 5px;
             background: var(--line);
             cursor: ns-resize;
             position: relative;
             z-index: 3;
-            transition: background 0.15s ease;
+            transition: background 0.14s;
         }
         .wd-splitter:hover, .wd-splitter.dragging { background: var(--accent); }
         .wd-splitter::after {
@@ -120,12 +92,15 @@
             position: absolute;
             left: 50%; top: 50%;
             transform: translate(-50%, -50%);
-            width: 40px; height: 3px;
+            width: 44px; height: 3px;
             border-radius: 2px;
-            background: rgba(100,112,125,0.4);
+            background: rgba(100,112,125,0.35);
         }
-        .wd-splitter:hover::after, .wd-splitter.dragging::after { background: rgba(255,255,255,0.55); }
+        .wd-splitter:hover::after, .wd-splitter.dragging::after {
+            background: rgba(15,118,110,0.5);
+        }
 
+        /* ── 预览面板 ── */
         .wd-preview-pane {
             flex: 1 1 auto;
             min-height: 60px;
@@ -133,16 +108,12 @@
             background: #ffffff;
             padding: 20px 28px;
         }
-        .wd-preview-pane svg { max-width: 100%; }
+        .wd-preview-pane svg { max-width: 100%; height: auto; }
 
         .lib-warn {
-            display: none;
-            margin: 16px 24px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: rgba(194,65,12,0.08);
-            color: var(--warm);
-            font-size: 0.88rem;
+            display: none; margin: 14px 20px; padding: 10px 14px;
+            border-radius: 8px; background: rgba(194,65,12,0.08);
+            color: var(--warm); font-size: 0.86rem;
         }
         code.il { font-family: Consolas, monospace; background: #eef2f7; padding: 1px 5px; border-radius: 4px; }
         body.no-select { user-select: none; }
@@ -165,9 +136,11 @@
     </header>
 
     <div class="wd-workspace">
+
+        <!-- 工具栏 -->
         <div class="wd-toolbar">
             <a class="back" href="./">← 工具区</a>
-            <div class="wd-divider-v"></div>
+            <div class="wd-sep"></div>
             <select id="tpl" title="插入模板">
                 <option value="basic">基础时钟/信号</option>
                 <option value="bus">数据总线 + 时钟</option>
@@ -175,131 +148,171 @@
                 <option value="gaps">间隔与省略</option>
                 <option value="spi">SPI 传输</option>
             </select>
-            <div class="wd-divider-v"></div>
-            <button class="btn primary" id="renderBtn">渲染</button>
+            <div class="wd-sep"></div>
             <button class="btn" id="exportSvg">导出 SVG</button>
             <button class="btn" id="copyJson">复制 JSON</button>
-            <div class="wd-divider-v"></div>
-            <label class="auto-label">
-                <input type="checkbox" id="autoRender" checked> 自动渲染
-            </label>
             <span class="wd-status" id="status"></span>
         </div>
 
+        <!-- 编辑器（CodeMirror 挂载点） -->
         <div class="wd-editor-pane" id="editorPane">
-            <textarea id="src" spellcheck="false" autocomplete="off"></textarea>
+            <textarea id="InputJSON_0" spellcheck="false" autocomplete="off"></textarea>
         </div>
 
-        <div class="wd-splitter" id="splitter" role="separator" aria-orientation="horizontal" title="拖动调整编辑区高度"></div>
+        <!-- 拖动分隔条 -->
+        <div class="wd-splitter" id="splitter" role="separator" aria-orientation="horizontal" title="拖动调整高度"></div>
 
+        <!-- 预览（WaveDrom 渲染到这里） -->
         <div class="wd-preview-pane" id="previewPane">
             <div id="WaveDrom_Display_0"></div>
         </div>
 
         <div class="lib-warn" id="libWarn">
-            WaveDrom 库未能从 CDN 加载（可能离线或被网络拦截）。联网后刷新即可，或将
+            WaveDrom 库未能从 CDN 加载，联网后刷新即可。或将
             <code class="il">wavedrom.min.js</code> 与 <code class="il">skins/default.js</code> 下载到本地。
         </div>
     </div>
 
+    <!-- WaveDrom (MIT) via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/skins/default.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.5.0/wavedrom.min.js"></script>
+    <!-- CodeMirror (MIT) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js"></script>
     <script src="../js/main.js"></script>
     <script>
     (function () {
-        const $ = id => document.getElementById(id);
+        var $ = function (id) { return document.getElementById(id); };
 
-        const TEMPLATES = {
-            basic: `{ signal: [\n  { name: 'clk',  wave: 'p.....|...' },\n  { name: 'req',  wave: '0.1..0|1.0' },\n  { name: 'ack',  wave: '0..1.0|..1', phase: 0.1 }\n]}`,
-            bus:   `{ signal: [\n  { name: 'clk',  wave: 'P........' },\n  { name: 'addr', wave: 'x.=.=.=.x', data: ['A0','A1','A2'] },\n  { name: 'data', wave: 'x..=.=.=x', data: ['D0','D1','D2'] },\n  { name: 'wr',   wave: '0.1.....0' }\n]}`,
-            reg:   `{ signal: [\n  { name: 'clk',   wave: 'p........' },\n  { name: 'wen',   wave: '01.0.....' },\n  { name: 'waddr', wave: 'x=..x....', data: ['0x10'] },\n  { name: 'wdata', wave: 'x=..x....', data: ['0xDEAD'] },\n  { name: 'ren',   wave: '0....1.0.' },\n  { name: 'rdata', wave: 'x.....=.x', data: ['0xDEAD'] }\n]}`,
-            gaps:  `{ signal: [\n  { name: 'clk',  wave: 'p.....|...' },\n  { name: 'busy', wave: '0.1...|..0' },\n  { name: 'done', wave: '0.....|.10' }\n], config: { hscale: 1 } }`,
-            spi:   `{ signal: [\n  { name: 'sclk', wave: '0.p......0' },\n  { name: 'cs',   wave: '10.......1' },\n  { name: 'mosi', wave: 'x.=.=.=.=x', data: ['b7','b6','b5','b4'] },\n  { name: 'miso', wave: 'x.=.=.=.=x', data: ['d7','d6','d5','d4'] }\n]}`
+        var TEMPLATES = {
+            basic: "{ signal: [\n  { name: 'clk',  wave: 'p.....|...' },\n  { name: 'req',  wave: '0.1..0|1.0' },\n  { name: 'ack',  wave: '0..1.0|..1', phase: 0.1 }\n]}",
+            bus:   "{ signal: [\n  { name: 'clk',  wave: 'P........' },\n  { name: 'addr', wave: 'x.=.=.=.x', data: ['A0','A1','A2'] },\n  { name: 'data', wave: 'x..=.=.=x', data: ['D0','D1','D2'] },\n  { name: 'wr',   wave: '0.1.....0' }\n]}",
+            reg:   "{ signal: [\n  { name: 'clk',   wave: 'p........' },\n  { name: 'wen',   wave: '01.0.....' },\n  { name: 'waddr', wave: 'x=..x....', data: ['0x10'] },\n  { name: 'wdata', wave: 'x=..x....', data: ['0xDEAD'] },\n  { name: 'ren',   wave: '0....1.0.' },\n  { name: 'rdata', wave: 'x.....=.x', data: ['0xDEAD'] }\n]}",
+            gaps:  "{ signal: [\n  { name: 'clk',  wave: 'p.....|...' },\n  { name: 'busy', wave: '0.1...|..0' },\n  { name: 'done', wave: '0.....|.10' }\n], config: { hscale: 1 } }",
+            spi:   "{ signal: [\n  { name: 'sclk', wave: '0.p......0' },\n  { name: 'cs',   wave: '10.......1' },\n  { name: 'mosi', wave: 'x.=.=.=.=x', data: ['b7','b6','b5','b4'] },\n  { name: 'miso', wave: 'x.=.=.=.=x', data: ['d7','d6','d5','d4'] }\n]}"
         };
 
-        const INIT_RATIO = 0.42;
+        /* ── 初始编辑区高度 ── */
         function initHeight() {
-            const ws = document.querySelector('.wd-workspace');
-            const h = ws.clientHeight;
-            $('editorPane').style.height = Math.round(h * INIT_RATIO) + 'px';
+            var ws = document.querySelector('.wd-workspace');
+            var h = ws.clientHeight;
+            $('editorPane').style.height = Math.round(h * 0.44) + 'px';
         }
 
-        // 拖动分隔条
-        const splitter = $('splitter');
-        const editorPane = $('editorPane');
-        splitter.addEventListener('mousedown', e => {
+        /* ── 拖动分隔条 ── */
+        var splitter = $('splitter');
+        var editorPane = $('editorPane');
+        splitter.addEventListener('mousedown', function (e) {
             e.preventDefault();
             splitter.classList.add('dragging');
             document.body.classList.add('no-select');
-            const startY = e.clientY, startH = editorPane.offsetHeight;
-            const ws = document.querySelector('.wd-workspace');
-            const tbH = document.querySelector('.wd-toolbar').offsetHeight;
-            const max = ws.clientHeight - tbH - splitter.offsetHeight - 60;
-            const onMove = ev => {
+            var startY = e.clientY, startH = editorPane.offsetHeight;
+            var ws = document.querySelector('.wd-workspace');
+            var tbH = document.querySelector('.wd-toolbar').offsetHeight;
+            var max = ws.clientHeight - tbH - splitter.offsetHeight - 60;
+            function onMove(ev) {
                 editorPane.style.height = Math.max(60, Math.min(max, startH + ev.clientY - startY)) + 'px';
-            };
-            const onUp = () => {
+                if (WaveDrom.cm) { WaveDrom.cm.refresh(); }
+            }
+            function onUp() {
                 splitter.classList.remove('dragging');
                 document.body.classList.remove('no-select');
                 document.removeEventListener('mousemove', onMove);
                 document.removeEventListener('mouseup', onUp);
-            };
+            }
             document.addEventListener('mousemove', onMove);
             document.addEventListener('mouseup', onUp);
         });
 
-        const libReady = () => typeof WaveDrom !== 'undefined' && typeof WaveDrom.RenderWaveForm === 'function';
-
+        /* ── 状态提示 ── */
         function setStatus(msg, cls) {
-            const el = $('status');
+            var el = $('status');
             el.textContent = msg || '';
             el.className = 'wd-status' + (cls ? ' ' + cls : '');
         }
 
-        function parseSource(text) {
-            try { return JSON.parse(text); } catch (_) {}
-            return (new Function('return (' + text + ')'))();
+        /* ── CodeMirror + WaveDrom 初始化 ── */
+        function init() {
+            var wdReady = typeof WaveDrom !== 'undefined' && typeof WaveDrom.EditorRefresh === 'function';
+            var cmReady = typeof CodeMirror !== 'undefined';
+
+            if (!wdReady) {
+                $('libWarn').style.display = 'block';
+                setStatus('WaveDrom 未加载', 'err');
+                return;
+            }
+
+            $('InputJSON_0').value = TEMPLATES.basic;
+
+            if (cmReady) {
+                /* 用 CodeMirror 替换 textarea，与官方完全一致 */
+                var cm = CodeMirror.fromTextArea($('InputJSON_0'), {
+                    lineNumbers: true,
+                    matchBrackets: true,
+                    mode: 'javascript',
+                    tabSize: 2,
+                    indentWithTabs: false,
+                    lineWrapping: false,
+                    theme: 'default'
+                });
+                /* 挂到 WaveDrom.cm，EditorRefresh 会直接读它 */
+                WaveDrom.cm = cm;
+                cm.on('change', function () {
+                    WaveDrom.EditorRefresh();
+                    setStatus('已渲染 ✓', 'ok');
+                });
+            } else {
+                /* CodeMirror CDN 未加载时降级：直接读 textarea */
+                $('InputJSON_0').addEventListener('input', function () {
+                    WaveDrom.EditorRefresh();
+                    setStatus('已渲染 ✓', 'ok');
+                });
+            }
+
+            /* 初始渲染 */
+            WaveDrom.EditorRefresh();
+            setStatus('已渲染 ✓', 'ok');
         }
 
-        function render() {
-            if (!libReady()) { $('libWarn').style.display = 'block'; setStatus('库未加载', 'err'); return; }
-            let obj;
-            try { obj = parseSource($('src').value); } catch (e) { setStatus('解析失败', 'err'); return; }
-            try {
-                $('WaveDrom_Display_0').innerHTML = '';
-                WaveDrom.RenderWaveForm(0, obj, 'WaveDrom_Display_');
-                setStatus('已渲染 ✓', 'ok');
-            } catch (e) { setStatus('渲染失败', 'err'); }
-        }
-
-        let timer = null;
-        $('tpl').addEventListener('change', () => { $('src').value = TEMPLATES[$('tpl').value]; render(); });
-        $('renderBtn').addEventListener('click', render);
-        $('src').addEventListener('input', () => {
-            if (!$('autoRender').checked) return;
-            clearTimeout(timer); timer = setTimeout(render, 300);
+        /* ── 模板切换 ── */
+        $('tpl').addEventListener('change', function () {
+            var src = TEMPLATES[$('tpl').value];
+            if (WaveDrom.cm) {
+                WaveDrom.cm.setValue(src);
+            } else {
+                $('InputJSON_0').value = src;
+                WaveDrom.EditorRefresh();
+            }
         });
 
-        $('exportSvg').addEventListener('click', () => {
-            const svg = $('previewPane').querySelector('svg');
+        /* ── 导出 SVG ── */
+        $('exportSvg').addEventListener('click', function () {
+            var svg = $('previewPane').querySelector('svg');
             if (!svg) { setStatus('无 SVG', 'err'); return; }
-            const clone = svg.cloneNode(true);
+            var clone = svg.cloneNode(true);
             clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-            const blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + clone.outerHTML], { type: 'image/svg+xml' });
-            const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'wavedrom.svg' });
+            var blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + clone.outerHTML], { type: 'image/svg+xml' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'wavedrom.svg';
             document.body.appendChild(a); a.click(); a.remove();
             setStatus('已导出 ✓', 'ok');
         });
 
-        $('copyJson').addEventListener('click', () => {
-            navigator.clipboard && navigator.clipboard.writeText($('src').value);
+        /* ── 复制 JSON ── */
+        $('copyJson').addEventListener('click', function () {
+            var src = WaveDrom.cm ? WaveDrom.cm.getValue() : $('InputJSON_0').value;
+            navigator.clipboard && navigator.clipboard.writeText(src);
             setStatus('已复制 ✓', 'ok');
         });
 
-        $('src').value = TEMPLATES.basic;
+        /* ── 启动 ── */
         initHeight();
-        window.addEventListener('load', () => { initHeight(); libReady() ? render() : ($('libWarn').style.display = 'block', setStatus('库未加载', 'err')); });
-        window.addEventListener('resize', initHeight);
+        window.addEventListener('load', function () { initHeight(); init(); });
+        window.addEventListener('resize', function () {
+            initHeight();
+            if (WaveDrom.cm) { WaveDrom.cm.refresh(); }
+        });
     })();
     </script>
 </body>
