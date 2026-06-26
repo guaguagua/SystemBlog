@@ -258,6 +258,7 @@
                 /* 挂到 WaveDrom.cm，EditorRefresh 会直接读它 */
                 WaveDrom.cm = cm;
                 cm.on('change', function () {
+                    cm.save(); /* 同步 CodeMirror → textarea，EditorRefresh 读 textarea */
                     WaveDrom.EditorRefresh();
                     setStatus('已渲染 ✓', 'ok');
                 });
