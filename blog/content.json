@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "itila-pdf",
+    "source": "labs/itila-pdf.html",
+    "url": "labs/itila-pdf.html",
+    "title": "Information Theory, Inference, and Learning Algorithms",
+    "category": "参考书",
+    "summary": "David MacKay 经典教材，系统覆盖信息论、贝叶斯推断、神经网络与机器学习算法，全书可免费获取。",
+    "date": "2026-06-27",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "intelligence-vortex-ppt",
     "source": "labs/intelligence-vortex-ppt.html",
     "url": "labs/intelligence-vortex-ppt.html",
