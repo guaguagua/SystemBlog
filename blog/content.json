@@ -23,8 +23,8 @@
   },
   {
     "type": "post",
-    "slug": "从信息到智能：概率、信息论与智慧的涌现",
-    "source": "posts/从信息到智能：概率、信息论与智慧的涌现.md",
+    "slug": "from-information-to-intelligence",
+    "source": "posts/from-information-to-intelligence.md",
     "title": "从信息到智能：概率、信息论与智慧的涌现",
     "category": "AI 思考",
     "summary": "从似然、贝叶斯、交叉熵和信息差出发，讨论 LLM、Agent、skill 与环境交互中智慧涌现的可能机制。",
