@@ -7,7 +7,11 @@
 
     const params = new URLSearchParams(window.location.search);
     const post = params.get("post") || "site-structure";
-    const isSafePost = /^[a-z0-9-\/]+$/i.test(post) && !post.includes("..") && !post.startsWith("/");
+    const isSafePost = post
+        && !post.includes("..")
+        && !post.includes("\\")
+        && !post.includes(":")
+        && !post.startsWith("/");
     const safePost = isSafePost ? post : "site-structure";
 
     const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (char) => ({
