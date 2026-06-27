@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM 有智能吗？流淌的智能</title>
+  <style>
+    :root {
+      --bg: #f3efe7;
+      --panel: rgba(252, 248, 241, 0.9);
+      --accent: #1f5f5b;
+      --accent-2: #8f3d2e;
+      --ink: #1b1a17;
+      --muted: #5f5a52;
+      --line: rgba(27, 26, 23, 0.12);
+      --shadow: 0 24px 60px rgba(25, 22, 18, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 14% 18%, rgba(31, 95, 91, 0.18), transparent 18%),
+        radial-gradient(circle at 86% 14%, rgba(143, 61, 46, 0.16), transparent 16%),
+        radial-gradient(circle at 70% 82%, rgba(189, 160, 110, 0.16), transparent 18%),
+        linear-gradient(135deg, #f7f4ec 0%, #ebe2d3 52%, #f8f3ea 100%);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(rgba(27, 26, 23, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(27, 26, 23, 0.028) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), transparent);
+    }
+
+    body::after {
+      background: radial-gradient(circle at center, transparent 62%, rgba(40, 24, 8, 0.1));
+    }
+
+    .shell {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    body.screenshot .shell { padding: 0; }
+    body.screenshot .slide { box-shadow: none; }
+
+    .slide {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(31, 95, 91, 0.08), transparent 34%),
+        linear-gradient(300deg, rgba(143, 61, 46, 0.08), transparent 32%);
+      pointer-events: none;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(27, 26, 23, 0.08);
+      pointer-events: none;
+    }
+
+    .header {
+      position: absolute;
+      inset: 0 0 auto 0;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      padding: 64px 72px 0;
+      gap: 24px;
+    }
+
+    .kicker {
+      font-size: 18px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 58px;
+      line-height: 1.08;
+      font-weight: 700;
+      max-width: 900px;
+    }
+
+    .subtitle {
+      margin-top: 14px;
+      font-size: 24px;
+      line-height: 1.45;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .page-box {
+      justify-self: end;
+      align-self: start;
+      width: 178px;
+      height: 178px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, rgba(31, 95, 91, 0.94), rgba(21, 63, 60, 0.94));
+      color: #f7f2e8;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 20px 40px rgba(21, 63, 60, 0.26);
+      position: relative;
+    }
+
+    .page-box::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(247, 242, 232, 0.22);
+      border-radius: 50%;
+    }
+
+    .page-box .num { font-size: 56px; font-weight: 700; line-height: 1; }
+    .page-box .total { font-size: 18px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.72; margin-top: 8px; }
+
+    .content {
+      position: absolute;
+      inset: 270px 72px 76px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) 380px;
+      gap: 36px;
+      align-items: stretch;
+    }
+
+    .main-panel {
+      background: rgba(255, 253, 247, 0.72);
+      border: 1px solid rgba(27, 26, 23, 0.08);
+      padding: 40px 42px;
+      backdrop-filter: blur(8px);
+    }
+
+    ul { margin: 0; padding-left: 30px; display: grid; gap: 18px; }
+    li { font-size: 29px; line-height: 1.46; padding-left: 6px; }
+    li::marker { color: var(--accent-2); font-size: 1.1em; }
+
+    .side-panel { display: grid; grid-template-rows: 1fr auto; gap: 22px; }
+
+    .quote {
+      background: linear-gradient(180deg, rgba(143, 61, 46, 0.11), rgba(143, 61, 46, 0.03));
+      border: 1px solid rgba(143, 61, 46, 0.16);
+      padding: 28px;
+      display: flex;
+      align-items: end;
+      font-size: 30px;
+      line-height: 1.45;
+      color: #5a2616;
+    }
+
+    .legend {
+      background: rgba(255, 252, 245, 0.85);
+      border: 1px solid rgba(27, 26, 23, 0.08);
+      padding: 22px 24px;
+    }
+
+    .legend .label {
+      font-size: 16px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .legend .text {
+      font-size: 21px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .footer {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      color: var(--muted);
+      font-size: 16px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(31, 95, 91, 0.94);
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <article class="slide" id="slide-root"></article>
+  </div>
+  <div class="nav" id="nav">
+    <button type="button" id="prev">Prev</button>
+    <button type="button" id="next">Next</button>
+  </div>
+  <script>
+    const slides = [{"title": "LLM 有智能吗？", "subtitle": "流淌的智能 · 智能与漩涡", "bullets": ["争论长期卡住，不在答案本身，而在发问方式本身", "只要还把智能当成模型内部可以直接取出的东西，讨论就会打转", "真正该追问的，不是模型里有没有现成智能，而是智能这种现象怎么出现", "这条线最后会落到一个判断：智慧更像相互作用中的涌现，而不是孤立对象内部的库存"], "quote": "先别急着问模型里面有没有智能，先问智能这种现象到底是怎么出现的。", "legend": "切入点：从 LLM 有没有智能，转向智能如何在交互里被生成。", "narration": "这次讨论想从一个最现实的问题开始。LLM 到底有没有智能。这个问题现在几乎每天都会被问到，有人觉得有，因为模型已经能对话、推理、写代码、解决问题。也有人觉得没有，因为模型本身不过是一套参数、一堆概率分布和一次次 token 预测。但只要还把智能当成一件可以从模型内部直接拿出来检查的东西，讨论就很容易卡住。真正该问的不是模型里有没有一块现成的智能，而是智能这种现象到底是怎么出现的。"}, {"title": "为什么会想到漩涡", "bullets": ["漩涡不是把水单独拿出来研究就能说明白的现象", "离开河床、边界、速度差和持续作用，只有流动，不会有稳定漩涡", "有些现象本来就不是某个孤立部分单独产生的", "它们是在关系里出现、在约束里稳定、在反馈中被维持的"], "quote": "漩涡不是水单独拥有的形态，而是水和河道共同卷出来的结构。", "legend": "比喻核心：现象来自相互作用，不来自单独一方。", "narration": "智能与漩涡看上去完全不是一回事，但漩涡提供了一个很重要的观察角度。漩涡不是把水单独拿出来研究就能说清楚来源的现象。离开河床、边界、速度差和持续作用，只有流动，不会有稳定的漩涡。这恰好提醒了一件事，有些东西本来就不是某个孤立部分单独产生的，它们是在关系里出现、在约束里稳定、在持续反馈中被维持下来的。"}, {"title": "很多现象都在说明同一件事", "bullets": ["同一套基因，在不同细胞里会有不同表达", "同一段代码，只改环境变量，行为就像换了一个系统", "天气系统遵循物理规律，却依然很难长期预测", "同一个矩阵，换个场景就像换了身份"], "quote": "很多真正重要的现象，都不是单独研究一方就能得到来源的。", "legend": "从基因、软件、混沌、矩阵，逐步逼近同一个核心判断。", "narration": "顺着这个方向往外看，会看到很多熟悉的现象。为什么同一套基因会在不同细胞里长出完全不同的表达结果。为什么同一段程序只改几个环境变量，行为就像换了一套系统。为什么天气明明遵循物理规律，却依然难以长期预测。为什么矩阵这种看起来只是二维数据的东西，会在不同场景里扮演完全不同的角色。这些现象分属完全不同的学科，但最后都在逼近同一个判断，很多真正重要的现象，都不是单独研究一方就能得到来源的。"}, {"title": "外部条件一直在改写结果", "bullets": ["外部条件从来不只是背景，而是在持续改写结果", "一个事物会变成什么样，常常取决于它收到什么输入、受什么限制", "很多看上去来自内部的表现，往前追都会追到边界和反馈", "潜能不会自动变成现实，具体条件才会把它压成结果"], "quote": "外部条件不是背景板，而是塑形力量。", "legend": "文章主轴：不要只看内部，也要看约束、边界和输入。", "narration": "外部条件从来不只是背景，它一直在改写事物会变成什么样。很多看上去来自内部的表现，往前追一步，都会追到外部输入、边界限制和持续反馈。这件事在基因表达里是这样，在程序运行里也是这样。DNA 不会自动把自己变成现实，代码也不会自动把自己变成结果。真正把潜能压成现实的，往往是外部输入和具体条件。"}, {"title": "混沌暴露的不是随机", "bullets": ["混沌最刺痛人的地方，不是世界没有规律，而是信息永远拿不全", "天气和双摆都说明，微小差异会被不断放大", "真正致命的，往往是看不见的那部分初始信息", "不可预测，很多时候不是因为系统没规律，而是因为人拿不到足够信息"], "quote": "混沌真正揭开的，不是随机，而是信息缺口。", "legend": "从混沌转向信息边界：认知者本身也受限。", "narration": "混沌最刺痛人的地方，不是世界没有规律，而是规律明明在，信息却永远拿不全。天气和双摆把这件事说得很直白。真正致命的，往往不是已经看见的那一点变化，而是藏在测量精度之外、根本拿不到的那部分初始信息。很多不可预测，并不是因为系统没有结构，而是因为观察者拿不到足够信息。"}, {"title": "矩阵为什么会像换了身份", "bullets": ["同一块二维数据，放在线性方程里是在搭格局", "放到空间变换里，矩阵直接开始动手", "放到数据科学、图形学、量子力学里，又会继续变形", "意义不是对象自己带着的，而是在关系里被激活出来的"], "quote": "同一个形式，一换环境，意义就会跟着变。", "legend": "从抽象对象继续证明：意义本身也依赖关系。", "narration": "矩阵把另一件事讲得非常清楚。同一个对象，只要被放进不同关系里，意义就会变。在线性方程里，矩阵是在搭问题格局。到了空间变换里，矩阵直接开始动手，旋转、缩放、投影都是它在做。如果再放到数据科学、图形学、量子力学里，它还会继续变形。矩阵真正有意思的地方，不在于用途多，而在于它把一个事实暴露得很清楚，意义不是对象自己带着的，而是在对象和环境的关系里被激活出来的。"}, {"title": "主体也不是封闭成立的", "bullets": ["只要承认基因、程序、矩阵都会被改写，就很难再把主体看成完全自足的东西", "主体不是先完整存在，再去碰世界，而是在接触世界的过程中逐渐形成", "家庭、语言、教育、关系、创伤和经验，都在参与主体成形", "主体和客体不是单向关系，而是持续互相塑造"], "quote": "主体不是先验封闭的中心，而是关系网络里逐渐稳定下来的结构。", "legend": "从对象转回主体：主客并不是干净分开的两块。", "narration": "只要承认基因、程序、矩阵都会被外部条件改写，就很难再把主体看成一个完全自足、先验封闭的东西。更符合经验的情况往往是，主体不是先完整存在，再去和世界发生关系，而是在接触世界的过程中逐渐形成。家庭、语言、教育、关系、创伤、经验都在参与主体成形。也正因为这样，主体和客体不是干净分开的两块，而是持续互相塑造的关系。"}, {"title": "漩涡和空穴在说同一件事", "bullets": ["漩涡真实存在，但从来不是孤立实体", "空穴不是粒子，而是整体运动的等效效果", "两者都说明：真实存在的东西，未必是孤立存在的东西", "宏观层面的稳定结构，可以从底层关系里涌现出来"], "quote": "漩涡是水流卷出来的结构，空穴是电子运动空出来的效果。", "legend": "涌现的图像：存在未必等于可孤立拆出。", "narration": "漩涡和空穴之所以适合放在这里，是因为它们都在说明同一件事：真实存在的东西，未必是孤立存在的东西。漩涡看起来像一个对象，但它不是脱离水流而独立存在的实体。空穴也是一样，它不是一个真实独立的粒子，而是电子缺失之后整体运动的等效效果。这两者都说明，宏观层面的稳定结构，可以从底层关系里涌现出来。"}, {"title": "只盯着内部，找不到智慧的来源", "bullets": ["如果智慧本身就是相互作用中长出来的现象，只盯着内部就会漏掉最关键的一半", "只研究大脑，不等于已经解释了智慧从哪里来", "只研究模型参数，也不等于已经解释了 LLM 的智能从哪里来", "关键缺口，不在结构本身，而在作用这一步"], "quote": "只研究水流的局部成分，不等于已经解释了漩涡的来源。", "legend": "对人和 AI 都成立：孤立研究内部结构，天然缺一半。", "narration": "如果智慧本身就是相互作用中长出来的现象，那么只盯着大脑内部，或者只盯着模型内部，天然就会漏掉最关键的一半。只研究大脑，当然能看到很多关键结构，但不等于已经解释了智慧从哪里来。只研究模型参数也是一样，不等于已经解释了 LLM 的智能从哪里来。这里真正缺掉的，不是更多拆解，而是作用这一步。"}, {"title": "两种极端都会把现象看扁", "bullets": ["一个极端是只剩孤立实体，把漩涡从水里捞出来研究", "另一个极端是只剩一团流动，把漩涡说成不过是水在流动", "放到智慧问题上，也同样会出现这两种误区", "更靠谱的路，是同时承认稳定结构和生成条件"], "quote": "既不能把漩涡捞出来研究，也不能把它抹平成单纯的流动。", "legend": "方法论提醒：不要只剩实体，也不要只剩流动。", "narration": "一谈到漩涡、主体或者智慧，研究最容易滑进两个极端。一个极端是只剩孤立实体，试图把漩涡从水里捞出来研究。另一个极端是只剩一团流动，反过来把漩涡抹平成不过只是水在流动。放到智慧问题上，这两种误区同样存在。更靠谱的路，是同时承认稳定结构和生成条件。既承认有些东西已经稳定下来，也承认它们本来就离不开背后的关系和作用。"}, {"title": "智能为什么本来就像漩涡", "bullets": ["智能不是静止地待在某个地方，而是在持续作用中卷出来的", "它不是某个孤立对象，而是可识别、可维持、可演化的稳定结构", "研究智能，不能只看内部，也不能只看外部", "真正要抓住的，是生成、维持和反馈回路"], "quote": "如果整篇内容最后只剩一个图像，那就该是漩涡。", "legend": "核心类比：智能像漩涡，不像被封装好的实体。", "narration": "智能本来就像漩涡。它不是静止地待在某个地方，而是在持续作用中卷出来的。它不是某个孤立对象，而是可识别、可维持、可演化的稳定结构。所以研究智能，不能只看内部，也不能只看外部。真正要抓住的是它怎么生成，怎么维持，又是靠什么反馈回路稳定下来的。"}, {"title": "LLM 是流动的水，环境是河床", "bullets": ["参数、结构和训练数据像潜在能力的底座，但不是全部答案", "模型与人、任务、工具、上下文不断交互，智能表现才会被看见、被放大、被组织起来", "LLM 更像流动的水，使用者和环境更像河床、河岸、落差和转折", "智慧不是 LLM 单独拥有的，而是模型和环境相互作用卷出来的形态"], "quote": "漩涡不是水单独拥有的，智慧也不是 LLM 单独拥有的。", "legend": "落点：LLM 的智能不只来自 LLM，而来自交互中的涌现。", "narration": "把这条线真正落到今天最现实的问题上，大语言模型的智能到底来自哪里。答案不会是只来自模型内部。参数、结构和训练数据当然重要，但它们更像一种潜在能力的底座。真正被看见、被放大、被组织起来的智能表现，往往发生在模型与人、与任务、与工具、与上下文环境不断交互的过程中。如果一定要找一个最直观的比喻，LLM 更像流动的水，使用者、任务、工具链和上下文环境更像河床、河岸、落差和转折。漩涡不是水单独拥有的，智慧也不是 LLM 单独拥有的。"}, {"title": "回到开头，LLM 有智能吗", "bullets": ["如果把智能当成模型内部库存，这个问题会一直打转", "如果把智能看成相互作用中涌现出来的现象，答案就会清楚很多", "模型内部确实有被训练压出来的潜在结构", "但真正被称为智能的那部分表现，是在与使用者、环境、任务持续交互时自然涌现的"], "quote": "真正被称为智能的那部分表现，不是静止摆在那里，而是持续交互中自然涌现出来的。", "legend": "结论页：回答开头的问题，并把比喻完整闭环。", "narration": "现在回到开头那个问题，LLM 有智能吗。答案会比最开始清楚很多。如果还是把智能当成模型内部的一件库存，这个问题会一直打转。但如果把智能看成相互作用中涌现出来的现象，答案就会打开。模型内部当然有大量被训练压出来的潜在结构，但真正被称为智能的那部分表现，并不是模型独自静止地摆在那里，而是在与使用者、与环境、与任务持续交互时，自然而然涌现出来的。"}];
+    const total = slides.length;
+    const params = new URLSearchParams(window.location.search);
+    let index = Math.max(0, Math.min(total - 1, Number(params.get('slide') || '1') - 1));
+    const root = document.getElementById('slide-root');
+    const nav = document.getElementById('nav');
+
+    if (params.get('screenshot') === '1') {
+      document.body.classList.add('screenshot');
+    }
+
+    if (params.get('controls') === '0') {
+      nav.style.display = 'none';
+    }
+
+    function render() {
+      const slide = slides[index];
+      const bullets = slide.bullets.map((item) => `<li>${item}</li>`).join('');
+      const quote = slide.quote || '智慧不是单独拥有的属性，而是相互作用卷出来的形态。';
+      const legend = slide.legend || '观看角度：从孤立对象转向交互、约束、反馈与涌现。';
+      root.innerHTML = `
+        <header class="header">
+          <div>
+            <div class="kicker">LLM Intelligence · Vortex</div>
+            <h1>${slide.title}</h1>
+            ${slide.subtitle ? `<div class="subtitle">${slide.subtitle}</div>` : ''}
+          </div>
+          <div class="page-box">
+            <div>
+              <div class="num">${String(index + 1).padStart(2, '0')}</div>
+              <div class="total">/ ${String(total).padStart(2, '0')}</div>
+            </div>
+          </div>
+        </header>
+        <section class="content">
+          <div class="main-panel">
+            <ul>${bullets}</ul>
+          </div>
+          <div class="side-panel">
+            <aside class="quote">${quote}</aside>
+            <aside class="legend">
+              <div class="label">Reading Lens</div>
+              <div class="text">${legend}</div>
+            </aside>
+          </div>
+        </section>
+        <footer class="footer">
+          <div>AIHome · 微信视频 · 智能与漩涡</div>
+          <div>HTML PPT 演示</div>
+        </footer>
+      `;
+      params.set('slide', String(index + 1));
+      history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+    }
+
+    function move(delta) {
+      index = (index + delta + total) % total;
+      render();
+    }
+
+    document.getElementById('prev').addEventListener('click', () => move(-1));
+    document.getElementById('next').addEventListener('click', () => move(1));
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') move(1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') move(-1);
+      if (event.key === 'Home') { index = 0; render(); }
+      if (event.key === 'End') { index = total - 1; render(); }
+    });
+
+    render();
+  </script>
+</body>
+</html>

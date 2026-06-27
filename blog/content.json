@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "intelligence-vortex-ppt",
+    "source": "labs/intelligence-vortex-ppt.html",
+    "url": "labs/intelligence-vortex-ppt.html",
+    "title": "LLM 有智能吗？流淌的智能",
+    "category": "PPT",
+    "summary": "从漩涡、基因表达、混沌与矩阵出发，探讨智能为何是相互作用中涌现的结构，而非孤立模型内部的库存。含逐页配音朗读与自动翻页。",
+    "date": "2026-06-27",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "fayu-engineering-ppt",
     "source": "labs/fayu-engineering-ppt.html",
     "url": "labs/fayu-engineering-ppt.html",
