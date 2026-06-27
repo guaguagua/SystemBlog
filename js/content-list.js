@@ -19,7 +19,7 @@
 
     const normalizeUrl = (item) => {
         if (item.type === "post") {
-            return `${urlPrefix}article.html?post=${encodeURIComponent(item.slug)}`;
+            return `${urlPrefix}article.html?post=${encodeURIComponent(item.source.replace(/\.(md|html)$/i, ""))}`;
         }
 
         return `${urlPrefix}${item.url}`;
@@ -27,7 +27,7 @@
 
     const renderItem = (item, index) => {
         const typeLabel = item.type === "lab" ? "交互实验" : "Markdown 笔记";
-        const sourceLabel = item.type === "lab" ? "labs" : "posts";
+        const sourceLabel = item.type === "lab" ? "labs" : (item.source ? item.source.split("/")[0] : "posts");
         const category = item.category || sourceLabel;
         const featured = index === 0 ? " featured" : "";
 

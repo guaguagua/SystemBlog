@@ -86,8 +86,8 @@
         ].join("");
     };
 
-    fetchText(`posts/${safePost}.md`)
+    fetchText(`${safePost}.md`)
         .then(renderMarkdown)
-        .catch(() => fetchText(`posts/${safePost}.html`).then(renderJekyllHtml))
+        .catch(() => fetchText(`${safePost}.html`).then(renderJekyllHtml))
         .catch(renderError);
 }());

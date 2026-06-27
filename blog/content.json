@@ -1,5 +1,15 @@
 [
   {
+    "type": "post",
+    "slug": "似然与概率的区别",
+    "source": "conversations/似然与概率的区别.md",
+    "title": "似然与概率的区别",
+    "category": "AI对话",
+    "summary": "从「似然」的字面意思出发，经由最大似然估计、交叉熵、KL散度、LDPC 的 LLR，一路推导到对称性破缺与信息的诞生。与 Gemini 的完整原始对话。",
+    "date": "2026-06-27",
+    "draft": false
+  },
+  {
     "type": "lab",
     "slug": "itila-pdf",
     "source": "labs/itila-pdf.html",
