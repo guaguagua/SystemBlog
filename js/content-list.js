@@ -49,7 +49,14 @@
         })
         .then((items) => {
             const visibleItems = Array.isArray(items)
-                ? items.filter((item) => item && item.draft !== true)
+                ? items.filter((item) => {
+                    if (!item || item.draft === true) {
+                        return false;
+                    }
+
+                    // Keep conversation notes addressable by URL but hidden from public lists.
+                    return !(item.type === "post" && typeof item.source === "string" && item.source.startsWith("conversations/"));
+                })
                 : [];
             const limitedItems = limit > 0 ? visibleItems.slice(0, limit) : visibleItems;
 
