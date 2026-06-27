@@ -55,7 +55,7 @@
                     }
 
                     // Keep conversation notes addressable by URL but hidden from public lists.
-                    return !(item.type === "post" && typeof item.source === "string" && item.source.startsWith("conversations/"));
+                    return !(item.type === "post" && typeof item.source === "string" && item.source.startsWith("草稿/"));
                 })
                 : [];
             const limitedItems = limit > 0 ? visibleItems.slice(0, limit) : visibleItems;
