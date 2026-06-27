@@ -26,7 +26,7 @@ const listFiles = (dirPath, extension) => {
         });
 };
 
-const stripHtml = (html) => html
+const stripHtml = (html) => String(html || "")
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
@@ -119,7 +119,7 @@ const parseLabPage = (filePath) => {
         slug,
         source: `labs/${relative}`,
         url: `labs/${relative}`,
-        title: data.title || stripHtml(h1 && h1[1]) || stripHtml(titleTag && titleTag[1]) || titleFromSlug(path.basename(slug)),
+        title: data.title || stripHtml(titleTag && titleTag[1]) || stripHtml(h1 && h1[1]) || titleFromSlug(path.basename(slug)),
         category: data.category || "labs",
         summary: cleanSummary(data.summary || (description && description[1]) || stripHtml(firstParagraph && firstParagraph[1]) || "可交互 HTML 实验。"),
         date: data.date || "",
