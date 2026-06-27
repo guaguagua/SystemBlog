@@ -57,11 +57,47 @@
 
     const markdownRenderer = createMarkdownRenderer();
 
+    const renderMath = (formula, displayMode) => {
+        if (!window.katex) {
+            return escapeHtml(displayMode ? `$$${formula}$$` : `$${formula}$`);
+        }
+        try {
+            return katex.renderToString(formula.trim(), { displayMode, throwOnError: false });
+        } catch (_) {
+            return escapeHtml(displayMode ? `$$${formula}$$` : `$${formula}$`);
+        }
+    };
+
     const renderMarkdown = (markdown) => {
         const body = stripFrontMatter(markdown);
-        mount.innerHTML = markdownRenderer
-            ? markdownRenderer.render(body)
-            : `<pre>${escapeHtml(body)}</pre>`;
+
+        if (!markdownRenderer) {
+            mount.innerHTML = `<pre>${escapeHtml(body)}</pre>`;
+            return;
+        }
+
+        // Extract math regions before markdown-it runs to prevent
+        // underscore/asterisk mangling inside LaTeX expressions.
+        const mathStore = [];
+        const PHFX = "QMTH";
+        const PHSFX = "QEND";
+
+        let src = body.replace(/\$\$([\s\S]*?)\$\$/g, (_, f) => {
+            mathStore.push({ display: true, formula: f });
+            return `${PHFX}${mathStore.length - 1}${PHSFX}`;
+        });
+        src = src.replace(/\$([^\$\n]+?)\$/g, (_, f) => {
+            mathStore.push({ display: false, formula: f });
+            return `${PHFX}${mathStore.length - 1}${PHSFX}`;
+        });
+
+        const phRe = new RegExp(`${PHFX}(\\d+)${PHSFX}`, "g");
+        let html = markdownRenderer.render(src).replace(phRe, (_, idx) => {
+            const { display, formula } = mathStore[Number(idx)];
+            return renderMath(formula, display);
+        });
+
+        mount.innerHTML = html;
     };
 
     const renderJekyllHtml = (html) => {
