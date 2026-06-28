@@ -1,6 +1,16 @@
 [
   {
     "type": "post",
+    "slug": "llm-context-prompt-rag-mcp-skills-plugin",
+    "source": "posts/LLM Context、Prompt、 RAG、 MCP、 SKILLS、Plugin关系.md",
+    "title": "LLM Context、Prompt、RAG、MCP、Skills、Plugin 关系说明",
+    "category": "AI 思考",
+    "summary": "从架构分层视角梳理 Context、Prompt、RAG、MCP、Skills、Plugin 六个核心概念的定义、分工与协作关系，含实际执行时序图。",
+    "date": "2026-06-28",
+    "draft": false
+  },
+  {
+    "type": "post",
     "slug": "from-information-to-intelligence",
     "source": "posts/from-information-to-intelligence.md",
     "title": "从信息到智能：概率、信息论与智慧的涌现",
