@@ -42,6 +42,10 @@
             typographer: false,
             breaks: false,
             highlight(code, language) {
+                if (language === 'mermaid') {
+                    return escapeHtml(code);
+                }
+
                 if (!window.hljs) {
                     return escapeHtml(code);
                 }
@@ -98,6 +102,7 @@
         });
 
         mount.innerHTML = html;
+        renderMermaidBlocks();
     };
 
     const renderJekyllHtml = (html) => {
@@ -116,6 +121,22 @@
         }
 
         mount.innerHTML = renderedBody.innerHTML;
+        renderMermaidBlocks();
+    };
+
+    const renderMermaidBlocks = () => {
+        if (!window.mermaid) return;
+        const blocks = mount.querySelectorAll('pre code.language-mermaid');
+        if (!blocks.length) return;
+        blocks.forEach((codeEl) => {
+            const pre = codeEl.parentElement;
+            const div = document.createElement('div');
+            div.className = 'mermaid';
+            div.textContent = codeEl.textContent;
+            pre.replaceWith(div);
+        });
+        mermaid.initialize({ startOnLoad: false, theme: 'default' });
+        mermaid.run({ nodes: Array.from(mount.querySelectorAll('.mermaid')) });
     };
 
     const renderError = () => {
