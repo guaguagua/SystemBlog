@@ -2,7 +2,7 @@
   {
     "type": "post",
     "slug": "llm-context-prompt-rag-mcp-skills-plugin",
-    "source": "posts/LLM Context、Prompt、 RAG、 MCP、 SKILLS、Plugin关系.md",
+    "source": "posts/llm-context-prompt-rag-mcp-skills-plugin.md",
     "title": "LLM Context、Prompt、RAG、MCP、Skills、Plugin 关系说明",
     "category": "AI 思考",
     "summary": "从架构分层视角梳理 Context、Prompt、RAG、MCP、Skills、Plugin 六个核心概念的定义、分工与协作关系，含实际执行时序图。",
