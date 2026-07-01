@@ -34,7 +34,7 @@
         radial-gradient(circle at 70% 80%, rgba(216, 171, 104, 0.18), transparent 16%),
         linear-gradient(140deg, #f8f3e8 0%, #efe3ce 50%, #f7f0e5 100%);
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     body::before,
@@ -67,6 +67,10 @@
 
     body.screenshot .shell {
       padding: 0;
+    }
+
+    body.screenshot {
+      overflow: hidden;
     }
 
     body.screenshot .slide {
@@ -592,5 +596,7 @@
     loadAudio();
     audio.play().catch(() => {});
   </script>
+  <div data-site-reward></div>
+  <script src="../../js/site-reward.js"></script>
 </body>
 </html>

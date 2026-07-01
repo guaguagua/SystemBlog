@@ -31,6 +31,7 @@ SystemBlog/
     style.css
   js/
     site-header.js
+    site-reward.js
     main.js
     content-list.js
     markdown-reader.js
@@ -112,6 +113,15 @@ blog/labs/kalman-filter.html
 ```
 
 `data-active` 可选值是 `home`、`blog`、`tools`、`about`。不同目录只需要调整 `site-header.js` 的相对路径；导航结构和链接数据统一维护在 `js/site-header.js`，不要在每个页面手写一份头部。
+
+博客正文尾部统一接入赞赏组件：
+
+```html
+<div data-site-reward></div>
+<script src="../../js/site-reward.js"></script>
+```
+
+赞赏码图片、文案和样式统一维护在 `js/site-reward.js`。Markdown 文章阅读页已经统一接入，新增 HTML lab 时也要放在主体内容后面。
 
 ## 更新文章列表
 
