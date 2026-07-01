@@ -78,20 +78,7 @@
     </style>
 </head>
 <body>
-    <header class="site-header">
-        <nav class="nav-shell" aria-label="主导航">
-            <a class="brand" href="../index.html" aria-label="SystemBlog 首页">
-                <span class="brand-mark">S</span>
-                <span>SystemBlog</span>
-            </a>
-            <div class="nav-links">
-                <a href="../index.html">首页</a>
-                <a href="../blog/">文章</a>
-                <a href="./">工具</a>
-                <a href="../about.html">关于</a>
-            </div>
-        </nav>
-    </header>
+    <div data-site-header data-active="tools"></div>
 
     <main class="tool-main">
         <a class="tool-back" href="./">← 返回工具区</a>
@@ -184,6 +171,7 @@
     </footer>
 
     <script src="../js/main.js"></script>
+    <script src="../js/site-header.js"></script>
     <script>
     (function () {
         const FIELD_COLORS = ["#0f766e", "#c2410c", "#2563eb", "#9333ea", "#0891b2", "#ca8a04", "#be123c", "#15803d"];

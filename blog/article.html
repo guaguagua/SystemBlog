@@ -10,20 +10,7 @@
     <link rel="stylesheet" href="../css/style.css?v=20260622-tables">
 </head>
 <body>
-    <header class="site-header">
-        <nav class="nav-shell" aria-label="主导航">
-            <a class="brand" href="../index.html" aria-label="SystemBlog 首页">
-                <span class="brand-mark">S</span>
-                <span>SystemBlog</span>
-            </a>
-            <div class="nav-links">
-                <a href="../index.html">首页</a>
-                <a href="./" aria-current="page">文章</a>
-                <a href="../tools/">工具</a>
-                <a href="../about.html">关于</a>
-            </div>
-        </nav>
-    </header>
+    <div data-site-header data-active="blog"></div>
 
     <main class="page article-page">
         <div class="article-toolbar">
@@ -39,6 +26,7 @@
         <p>© 2026 SystemBlog. Built for GitHub Pages.</p>
     </footer>
 
+    <script src="../js/site-header.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>

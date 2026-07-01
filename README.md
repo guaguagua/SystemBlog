@@ -30,6 +30,7 @@ SystemBlog/
   css/
     style.css
   js/
+    site-header.js
     main.js
     content-list.js
     markdown-reader.js
@@ -102,6 +103,15 @@ blog-date: 2026-06-21
 ```text
 blog/labs/kalman-filter.html
 ```
+
+如果这个 HTML 是普通阅读/实验页面，推荐在 `<body>` 开头接入统一头部组件：
+
+```html
+<div data-site-header data-active="blog"></div>
+<script src="../../js/site-header.js"></script>
+```
+
+`data-active` 可选值是 `home`、`blog`、`tools`、`about`。不同目录只需要调整 `site-header.js` 的相对路径；导航结构和链接数据统一维护在 `js/site-header.js`，不要在每个页面手写一份头部。
 
 ## 更新文章列表
 

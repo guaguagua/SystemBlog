@@ -49,45 +49,6 @@
       padding: 18px 0 28px;
     }
 
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      border-bottom: 1px solid rgba(216, 222, 233, 0.9);
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-    }
-
-    .site-nav {
-      width: min(1460px, calc(100vw - 28px));
-      margin: 0 auto;
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-      padding: 10px 0;
-    }
-
-    .site-nav a {
-      display: inline-flex;
-      align-items: center;
-      min-height: 34px;
-      padding: 0 12px;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      color: #334155;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
-    }
-
-    .site-nav a:hover,
-    .site-nav a:focus-visible {
-      border-color: rgba(37, 99, 235, 0.22);
-      background: rgba(37, 99, 235, 0.08);
-      color: #1d4ed8;
-      outline: none;
-    }
-
     .page-hero {
       display: grid;
       grid-template-columns: 1fr;
@@ -1288,13 +1249,8 @@
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <nav class="site-nav">
-      <a href="../../index.html">首页</a>
-      <a href="../../about.html">关于</a>
-      <a href="../">博客</a>
-    </nav>
-  </header>
+  <div data-site-header data-active="blog" data-width="1460px"></div>
+  <script src="../../js/site-header.js"></script>
 
   <main>
     <header class="page-hero">
@@ -4079,7 +4035,6 @@ ${ok ? "通过" : "未通过"}</td>` : ""}
   </footer>
 </body>
 </html>
-
 
 
 
