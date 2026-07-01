@@ -67,7 +67,72 @@
       padding: 18px 0 28px;
     }
 
-    header {
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(216, 222, 232, 0.86);
+      background: rgba(246, 248, 251, 0.9);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-shell {
+      width: min(1840px, calc(100vw - 28px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand,
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      color: #fff;
+      background: linear-gradient(135deg, #17202a, var(--track));
+      box-shadow: 0 8px 22px rgba(23, 37, 84, 0.22);
+    }
+
+    .nav-links {
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      min-width: 54px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      color: var(--muted);
+      text-align: center;
+      font-weight: 650;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .demo-header {
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: end;
@@ -554,7 +619,7 @@
     }
 
     @media (max-width: 1180px) {
-      header,
+      .demo-header,
       .layout {
         grid-template-columns: 1fr;
       }
@@ -598,8 +663,23 @@
   </style>
 </head>
 <body>
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="主导航">
+      <a class="brand" href="../../index.html" aria-label="SystemBlog 首页">
+        <span class="brand-mark">S</span>
+        <span>SystemBlog</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">首页</a>
+        <a href="../index.html" aria-current="page">文章</a>
+        <a href="../../tools/">工具</a>
+        <a href="../../about.html">关于</a>
+      </div>
+    </nav>
+  </header>
+
   <main>
-    <header>
+    <header class="demo-header">
       <div>
         <h1>卡尔曼滤波过程可视化</h1>
         <p class="subhead">模型跟踪一个运动目标：状态是位置和速度。默认传感器只测位置，也可以打开速度传感器，看测量矩阵如何从一行变成两行。</p>
