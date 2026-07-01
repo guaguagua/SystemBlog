@@ -30,7 +30,7 @@
 }
 
 .nav-shell {
-    width: min(var(--site-header-width, 1120px), calc(100% - 32px));
+    width: min(1120px, calc(100% - 32px));
     min-height: 68px;
     margin: 0 auto;
     display: flex;
@@ -47,7 +47,7 @@
 
 .brand {
     gap: 10px;
-    color: var(--ink, var(--text, #17202a));
+    color: #172554;
     font-weight: 800;
     text-decoration: none;
 }
@@ -59,7 +59,7 @@
     place-items: center;
     border-radius: 8px;
     color: #fff;
-    background: linear-gradient(135deg, var(--ink, #17202a), var(--accent, #2563eb));
+    background: linear-gradient(135deg, #172554, #0f766e);
     box-shadow: 0 8px 22px rgba(23, 37, 84, 0.22);
 }
 
@@ -81,7 +81,7 @@
 
 .nav-links a:hover,
 .nav-links a[aria-current="page"] {
-    color: var(--text, var(--ink, #17202a));
+    color: #172554;
     background: rgba(255, 255, 255, 0.72);
 }
 
@@ -108,15 +108,13 @@
 
     function renderHeader(target) {
         const active = target.dataset.active || "";
-        const width = target.dataset.width || "";
-        const widthStyle = width ? ` style="--site-header-width: ${width}"` : "";
         const links = navItems.map((item) => {
             const current = item.key === active ? ' aria-current="page"' : "";
             return `<a href="${withRoot(item.href)}"${current}>${item.label}</a>`;
         }).join("");
 
         target.outerHTML = `
-<header class="site-header"${widthStyle}>
+<header class="site-header">
     <nav class="nav-shell" aria-label="主导航">
         <a class="brand" href="${withRoot("index.html")}" aria-label="SystemBlog 首页">
             <span class="brand-mark">S</span>
