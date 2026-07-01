@@ -1,5 +1,16 @@
 [
   {
+    "type": "lab",
+    "slug": "kalman-filter-demo",
+    "source": "labs/kalman-filter-demo.html",
+    "url": "labs/kalman-filter-demo.html",
+    "title": "Kalman 滤波过程可视化",
+    "category": "信号处理",
+    "summary": "用动画和矩阵推导展示 Kalman 滤波的预测、测量、残差、增益和更新过程。",
+    "date": "2026-07-01",
+    "draft": false
+  },
+  {
     "type": "post",
     "slug": "llm-context-prompt-rag-mcp-skills-plugin",
     "source": "posts/llm-context-prompt-rag-mcp-skills-plugin.md",
