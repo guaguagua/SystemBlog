@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "child-english",
+    "source": "labs/child_english.html",
+    "url": "labs/child_english.html",
+    "title": "幼儿趣味启蒙乐园",
+    "category": "儿童教育",
+    "summary": "点触式儿童英语启蒙小应用，涵盖字母、数字、星期、月份、水果蔬菜、家具和我的世界方块，配语音朗读与撒花特效。",
+    "date": "2026-07-04",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "kalman-filter-demo",
     "source": "labs/kalman-filter-demo.html",
     "url": "labs/kalman-filter-demo.html",

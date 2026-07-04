@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>儿童趣味多功能启蒙App</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --color-1: #FF6B6B; 
+            --color-2: #4ECDC4; 
+            --color-3: #FCA311; 
+            --color-4: #4D96FF; 
+            --color-5: #9D4EDD; 
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(160deg, #FFF6E5 0%, #F0F4F8 60%, #E9F5FF 100%);
+            text-align: center;
+            margin: 0;
+            padding: 15px;
+            min-height: 100vh;
+            touch-action: manipulation; 
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2rem;
+            margin: 10px 0 5px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 分类导航栏样式 */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            max-width: 760px;
+            margin: 15px auto 20px auto;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
+            transition: all 0.1s;
+            color: #555;
+        }
+
+        .tab-btn.active {
+            color: white;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+        }
+        /* 给不同的Tab亮起不同的主题色 */
+        .tab-btn:nth-child(1).active { background-color: var(--color-1); }
+        .tab-btn:nth-child(2).active { background-color: var(--color-2); }
+        .tab-btn:nth-child(3).active { background-color: var(--color-3); }
+        .tab-btn:nth-child(4).active { background-color: var(--color-5); }
+        .tab-btn:nth-child(5).active { background-color: var(--color-4); }
+        .tab-btn:nth-child(6).active { background-color: #06D6A0; }
+        .tab-btn:nth-child(7).active { background-color: #7CB342; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+            min-height: 400px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.05);
+            padding: 18px 5px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.1s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid transparent; 
+            box-sizing: border-box;
+        }
+
+        .card:active {
+            transform: translateY(6px) !important;
+            box-shadow: 0 0 0 rgba(0,0,0,0.05) !important;
+        }
+
+        .card.active {
+            border-color: #FFD166;
+            box-shadow: 0 0 0 4px rgba(255, 209, 102, 0.4), 0 6px 0 rgba(0,0,0,0.05);
+            transform: translateY(-4px);
+        }
+
+        .card.pop {
+            animation: popAnimation 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* 字母/数字等主文本样式 */
+        .letter {
+            font-size: 3.2rem;
+            font-weight: bold;
+            line-height: 1.1;
+            word-break: break-word;
+        }
+
+        /* 当文本较长时（如星期、月份单词），自动缩小字号防止溢出 */
+        .card.long-text .letter {
+            font-size: 1.3rem;
+            margin-bottom: 2px;
+        }
+
+        /* 中文小标签 */
+        .zh {
+            font-size: 0.95rem;
+            color: #999;
+            margin-top: 4px;
+            font-weight: bold;
+        }
+
+        .emoji {
+            font-size: 2.4rem;
+            margin-top: 6px;
+            display: inline-block; 
+        }
+        /* 当主文本是图形本身（字母/数字）时，emoji 更大更突出 */
+        .card.icon-big .emoji { font-size: 3rem; }
+
+        /* 专属图标动画 */
+        .animate-shake .emoji { animation: shakeAnim 0.5s ease-in-out; }
+        @keyframes shakeAnim {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-20deg) scale(1.15); }
+            75% { transform: rotate(20deg) scale(1.15); }
+        }
+
+        .animate-jump .emoji { animation: jumpAnim 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes jumpAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px) scale(1.1); }
+        }
+
+        .animate-launch .emoji { animation: launchAnim 0.8s ease-in-out; }
+        @keyframes launchAnim {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            40% { transform: translateY(-35px) scale(1.15); opacity: 0; }
+            50% { transform: translateY(15px) scale(0.5); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        /* 卡片循环边框及文本上色 */
+        .card:nth-child(5n+1) .letter { color: var(--color-1); }
+        .card:nth-child(5n+1) { border-bottom: 5px solid var(--color-1); }
+        .card:nth-child(5n+2) .letter { color: var(--color-2); }
+        .card:nth-child(5n+2) { border-bottom: 5px solid var(--color-2); }
+        .card:nth-child(5n+3) .letter { color: var(--color-3); }
+        .card:nth-child(5n+3) { border-bottom: 5px solid var(--color-3); }
+        .card:nth-child(5n+4) .letter { color: var(--color-4); }
+        .card:nth-child(5n+4) { border-bottom: 5px solid var(--color-4); }
+        .card:nth-child(5n+5) .letter { color: var(--color-5); }
+        .card:nth-child(5n+5) { border-bottom: 5px solid var(--color-5); }
+
+        .tip {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin: 5px 0 15px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎶 幼儿趣味启蒙乐园 🎶</h1>
+    <p class="tip">👆 点一点认一认 · 敲空格自动往下念</p>
+    
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchCategory('alphabet')">🔤 字母 A-Z</button>
+        <button class="tab-btn" onclick="switchCategory('numbers')">🔢 数字 1-10</button>
+        <button class="tab-btn" onclick="switchCategory('days')">📅 星期几</button>
+        <button class="tab-btn" onclick="switchCategory('months')">🌸 十二月份</button>
+        <button class="tab-btn" onclick="switchCategory('food')">🍎 水果蔬菜</button>
+        <button class="tab-btn" onclick="switchCategory('furniture')">🛋️ 家具</button>
+        <button class="tab-btn" onclick="switchCategory('minecraft')">⛏️ 我的世界</button>
+    </div>
+    
+    <div class="grid" id="app"></div>
+
+    <script>
+        // 所有的认知数据集合
+        // l: 主文本(朗读内容)  e: 表情图标  anim: 图标动画  zh: 中文  say: 自定义发音(可选)
+        const appDataset = {
+            alphabet: [
+                { l: 'A', e: '🍎', anim: 'shake' }, { l: 'B', e: '🐻', anim: 'jump' }, { l: 'C', e: '🐱', anim: 'jump' },
+                { l: 'D', e: '🐶', anim: 'jump' }, { l: 'E', e: '🐘', anim: 'jump' }, { l: 'F', e: '🐸', anim: 'jump' },
+                { l: 'G', e: '🦒', anim: 'jump' }, { l: 'H', e: '🚁', anim: 'launch'}, { l: 'I', e: '🍦', anim: 'shake' },
+                { l: 'J', e: '🧃', anim: 'shake' }, { l: 'K', e: '🦘', anim: 'jump' }, { l: 'L', e: '🦁', anim: 'jump' },
+                { l: 'M', e: '🐵', anim: 'jump' }, { l: 'N', e: '🍜', anim: 'shake' }, { l: 'O', e: '🐙', anim: 'jump' },
+                { l: 'P', e: '🐧', anim: 'jump' }, { l: 'Q', e: '👑', anim: 'shake' }, { l: 'R', e: '🚀', anim: 'launch'},
+                { l: 'S', e: '⭐', anim: 'shake' }, { l: 'T', e: '🐯', anim: 'jump' }, { l: 'U', e: '☂️', anim: 'shake' },
+                { l: 'V', e: '🌋', anim: 'shake' }, { l: 'W', e: '🍉', anim: 'shake' }, { l: 'X', e: '✖️', anim: 'shake' },
+                { l: 'Y', e: '🛥️', anim: 'shake' }, { l: 'Z', e: '🦓', anim: 'jump' }
+            ],
+            numbers: [
+                { l: '1', e: '🎈', anim: 'launch', zh: '一', say: 'one' }, { l: '2', e: '🦆', anim: 'jump', zh: '二', say: 'two' },
+                { l: '3', e: '🦋', anim: 'jump', zh: '三', say: 'three' }, { l: '4', e: '🍀', anim: 'shake', zh: '四', say: 'four' },
+                { l: '5', e: '⭐', anim: 'shake', zh: '五', say: 'five' }, { l: '6', e: '🚗', anim: 'shake', zh: '六', say: 'six' },
+                { l: '7', e: '🌈', anim: 'launch', zh: '七', say: 'seven' }, { l: '8', e: '🐙', anim: 'jump', zh: '八', say: 'eight' },
+                { l: '9', e: '🍦', anim: 'shake', zh: '九', say: 'nine' }, { l: '10', e: '🎁', anim: 'jump', zh: '十', say: 'ten' }
+            ],
+            days: [
+                { l: 'Monday', e: '🏫', anim: 'jump', zh: '星期一' }, { l: 'Tuesday', e: '🎨', anim: 'shake', zh: '星期二' },
+                { l: 'Wednesday', e: '⚽', anim: 'jump', zh: '星期三' }, { l: 'Thursday', e: '🎹', anim: 'shake', zh: '星期四' },
+                { l: 'Friday', e: '🍿', anim: 'launch', zh: '星期五' }, { l: 'Saturday', e: '🧸', anim: 'jump', zh: '星期六' },
+                { l: 'Sunday', e: '🎪', anim: 'jump', zh: '星期日' }
+            ],
+            months: [
+                { l: 'January', e: '❄️', anim: 'shake', zh: '一月' }, { l: 'February', e: '💖', anim: 'shake', zh: '二月' },
+                { l: 'March', e: '🌱', anim: 'jump', zh: '三月' }, { l: 'April', e: '🌸', anim: 'shake', zh: '四月' },
+                { l: 'May', e: '🐝', anim: 'jump', zh: '五月' }, { l: 'June', e: '🍉', anim: 'shake', zh: '六月' },
+                { l: 'July', e: '🏖️', anim: 'launch', zh: '七月' }, { l: 'August', e: '☀️', anim: 'shake', zh: '八月' },
+                { l: 'September', e: '🎒', anim: 'jump', zh: '九月' }, { l: 'October', e: '🎃', anim: 'shake', zh: '十月' },
+                { l: 'November', e: '🍂', anim: 'shake', zh: '十一月' }, { l: 'December', e: '🎄', anim: 'launch', zh: '十二月' }
+            ],
+            food: [
+                { l: 'Apple', e: '🍎', anim: 'jump', zh: '苹果' }, { l: 'Banana', e: '🍌', anim: 'shake', zh: '香蕉' },
+                { l: 'Grape', e: '🍇', anim: 'jump', zh: '葡萄' }, { l: 'Watermelon', e: '🍉', anim: 'shake', zh: '西瓜' },
+                { l: 'Strawberry', e: '🍓', anim: 'jump', zh: '草莓' }, { l: 'Orange', e: '🍊', anim: 'shake', zh: '橙子' },
+                { l: 'Peach', e: '🍑', anim: 'jump', zh: '桃子' }, { l: 'Pineapple', e: '🍍', anim: 'shake', zh: '菠萝' },
+                { l: 'Carrot', e: '🥕', anim: 'shake', zh: '胡萝卜' }, { l: 'Tomato', e: '🍅', anim: 'jump', zh: '番茄' },
+                { l: 'Broccoli', e: '🥦', anim: 'jump', zh: '西兰花' }, { l: 'Corn', e: '🌽', anim: 'shake', zh: '玉米' },
+                { l: 'Potato', e: '🥔', anim: 'jump', zh: '土豆' }, { l: 'Eggplant', e: '🍆', anim: 'shake', zh: '茄子' },
+                { l: 'Cucumber', e: '🥒', anim: 'shake', zh: '黄瓜' }, { l: 'Mushroom', e: '🍄', anim: 'jump', zh: '蘑菇' }
+            ],
+            furniture: [
+                { l: 'Bed', e: '🛏️', anim: 'jump', zh: '床' }, { l: 'Chair', e: '🪑', anim: 'shake', zh: '椅子' },
+                { l: 'Sofa', e: '🛋️', anim: 'jump', zh: '沙发' }, { l: 'Door', e: '🚪', anim: 'shake', zh: '门' },
+                { l: 'Window', e: '🪟', anim: 'shake', zh: '窗户' }, { l: 'Clock', e: '🕰️', anim: 'shake', zh: '时钟' },
+                { l: 'Lamp', e: '💡', anim: 'launch', zh: '台灯' }, { l: 'TV', e: '📺', anim: 'shake', zh: '电视', say: 'television' },
+                { l: 'Mirror', e: '🪞', anim: 'shake', zh: '镜子' }, { l: 'Toilet', e: '🚽', anim: 'jump', zh: '马桶' },
+                { l: 'Bathtub', e: '🛁', anim: 'shake', zh: '浴缸' }, { l: 'Cabinet', e: '🗄️', anim: 'jump', zh: '柜子' }
+            ],
+            minecraft: [
+                { l: 'Grass Block', e: '🟩', anim: 'shake', zh: '草方块' }, { l: 'Dirt', e: '🟫', anim: 'shake', zh: '泥土' },
+                { l: 'Stone', e: '🪨', anim: 'shake', zh: '石头' }, { l: 'Oak Planks', e: '🪵', anim: 'shake', zh: '橡木木板' },
+                { l: 'Bricks', e: '🧱', anim: 'shake', zh: '红砖块' }, { l: 'Diamond Block', e: '💎', anim: 'shake', zh: '钻石块' },
+                { l: 'Gold Block', e: '🪙', anim: 'shake', zh: '金块' }, { l: 'Iron Block', e: '🔩', anim: 'shake', zh: '铁块' },
+                { l: 'Glass', e: '🪟', anim: 'shake', zh: '玻璃' }, { l: 'Obsidian', e: '⬛', anim: 'shake', zh: '黑曜石' },
+                { l: 'TNT', e: '🧨', anim: 'launch', zh: 'TNT' }, { l: 'Water', e: '💧', anim: 'shake', zh: '水' },
+                { l: 'Lava', e: '🌋', anim: 'launch', zh: '熔岩' }, { l: 'Ice', e: '🧊', anim: 'shake', zh: '冰' },
+                { l: 'Snow Block', e: '❄️', anim: 'shake', zh: '雪块' }, { l: 'Bookshelf', e: '📚', anim: 'jump', zh: '书架' },
+                { l: 'Crafting Table', e: '🛠️', anim: 'jump', zh: '工作台' }, { l: 'Furnace', e: '🔥', anim: 'launch', zh: '熔炉' },
+                { l: 'Chest', e: '📦', anim: 'jump', zh: '箱子' }, { l: 'Torch', e: '🕯️', anim: 'shake', zh: '火把' }
+            ]
+        };
+
+        const appContainer = document.getElementById('app');
+        const synth = window.speechSynthesis;
+        
+        let currentCategory = 'alphabet'; // 当前所选分类
+        let currentIndex = 0;              // 当前播放的索引
+        let cardElements = [];             // 存放当前分类所有DOM卡片
+
+        const themeColors = ['#FF6B6B', '#4ECDC4', '#FCA311', '#4D96FF', '#9D4EDD'];
+
+        // ✨ 完美的5种盲盒爆炸特效生成器 ✨
+        function fireExplosion(cardElement, index) {
+            const rect = cardElement.getBoundingClientRect();
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
+
+            const effectType = index % 5; 
+
+            switch (effectType) {
+                case 0: // 特效 1：金色流星
+                    confetti({
+                        particleCount: 40, spread: 80, origin: { x, y },
+                        shapes: ['star'], colors: ['#FFE400', '#FFBD00', '#FFCA28'],
+                        gravity: 1.2, scalar: 1.2
+                    });
+                    break;
+                case 1: // 特效 2：向上喷泉
+                    confetti({
+                        particleCount: 60, spread: 30, origin: { x, y: y + 0.05 },
+                        startVelocity: 45, colors: themeColors, gravity: 1.5
+                    });
+                    break;
+                case 2: // 特效 3：全屏烟花
+                    confetti({
+                        particleCount: 90, spread: 360, origin: { x, y },
+                        startVelocity: 25, colors: themeColors, scalar: 0.8
+                    });
+                    break;
+                case 3: // 特效 4：双侧交叉礼炮
+                    confetti({
+                        particleCount: 30, angle: 60, spread: 40,
+                        origin: { x: Math.max(0, x - 0.08), y }, colors: ['#FF6B6B', '#4ECDC4']
+                    });
+                    confetti({
+                        particleCount: 30, angle: 120, spread: 40,
+                        origin: { x: Math.min(1, x + 0.08), y }, colors: ['#FCA311', '#9D4EDD']
+                    });
+                    break;
+                case 4: // 特效 5：Q弹大方块
+                    confetti({
+                        particleCount: 35, spread: 70, origin: { x, y },
+                        shapes: ['square'], colors: themeColors,
+                        gravity: 1.8, scalar: 1.4, startVelocity: 35
+                    });
+                    break;
+            }
+        }
+
+        // 核心播放控制中心
+        function playCard(index) {
+            const currentList = appDataset[currentCategory];
+            if (!currentList || !currentList[index]) return;
+
+            const item = currentList[index];
+            const card = cardElements[index];
+
+            // 1. 卡片边框亮起状态切换
+            cardElements.forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+
+            // 2. 触发 CSS 摇摆/跳跃/飞出 动画
+            card.classList.remove('pop', 'animate-shake', 'animate-jump', 'animate-launch');
+            void card.offsetWidth; 
+            card.classList.add('pop', `animate-${item.anim}`);
+
+            // 3. 爆炸吧！绚丽粒子
+            fireExplosion(card, index);
+
+            // 4. 标准纯正英文发音朗读（say 优先，否则读主文本）
+            if (synth.speaking) { synth.cancel(); }
+            const utterThis = new SpeechSynthesisUtterance(item.say || item.l);
+            utterThis.lang = 'en-US'; 
+            utterThis.rate = 0.8;  // 慢速发音，更清晰
+            utterThis.pitch = 1.25; // 略微高音调，更具有亲和力
+            synth.speak(utterThis);
+        }
+
+        // 切换不同品类的函数
+        function switchCategory(categoryName) {
+            currentCategory = categoryName;
+            currentIndex = 0; // 切换分类时重置播放进度
+            
+            // 切换顶部Tab按钮的高亮状态
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => {
+                if(btn.getAttribute('onclick').includes(categoryName)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // 渲染新网格
+            renderGrid();
+        }
+
+        // 动态绘制网格视图
+        function renderGrid() {
+            appContainer.innerHTML = ''; // 清空上一组卡片
+            cardElements = [];           // 清除DOM缓存
+            
+            const currentList = appDataset[currentCategory];
+            // 字母/数字：主文本就是符号本身，图标放大突出
+            const iconBig = (currentCategory === 'alphabet' || currentCategory === 'numbers');
+
+            currentList.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                if (iconBig) card.classList.add('icon-big');
+                
+                // 判断文本长度，如果是长单词，加入缩放适配类
+                if (item.l.length > 2) {
+                    card.classList.add('long-text');
+                }
+
+                const zhHtml = item.zh ? `<div class="zh">${item.zh}</div>` : '';
+                card.innerHTML = `
+                    <div class="letter">${item.l}</div>
+                    <div class="emoji">${item.e}</div>
+                    ${zhHtml}
+                `;
+                
+                // 绑定手指触摸/鼠标点击事件
+                card.addEventListener('click', () => {
+                    currentIndex = index; // 点击哪个，空格键接下来就从哪个往后顺
+                    playCard(index);
+                });
+
+                cardElements.push(card);
+                appContainer.appendChild(card);
+            });
+        }
+
+        // 监听全局键盘事件 (敲击空格自动播放下一张)
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space') {
+                event.preventDefault(); // 阻止页面默认下拉行为
+                
+                const currentList = appDataset[currentCategory];
+                playCard(currentIndex);
+                
+                // 指向下一个位置，到头了自动循环回第一个
+                currentIndex = (currentIndex + 1) % currentList.length;
+            }
+        });
+
+        // 首次打开应用默认加载字母
+        renderGrid();
+    </script>
+</body>
+</html>
