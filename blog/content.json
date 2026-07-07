@@ -1,17 +1,6 @@
 [
   {
     "type": "lab",
-    "slug": "child-english",
-    "source": "labs/child_english.html",
-    "url": "labs/child_english.html",
-    "title": "幼儿趣味启蒙乐园",
-    "category": "儿童教育",
-    "summary": "点触式儿童英语启蒙小应用，涵盖字母、数字、星期、月份、水果蔬菜、家具和我的世界方块，配语音朗读与撒花特效。",
-    "date": "2026-07-04",
-    "draft": false
-  },
-  {
-    "type": "lab",
     "slug": "kalman-filter-demo",
     "source": "labs/kalman-filter-demo.html",
     "url": "labs/kalman-filter-demo.html",
@@ -19,26 +8,6 @@
     "category": "信号处理",
     "summary": "用动画和矩阵推导展示 Kalman 滤波的预测、测量、残差、增益和更新过程。",
     "date": "2026-07-01",
-    "draft": false
-  },
-  {
-    "type": "post",
-    "slug": "llm-context-prompt-rag-mcp-skills-plugin",
-    "source": "posts/llm-context-prompt-rag-mcp-skills-plugin.md",
-    "title": "LLM Context、Prompt、RAG、MCP、Skills、Plugin 关系说明",
-    "category": "AI 思考",
-    "summary": "从架构分层视角梳理 Context、Prompt、RAG、MCP、Skills、Plugin 六个核心概念的定义、分工与协作关系，含实际执行时序图。",
-    "date": "2026-06-28",
-    "draft": false
-  },
-  {
-    "type": "post",
-    "slug": "from-information-to-intelligence",
-    "source": "posts/from-information-to-intelligence.md",
-    "title": "从信息到智能：概率、信息论与智慧的涌现",
-    "category": "AI 思考",
-    "summary": "从似然、贝叶斯、交叉熵和信息差出发，讨论 LLM、Agent、skill 与环境交互中智慧涌现的可能机制。",
-    "date": "2026-06-27",
     "draft": false
   },
   {
@@ -64,7 +33,16 @@
     "draft": false
   },
   {
-
+    "type": "post",
+    "slug": "from-information-to-intelligence",
+    "source": "posts/from-information-to-intelligence.md",
+    "title": "从信息到智能：概率、信息论与智慧的涌现",
+    "category": "AI 思考",
+    "summary": "从似然、贝叶斯、交叉熵和信息差出发，讨论 LLM、Agent、skill 与环境交互中智慧涌现的可能机制。",
+    "date": "2026-06-27",
+    "draft": false
+  },
+  {
     "type": "lab",
     "slug": "fayu-engineering-ppt",
     "source": "labs/fayu-engineering-ppt.html",
@@ -77,6 +55,17 @@
   },
   {
     "type": "lab",
+    "slug": "child_english",
+    "source": "labs/child_english.html",
+    "url": "labs/child_english.html",
+    "title": "儿童趣味多功能启蒙App",
+    "category": "labs",
+    "summary": "👆 点一点认一认 · 敲空格自动往下念",
+    "date": "",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "ldpc-decoder-demo-tabs",
     "source": "labs/ldpc-decoder-demo-tabs.html",
     "url": "labs/ldpc-decoder-demo-tabs.html",
@@ -84,6 +73,26 @@
     "category": "编码理论",
     "summary": "用可交互标签页展示 LDPC belief propagation 的校验矩阵、消息传递、后验概率和迭代收敛过程。",
     "date": "2026-06-21",
+    "draft": false
+  },
+  {
+    "type": "post",
+    "slug": "ai-client-dispatch-center",
+    "source": "posts/ai-client-dispatch-center.md",
+    "title": "AI Client：User、LLM server 与 MCP server 之间的调度中心",
+    "category": "posts",
+    "summary": "Client（客户端/宿主程序）在这个架构中，扮演“枢纽”或“调度中心”的角色。",
+    "date": "",
+    "draft": false
+  },
+  {
+    "type": "post",
+    "slug": "mcp-manual-debugging-and-demo",
+    "source": "posts/mcp-manual-debugging-and-demo.md",
+    "title": "MCP 手动调试与自建服务端/客户端实战",
+    "category": "AI 工具链",
+    "summary": "从 JSON-RPC 通信原理出发，手动用命令行调试 server-everything 与 mcp-server-time，再到用 Python 自己写一个包含 tools/resources/prompts 的 MCP 服务端与客户端。",
+    "date": "2026-07-07",
     "draft": false
   },
   {
@@ -104,6 +113,16 @@
     "category": "前端工具",
     "summary": "用表格总结 Markdown 渲染、公式、图表、电路、3D、Vue、表格、CSV 和 Excel 等适合静态博客使用且许可边界清晰的前端库。",
     "date": "2026-06-21",
+    "draft": false
+  },
+  {
+    "type": "post",
+    "slug": "llm-context-prompt-rag-mcp-skills-plugin",
+    "source": "posts/llm-context-prompt-rag-mcp-skills-plugin.md",
+    "title": "LLM Context、Prompt、RAG、MCP、Skills、Plugin 关系说明",
+    "category": "posts",
+    "summary": "## 术语表",
+    "date": "",
     "draft": false
   }
 ]
