@@ -1,3 +1,10 @@
+---
+title: AI Client：User、LLM server 与 MCP server 之间的调度中心
+category: posts
+summary: Client（客户端/宿主程序）在这个架构中，扮演"枢纽"或"调度中心"的角色。
+date: 2026-06-29
+---
+
 # AI Client：User、LLM server 与 MCP server 之间的调度中心
 
 Client（客户端/宿主程序）在这个架构中，扮演“枢纽”或“调度中心”的角色。
