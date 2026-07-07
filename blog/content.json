@@ -1,6 +1,16 @@
 [
   {
     "type": "post",
+    "slug": "ai-era-organizational-restructuring",
+    "source": "posts/ai-era-organizational-restructuring.md",
+    "title": "AI时代的组织重构与转型",
+    "category": "AI 思考",
+    "summary": "从组织为何出现讲起，分析 AI 如何重写组织的分工逻辑，以及流程、协作、岗位与管理方式的重构路径。",
+    "date": "2026-07-08",
+    "draft": false
+  },
+  {
+    "type": "post",
     "slug": "mcp-manual-debugging-and-demo",
     "source": "posts/mcp-manual-debugging-and-demo.md",
     "title": "MCP 手动调试与自建服务端/客户端实战",
