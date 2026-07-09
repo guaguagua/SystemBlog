@@ -1,12 +1,12 @@
 (function () {
     const currentScript = document.currentScript;
     const scriptSrc = currentScript?.getAttribute("src") || "";
-    const root = currentScript?.dataset.root || scriptSrc.replace(/js\/site-header\.js(?:[?#].*)?$/, "");
+    const root = currentScript?.dataset.root || scriptSrc.replace(/common\/js\/site-header\.js(?:[?#].*)?$/, "");
 
     const navItems = [
         { key: "home", label: "首页", href: "index.html" },
         { key: "blog", label: "文章", href: "blog/" },
-        { key: "tools", label: "工具", href: "tools/" },
+        { key: "tools", label: "工具", href: "common/tools/" },
         { key: "about", label: "关于", href: "about.html" }
     ];
 

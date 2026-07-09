@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const rootDir = path.resolve(__dirname, "..");
+const rootDir = path.resolve(__dirname, "..", "..");
 const blogDir = path.join(rootDir, "blog");
 const labsDir = path.join(blogDir, "labs");
 const postsDir = path.join(blogDir, "posts");

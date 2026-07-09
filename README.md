@@ -27,16 +27,21 @@ SystemBlog/
       site-structure.md
     assets/
       wechat-reward-code.png
-  css/
-    style.css
-  js/
-    site-header.js
-    site-reward.js
-    main.js
-    content-list.js
-    markdown-reader.js
-  scripts/
-    generate-content.js
+  common/
+    css/
+      style.css
+    js/
+      site-header.js
+      site-reward.js
+      main.js
+      content-list.js
+      markdown-reader.js
+    images/
+    scripts/
+      generate-content.js
+    tools/
+      index.html
+    videos/
 ```
 
 ## 新增 Markdown 文章
@@ -109,26 +114,26 @@ blog/labs/kalman-filter.html
 
 ```html
 <div data-site-header data-active="blog"></div>
-<script src="../../js/site-header.js"></script>
+<script src="../../common/js/site-header.js"></script>
 ```
 
-`data-active` 可选值是 `home`、`blog`、`tools`、`about`。不同目录只需要调整 `site-header.js` 的相对路径；导航结构和链接数据统一维护在 `js/site-header.js`，不要在每个页面手写一份头部。
+`data-active` 可选值是 `home`、`blog`、`tools`、`about`。不同目录只需要调整 `site-header.js` 的相对路径；导航结构和链接数据统一维护在 `common/js/site-header.js`，不要在每个页面手写一份头部。
 
 博客正文尾部统一接入赞赏组件：
 
 ```html
 <div data-site-reward></div>
-<script src="../../js/site-reward.js"></script>
+<script src="../../common/js/site-reward.js"></script>
 ```
 
-赞赏码图片、文案和样式统一维护在 `js/site-reward.js`。Markdown 文章阅读页已经统一接入，新增 HTML lab 时也要放在主体内容后面。
+赞赏码图片、文案和样式统一维护在 `common/js/site-reward.js`。Markdown 文章阅读页已经统一接入，新增 HTML lab 时也要放在主体内容后面。
 
 ## 更新文章列表
 
 新增或删除 `blog/labs/`、`blog/posts/` 下的文件后，运行生成脚本：
 
 ```powershell
-node scripts\generate-content.js
+node common\scripts\generate-content.js
 ```
 
 脚本会扫描：
@@ -153,7 +158,7 @@ blog/content.json
 运行脚本只需要 Node.js，不需要安装额外依赖：
 
 ```powershell
-node scripts\generate-content.js
+node common\scripts\generate-content.js
 ```
 
 这个脚本只用到了 Node.js 自带的 `fs` 和 `path` 模块，所以没有 `package.json`、没有 `npm install`，也不会引入复杂构建流程。
@@ -193,7 +198,7 @@ GitHub Pages 会从仓库里的静态文件发布网站。
 ## 日常写作流程
 
 1. 把 Markdown 放进 `blog/posts/`，或把交互 HTML 放进 `blog/labs/`。
-2. 运行 `node scripts\generate-content.js`。
+2. 运行 `node common\scripts\generate-content.js`。
 3. 本地预览确认页面正常。
 4. `git add . && git commit && git push`。
 

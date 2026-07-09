@@ -1,7 +1,7 @@
 (function () {
     const currentScript = document.currentScript;
     const scriptSrc = currentScript?.getAttribute("src") || "";
-    const root = currentScript?.dataset.root || scriptSrc.replace(/js\/site-reward\.js(?:[?#].*)?$/, "");
+    const root = currentScript?.dataset.root || scriptSrc.replace(/common\/js\/site-reward\.js(?:[?#].*)?$/, "");
 
     function withRoot(path) {
         return `${root}${path}`;
@@ -69,7 +69,7 @@
 <section class="site-reward" id="site-reward" aria-label="赞赏支持">
     <p class="reward-eyebrow">Reward</p>
     <p class="reward-title">赞赏支持</p>
-    <img class="reward-code" src="${withRoot("images/wechat-reward-code3.png")}" alt="微信赞赏码">
+    <img class="reward-code" src="${withRoot("common/images/wechat-reward-code3.png")}" alt="微信赞赏码">
     <p class="reward-caption">微信扫码赞赏</p>
     <p class="reward-note">觉得有帮助的话，请我喝杯咖啡 ☕</p>
 </section>`;
