@@ -239,12 +239,12 @@
     function render() {
       const slide = slides[index];
       const bullets = slide.bullets.map((item) => `<li>${item}</li>`).join('');
-      const quote = slide.quote || '把抽象问题压成可以被视觉承载的结构。';
-      const legend = slide.legend || '从脚本到视觉，从旁白到镜头。';
+      const quote = slide.quote || '系统真正缺的，不是更多能力，而是持续存在的目标结构。';
+      const legend = slide.legend || '观看角度：从被动执行器，转向持续追问下一个目标的系统。';
       root.innerHTML = `
         <header class="header">
           <div>
-            <div class="kicker">WeChat Video Essay</div>
+            <div class="kicker">AI Agent · Goal Stack Revolution</div>
             <h1>${slide.title}</h1>
             ${slide.subtitle ? `<div class="subtitle">${slide.subtitle}</div>` : ''}
           </div>
@@ -268,8 +268,7 @@
           </div>
         </section>
         <footer class="footer">
-          <div>Generic PPT Video Builder</div>
-          <div>Topic Agnostic</div>
+          <div>AIHome · AI Agent Goal Stack Revolution</div>
         </footer>
       `;
       params.set('slide', String(index + 1));
