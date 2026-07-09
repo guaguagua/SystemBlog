@@ -1,5 +1,16 @@
 [
   {
+    "type": "lab",
+    "slug": "ai-agent-goal-stack-revolution-ppt",
+    "source": "labs/ai-agent-goal-stack-revolution-ppt.html",
+    "url": "labs/ai-agent-goal-stack-revolution-ppt.html",
+    "title": "为什么现在很多 AI agent 还是\"不活\"",
+    "category": "PPT",
+    "summary": "从 Goal Stack 到 AI 的内驱力：把空目标栈当成系统必须面对的\"0\"，重新审视 SOAR、Lisp 与 LLM 混合路径如何让 agent 从任务响应器变成目标系统。含逐页配音朗读与自动翻页。",
+    "date": "2026-07-09",
+    "draft": false
+  },
+  {
     "type": "post",
     "slug": "ai-era-organizational-restructuring",
     "source": "posts/ai-era-organizational-restructuring.md",

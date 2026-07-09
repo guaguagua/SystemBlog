@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>为什么现在很多 AI agent 还是“不活”</title>
+  <style>
+    :root {
+      --bg: #f5efe2;
+      --panel: rgba(255, 250, 240, 0.88);
+      --accent: #b5441d;
+      --accent-2: #244b5a;
+      --ink: #1c1b19;
+      --muted: #5c564e;
+      --line: rgba(28, 27, 25, 0.12);
+      --shadow: 0 24px 60px rgba(40, 23, 8, 0.16);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 22%, rgba(181, 68, 29, 0.22), transparent 20%),
+        radial-gradient(circle at 82% 14%, rgba(36, 75, 90, 0.18), transparent 18%),
+        radial-gradient(circle at 70% 80%, rgba(216, 171, 104, 0.18), transparent 16%),
+        linear-gradient(140deg, #f8f3e8 0%, #efe3ce 50%, #f7f0e5 100%);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .shell {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 28px;
+    }
+
+    body.screenshot .shell { padding: 0; }
+    body.screenshot .slide { box-shadow: none; }
+
+    .slide {
+      position: relative;
+      width: 1600px;
+      height: 900px;
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .header {
+      position: absolute;
+      inset: 0 0 auto 0;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      padding: 64px 72px 0;
+      gap: 24px;
+    }
+
+    .kicker {
+      font-size: 18px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 58px;
+      line-height: 1.08;
+      font-weight: 700;
+      max-width: 900px;
+    }
+
+    .subtitle {
+      margin-top: 14px;
+      font-size: 24px;
+      line-height: 1.45;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .page-box {
+      justify-self: end;
+      align-self: start;
+      width: 178px;
+      height: 178px;
+      border-radius: 50%;
+      background: linear-gradient(160deg, rgba(36, 75, 90, 0.92), rgba(24, 47, 55, 0.92));
+      color: #f7f2e8;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 20px 40px rgba(24, 47, 55, 0.28);
+    }
+
+    .page-box .num {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .page-box .total {
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.72;
+      margin-top: 8px;
+    }
+
+    .content {
+      position: absolute;
+      inset: 270px 72px 76px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) 380px;
+      gap: 36px;
+      align-items: stretch;
+    }
+
+    .main-panel {
+      background: rgba(255, 253, 247, 0.68);
+      border: 1px solid rgba(28, 27, 25, 0.08);
+      padding: 40px 42px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 30px;
+      display: grid;
+      gap: 18px;
+    }
+
+    li {
+      font-size: 29px;
+      line-height: 1.46;
+      padding-left: 6px;
+    }
+
+    .side-panel {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 22px;
+    }
+
+    .quote {
+      background: linear-gradient(180deg, rgba(181, 68, 29, 0.12), rgba(181, 68, 29, 0.03));
+      border: 1px solid rgba(181, 68, 29, 0.16);
+      padding: 28px;
+      display: flex;
+      align-items: end;
+      font-size: 30px;
+      line-height: 1.45;
+      color: #5a2616;
+    }
+
+    .legend {
+      background: rgba(255, 252, 245, 0.85);
+      border: 1px solid rgba(28, 27, 25, 0.08);
+      padding: 22px 24px;
+    }
+
+    .legend .label {
+      font-size: 16px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: 10px;
+    }
+
+    .legend .text {
+      font-size: 21px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .footer {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding-top: 16px;
+      color: var(--muted);
+      font-size: 16px;
+      letter-spacing: 0.08em;
+    }
+
+    .nav {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: flex;
+      gap: 10px;
+      z-index: 3;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(36, 75, 90, 0.92);
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <article class="slide" id="slide-root"></article>
+  </div>
+  <div class="nav" id="nav">
+    <button type="button" id="prev">Prev</button>
+    <button type="button" id="next">Next</button>
+  </div>
+  <script>
+    const slides = [{"title": "为什么现在很多 AI agent 还是“不活”", "subtitle": "从 Goal Stack 到 AI 的内驱力", "bullets": ["会调工具、会写代码、会规划，不等于有持续目标感", "多数 agent 仍依赖外部 prompt 和调度器启动", "输入一停，系统也停，更像高级执行器"], "quote": "真正缺的，也许不是更多能力，而是更稳定的内部目标结构。", "legend": "先从大家都熟悉的落差感切入：强，但不“活”。", "narration": "现在很多 AI agent 看起来已经很强了。它们会调工具，会写代码，会调用记忆，也会做多步规划。可一旦你把交互停下来，它也就停在那里。问题也许不在模型不够大，而在于系统内部始终缺少一种持续存在的目标结构，所以它更像被触发的执行器，而不像一个真正围绕目标持续行动的系统。"}, {"title": "被动，不是因为它不聪明", "subtitle": "", "bullets": ["现在的 agent 已经能接任务、拆步骤、失败重试", "但这些能力大多建立在“外部任务输入”之上", "系统何时运行、运行多久、下一步做什么，常由外部决定"], "quote": "它擅长执行任务，却不擅长持续地拥有任务。", "legend": "这里把“聪明”和“主动”拆开，避免把问题归咎给模型能力。", "narration": "所以今天很多 agent 的问题，并不是不聪明，而是太依赖外部输入。它能很好地完成别人给定的事情，却很难在没有持续指令的时候维持自己的主线。没有主线，就没有稳定状态；没有稳定状态，再长的任务也容易漂移、散掉，最后只剩下一次次临时拼装的计划。"}, {"title": "Goal Stack：不是功能，而是认知骨架", "subtitle": "", "bullets": ["主目标压栈，再动态拆成不同层级子目标", "子目标完成就弹栈，失败就回退到上一层", "系统始终知道：我现在是在为哪个目标服务"], "quote": "Goal Stack 解决的不是一步怎么做，而是整条目标链如何持续存在。", "legend": "从“会规划”升级到“有结构地持续规划”。", "narration": "Goal Stack 可以理解成一个分层的目标栈。主目标进入系统后，会被拆成更小的子目标；子目标完成就退出，遇阻就回退并重新选择路径。这样一来，agent 不再只是当前轮次做点什么，而是始终知道自己正在为哪个更高层目标服务。它提供的，是一套稳定的认知骨架，而不是一次性的 prompt 技巧。"}, {"title": "真正关键的一步：把空目标栈变成系统事件", "subtitle": "", "bullets": ["元规则可以非常简单：如果 Goal Stack 为空，就终止", "终止不再模糊，而是被定义成一个明确状态", "系统为了继续存在，就必须维持非空目标栈"], "quote": "一旦“空栈”被严肃处理，主动性就有了工程入口。", "legend": "从结构设计，推到系统行为的改变。", "narration": "最关键的想法，也许只有一句话：如果 Goal Stack 为空，系统就关机。听上去很简单，但它会改变整个行为逻辑。因为一旦系统知道空栈意味着终止，它就不得不面对一个问题：如果当前没有目标，我要不要生成一个新目标？这时，继续运行不再只是外部命令，而开始变成一种内部约束。"}, {"title": "空栈，为什么像 AI 认知结构里的 0", "subtitle": "", "bullets": ["没有 0，自然数能计数，但很多更高阶结构无法成立", "没有“无目标状态”的表示，认知闭环就是不完整的", "有了空栈，终止、重启、自生成目标都能被清晰定义"], "quote": "“空”不是缺省值，而是系统必须承认的基础状态。", "legend": "用一个强类比，把抽象工程问题讲清楚。", "narration": "顺着这个思路看，空目标栈很像 AI 认知结构里的 0。没有 0，很多数学结构都不完整；同样，如果 agent 只有有任务时执行，却没有对无目标状态的明确表示，它的认知闭环也是缺的。一旦空栈被当作严肃状态，终止条件、终止边缘的新目标生成、以及真正的主动性，就都获得了明确的落点。"}, {"title": "为什么这会让 AI 看起来更“活”", "subtitle": "", "bullets": ["它会主动补全当前工作链条", "主任务完成后，会寻找下一个合理目标", "长期任务能持续推进，而不是停在一次响应上"], "quote": "这里的“活”，不是有灵魂，而是不再像纯被动工具。", "legend": "把“像活着”还原成工程可观察行为。", "narration": "这里说 AI 更像“活”的，不是拟人化地说它有意识，而是说它终于不只是等待输入、完成输出。当系统必须持续维护自己的目标栈时，它会主动补全链条、在完成后寻找下一步、围绕高层目标派生新的子目标。当然，这种主动性必须有边界，比如用户目标优先、探索受预算限制、新目标要与长期主线一致。"}, {"title": "SOAR：现代 agent 值得回头重看的认知架构", "subtitle": "", "bullets": ["SOAR 的核心启发之一，就是自然处理子目标和回退", "遇阻时进入 substate，局部处理后再回到主线", "这恰好对应现代 agent 一直想优雅解决的问题"], "quote": "Planner、Memory、Tool 之外，还需要“显式目标层级”这块骨架。", "legend": "不是怀旧，而是补现代架构的根缺口。", "narration": "一谈到 Goal Stack，就很难绕开 SOAR。它最有启发性的地方，就是把子目标展开、遇阻处理、返回主线这件事做成了系统级机制。从今天看，这几乎正是现代 agent 一直在补、但没有彻底补齐的能力：显式目标层级、子问题展开、问题解决后的主线回归，以及经验固化。所以如果真要补一个根缺口，回头看 SOAR 也许比继续堆 workflow 更有价值。"}, {"title": "为什么 Lisp 和这套想法异常契合", "subtitle": "", "bullets": ["Lisp 的空表，本来就是递归和列表结构的基础", "压栈、弹栈、空栈，在 Lisp 里都很自然", "代码和数据同构，便于系统表达和改写规则"], "quote": "如果“空栈是 0”，那 Lisp 几乎是它最顺手的表达语言。", "legend": "让表达结构、推理结构和实现结构尽量同构。", "narration": "继续往下想，Lisp 和这套思路几乎天然匹配。因为 Goal Stack 本质上就是一个动态生长、可回退的栈结构，而 Lisp 对列表、递归和空表的处理非常自然。空表不是异常值，而是一等公民。再加上代码和数据同构，系统就更容易把目标、状态和规则放在同一种表达体系里处理，这种统一感非常强。"}, {"title": "一条值得尝试的混合路径：Lisp + SOAR + LLM", "subtitle": "", "bullets": ["LLM 负责自然语言理解、候选操作生成、开放域知识", "SOAR 或类 SOAR 机制负责维护显式 Goal Stack", "Lisp 风格结构负责表达目标、状态和规则"], "quote": "不是让 LLM 一个人扛起全部智能，而是给它装上认知骨架。", "legend": "三者分工明确，才能兼顾灵活性与持续性。", "narration": "如果把这套思路真正推到工程上，一个很自然的组合就是：让 LLM 负责灵活性，让 Goal Stack 负责持续性，让 SOAR 风格机制负责分层求解，再用 Lisp 风格结构把目标、状态和规则表达得足够干净。这样，系统就不是把所有智能都压在模型一次输出上，而是给模型配上一副能长期运行的骨架。"}, {"title": "结尾：下一代 agent 也许缺的不是更会说话", "subtitle": "", "bullets": ["许多 agent 更像“任务响应器”，不像“目标系统”", "把 Goal Stack 放到中心，行为风格可能会本质变化", "真正的突破，也许来自那个一直缺失的“0”"], "quote": "下一代 agentic AI 的跃迁，可能先发生在运行时结构，而不是参数规模。", "legend": "回到开头的问题，但站在更高一层回答它。", "narration": "顺着这条线看到最后，也许会越来越清楚：下一代 agentic AI 缺的，不一定只是更强的模型，而是一个真正把目标放在中心的运行时结构。一旦 Goal Stack 成为主轴，空栈被当作严肃状态处理，系统就不再只是任务响应器，而开始像目标系统一样行动。也许真正决定下一次跃迁的，不是更会说话，而是终于补上了那个一直缺失的“0”。"}];
+    const total = slides.length;
+    const params = new URLSearchParams(window.location.search);
+    let index = Math.max(0, Math.min(total - 1, Number(params.get('slide') || '1') - 1));
+    const root = document.getElementById('slide-root');
+    const nav = document.getElementById('nav');
+
+    if (params.get('screenshot') === '1') {
+      document.body.classList.add('screenshot');
+    }
+    if (params.get('controls') === '0') {
+      nav.style.display = 'none';
+    }
+
+    function render() {
+      const slide = slides[index];
+      const bullets = slide.bullets.map((item) => `<li>${item}</li>`).join('');
+      const quote = slide.quote || '把抽象问题压成可以被视觉承载的结构。';
+      const legend = slide.legend || '从脚本到视觉，从旁白到镜头。';
+      root.innerHTML = `
+        <header class="header">
+          <div>
+            <div class="kicker">WeChat Video Essay</div>
+            <h1>${slide.title}</h1>
+            ${slide.subtitle ? `<div class="subtitle">${slide.subtitle}</div>` : ''}
+          </div>
+          <div class="page-box">
+            <div>
+              <div class="num">${String(index + 1).padStart(2, '0')}</div>
+              <div class="total">/ ${String(total).padStart(2, '0')}</div>
+            </div>
+          </div>
+        </header>
+        <section class="content">
+          <div class="main-panel">
+            <ul>${bullets}</ul>
+          </div>
+          <div class="side-panel">
+            <aside class="quote">${quote}</aside>
+            <aside class="legend">
+              <div class="label">Reading Lens</div>
+              <div class="text">${legend}</div>
+            </aside>
+          </div>
+        </section>
+        <footer class="footer">
+          <div>Generic PPT Video Builder</div>
+          <div>Topic Agnostic</div>
+        </footer>
+      `;
+      params.set('slide', String(index + 1));
+      history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+    }
+
+    function move(delta) {
+      index = (index + delta + total) % total;
+      render();
+    }
+
+    document.getElementById('prev').addEventListener('click', () => move(-1));
+    document.getElementById('next').addEventListener('click', () => move(1));
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') move(1);
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') move(-1);
+      if (event.key === 'Home') { index = 0; render(); }
+      if (event.key === 'End') { index = total - 1; render(); }
+    });
+
+    render();
+  </script>
+</body>
+</html>
