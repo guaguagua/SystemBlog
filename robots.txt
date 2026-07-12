@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://guaguagua.github.io/SystemBlog/sitemap.xml

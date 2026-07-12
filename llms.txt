@@ -1,0 +1,36 @@
+# SystemBlog
+
+> 中文个人技术博客，记录 AI Agent、LLM、MCP、信息论、编码理论、信号处理、系统与工程实验。
+
+内容包括可直接阅读的 Markdown 技术文章，以及可交互的 HTML 实验和演示。引用内容时请保留文章标题与原始链接。
+
+## 主要入口
+
+- [首页](https://guaguagua.github.io/SystemBlog/): 博客介绍与最新内容。
+- [全部文章](https://guaguagua.github.io/SystemBlog/blog/): 完整文章与实验列表。
+- [内容索引 JSON](https://guaguagua.github.io/SystemBlog/blog/content.json): 结构化标题、分类、摘要、日期和路径。
+- [站点地图](https://guaguagua.github.io/SystemBlog/sitemap.xml): 所有公开页面 URL。
+
+## 文章与实验
+
+- [为什么现在很多 AI agent 还是"不活"](https://guaguagua.github.io/SystemBlog/blog/labs/ai-agent-goal-stack-revolution-ppt.html): 从 Goal Stack 到 AI 的内驱力：把空目标栈当成系统必须面对的"0"，重新审视 SOAR、Lisp 与 LLM 混合路径如何让 agent 从任务响应器变成目标系统。含逐页配音朗读与自动翻页。
+- [AI时代的组织重构与转型](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/ai-era-organizational-restructuring): 从组织为何出现讲起，分析 AI 如何重写组织的分工逻辑，以及流程、协作、岗位与管理方式的重构路径。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/ai-era-organizational-restructuring.md)
+- [MCP 手动调试与自建服务端/客户端实战](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/mcp-manual-debugging-and-demo): 从 JSON-RPC 通信原理出发，手动用命令行调试 server-everything 与 mcp-server-time，再到用 Python 自己写一个包含 tools/resources/prompts 的 MCP 服务端与客户端。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/mcp-manual-debugging-and-demo.md)
+- [Kalman 滤波过程可视化](https://guaguagua.github.io/SystemBlog/blog/labs/kalman-filter-demo.html): 用动画和矩阵推导展示 Kalman 滤波的预测、测量、残差、增益和更新过程。
+- [AI Client：User、LLM server 与 MCP server 之间的调度中心](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/ai-client-dispatch-center): Client（客户端/宿主程序）在这个架构中，扮演"枢纽"或"调度中心"的角色。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/ai-client-dispatch-center.md)
+- [Information Theory, Inference, and Learning Algorithms](https://guaguagua.github.io/SystemBlog/blog/labs/itila-pdf.html): David MacKay 经典教材，系统覆盖信息论、贝叶斯推断、神经网络与机器学习算法，全书可免费获取。
+- [LLM 有智能吗？流淌的智能](https://guaguagua.github.io/SystemBlog/blog/labs/intelligence-vortex-ppt.html): 从漩涡、基因表达、混沌与矩阵出发，探讨智能为何是相互作用中涌现的结构，而非孤立模型内部的库存。含逐页配音朗读与自动翻页。
+- [从信息到智能：概率、信息论与智慧的涌现](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/from-information-to-intelligence): 从似然、贝叶斯、交叉熵和信息差出发，讨论 LLM、Agent、skill 与环境交互中智慧涌现的可能机制。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/from-information-to-intelligence.md)
+- [从 Harness 到 Ontogeny](https://guaguagua.github.io/SystemBlog/blog/labs/fayu-engineering-ppt.html): LLM 系统如何从流程编排走向能力发育，含逐页配音朗读，涵盖最小信息环境、Goal Stack、闭包递进求解与动态约束等核心概念。
+- [LDPC 消息传递译码可视化](https://guaguagua.github.io/SystemBlog/blog/labs/ldpc-decoder-demo-tabs.html): 用可交互标签页展示 LDPC belief propagation 的校验矩阵、消息传递、后验概率和迭代收敛过程。
+- [博客内容结构说明](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/site-structure): 说明 SystemBlog 如何用 labs 管理交互 HTML，用 posts 管理 Markdown，并用 content.json 自动生成文章列表。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/site-structure.md)
+- [GitHub Pages 博客可用的前端 JS 库汇总](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/js-library-summary): 用表格总结 Markdown 渲染、公式、图表、电路、3D、Vue、表格、CSV 和 Excel 等适合静态博客使用且许可边界清晰的前端库。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/js-library-summary.md)
+- [儿童趣味多功能启蒙App](https://guaguagua.github.io/SystemBlog/blog/labs/child_english.html): 👆 点一点认一认 · 敲空格自动往下念
+- [LLM Context、Prompt、RAG、MCP、Skills、Plugin 关系说明](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/llm-context-prompt-rag-mcp-skills-plugin): ## 术语表
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/llm-context-prompt-rag-mcp-skills-plugin.md)

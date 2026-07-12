@@ -147,9 +147,21 @@ blog/posts/
 
 ```text
 blog/content.json
+sitemap.xml
+llms.txt
+robots.txt
 ```
 
 首页 `index.html` 和文章列表 `blog/index.html` 会读取 `content.json`，自动显示最新内容。
+
+其中 `sitemap.xml` 和 `robots.txt` 用于搜索引擎发现页面，`llms.txt` 为 AI Agent 提供站点说明、结构化入口、文章摘要和 Markdown 原文链接。这些文件不会改变页面显示内容。
+
+生成脚本默认使用 GitHub Pages 地址 `https://guaguagua.github.io/SystemBlog`。如果以后绑定自定义域名，可通过 `SITE_URL` 覆盖：
+
+```powershell
+$env:SITE_URL = "https://example.com"
+node common\scripts\generate-content.js
+```
 
 ## 为什么脚本是 JS
 

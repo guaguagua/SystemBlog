@@ -29,7 +29,64 @@
         return response.text();
     });
 
-    const stripFrontMatter = (markdown) => markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "");
+    const parseFrontMatter = (markdown) => {
+        const match = markdown.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+        const data = {};
+
+        if (match) {
+            match[1].split(/\r?\n/).forEach((line) => {
+                const field = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+                if (field) {
+                    data[field[1]] = field[2].trim().replace(/^["']|["']$/g, "");
+                }
+            });
+        }
+
+        return { data, body: match ? markdown.slice(match[0].length) : markdown };
+    };
+
+    const setArticleMetadata = (markdown) => {
+        const { data, body } = parseFrontMatter(markdown);
+        const heading = body.match(/^#\s+(.+)$/m);
+        const title = data.title || (heading && heading[1].trim()) || "文章";
+        const firstParagraph = body
+            .replace(/^#\s+.+$/m, "")
+            .split(/\r?\n\s*\r?\n/)
+            .map((part) => part.trim())
+            .find((part) => part && !part.startsWith("#") && !part.startsWith("```"));
+        const description = (data.summary || firstParagraph || "SystemBlog 技术文章。")
+            .replace(/\s+/g, " ")
+            .slice(0, 160);
+        const canonicalUrl = new URL(window.location.pathname, window.location.origin);
+        canonicalUrl.searchParams.set("post", safePost);
+
+        document.title = `${title} | SystemBlog`;
+        document.querySelector('meta[name="description"]').content = description;
+
+        const canonical = document.createElement("link");
+        canonical.rel = "canonical";
+        canonical.href = canonicalUrl.href;
+        document.head.appendChild(canonical);
+
+        const structuredData = document.createElement("script");
+        structuredData.type = "application/ld+json";
+        structuredData.textContent = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: title,
+            description,
+            datePublished: data.date || undefined,
+            articleSection: data.category || undefined,
+            inLanguage: "zh-CN",
+            url: canonicalUrl.href,
+            isPartOf: {
+                "@type": "Blog",
+                name: "SystemBlog",
+                url: new URL("../", window.location.href).href
+            }
+        });
+        document.head.appendChild(structuredData);
+    };
 
     const createMarkdownRenderer = () => {
         if (!window.markdownit) {
@@ -73,7 +130,8 @@
     };
 
     const renderMarkdown = (markdown) => {
-        const body = stripFrontMatter(markdown);
+        const { body } = parseFrontMatter(markdown);
+        setArticleMetadata(markdown);
 
         if (!markdownRenderer) {
             mount.innerHTML = `<pre>${escapeHtml(body)}</pre>`;

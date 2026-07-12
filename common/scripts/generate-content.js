@@ -6,6 +6,7 @@ const blogDir = path.join(rootDir, "blog");
 const labsDir = path.join(blogDir, "labs");
 const postsDir = path.join(blogDir, "posts");
 const outputPath = path.join(blogDir, "content.json");
+const siteUrl = (process.env.SITE_URL || "https://guaguagua.github.io/SystemBlog").replace(/\/$/, "");
 
 const readText = (filePath) => fs.readFileSync(filePath, "utf8");
 
@@ -146,4 +147,72 @@ const items = [
 
 fs.writeFileSync(outputPath, `${JSON.stringify(items, null, 2)}\n`, "utf8");
 
-console.log(`Generated ${path.relative(rootDir, outputPath)} with ${items.length} item(s).`);
+const publicItems = items.filter((item) => !item.draft);
+const xmlEscape = (value) => String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+const itemUrl = (item) => item.type === "lab"
+    ? `${siteUrl}/blog/${item.url}`
+    : `${siteUrl}/blog/article.html?post=${encodeURIComponent(item.source.replace(/\.md$/i, "")).replace(/%2F/g, "/")}`;
+
+const sitemapEntries = [
+    { url: `${siteUrl}/`, date: "" },
+    { url: `${siteUrl}/blog/`, date: "" },
+    { url: `${siteUrl}/about.html`, date: "" },
+    ...publicItems.map((item) => ({ url: itemUrl(item), date: item.date }))
+];
+const sitemap = [
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+    "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">",
+    ...sitemapEntries.map(({ url, date }) => [
+        "  <url>",
+        `    <loc>${xmlEscape(url)}</loc>`,
+        date ? `    <lastmod>${xmlEscape(date)}</lastmod>` : "",
+        "  </url>"
+    ].filter(Boolean).join("\n")),
+    "</urlset>",
+    ""
+].join("\n");
+
+const llms = [
+    "# SystemBlog",
+    "",
+    "> 中文个人技术博客，记录 AI Agent、LLM、MCP、信息论、编码理论、信号处理、系统与工程实验。",
+    "",
+    "内容包括可直接阅读的 Markdown 技术文章，以及可交互的 HTML 实验和演示。引用内容时请保留文章标题与原始链接。",
+    "",
+    "## 主要入口",
+    "",
+    `- [首页](${siteUrl}/): 博客介绍与最新内容。`,
+    `- [全部文章](${siteUrl}/blog/): 完整文章与实验列表。`,
+    `- [内容索引 JSON](${siteUrl}/blog/content.json): 结构化标题、分类、摘要、日期和路径。`,
+    `- [站点地图](${siteUrl}/sitemap.xml): 所有公开页面 URL。`,
+    "",
+    "## 文章与实验",
+    "",
+    ...publicItems.flatMap((item) => {
+        const links = [`- [${item.title}](${itemUrl(item)}): ${item.summary}`];
+        if (item.type === "post") {
+            links.push(`  - [Markdown 原文](${siteUrl}/blog/${item.source})`);
+        }
+        return links;
+    }),
+    ""
+].join("\n");
+
+const robots = [
+    "User-agent: *",
+    "Allow: /",
+    "",
+    `Sitemap: ${siteUrl}/sitemap.xml`,
+    ""
+].join("\n");
+
+fs.writeFileSync(path.join(rootDir, "sitemap.xml"), sitemap, "utf8");
+fs.writeFileSync(path.join(rootDir, "llms.txt"), llms, "utf8");
+fs.writeFileSync(path.join(rootDir, "robots.txt"), robots, "utf8");
+
+console.log(`Generated content index and discovery files with ${publicItems.length} public item(s).`);
