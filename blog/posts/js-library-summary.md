@@ -57,7 +57,7 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 | `elkjs` | 自动布局 | 带端口的数据流图、网表图、模块图 | `blog/labs/` | 只负责布局，不负责绘制；常和 SVG/Canvas 配合。 |
 | `dagre` / `graphre` | 有向图布局 | 简单模块框图、依赖图、信号流图 | `blog/labs/` | 比 `elkjs` 简单，适合不需要复杂端口布局的图。 |
 | `SVG.js` | SVG 绘制与交互 | 自制电路符号、连线、标注、动画 | `blog/labs/` | MIT 许可，适合做轻量自定义电路图。 |
-| `CircuitJS1` | 模拟/混合电路仿真 | RLC、二极管、晶体管、运放等电路演示 | 外链参考或独立实验页 | GPL 许可，默认不作为本站基础库；如果内嵌或修改需遵守 GPL。 |
+| `CircuitJS1` | 模拟/混合电路仿真 | RLC、二极管、晶体管、运放等电路演示 | 外链参考或独立实验页 | GPL 许可，默认不作为本站基础库；如果内嵌或修改需谨慎。 |
 
 ## 3D、动画与交互实验
 
@@ -94,16 +94,39 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 | `Arquero` | 表格数据处理 | 浏览器里做 group/filter/derive | `blog/labs/` | 类似轻量数据处理引擎，适合分析页。 |
 | `TanStack Table` | Headless 表格逻辑 | 自己完全控制 UI 时 | `blog/labs/` | 更适合有构建工具或框架项目。 |
 
+## 库清单速查
+
+| 库 | 文件 | 用途 |
+|---|---|---|
+| Mermaid | `mermaid.min.js` | 流程图/时序图等文本绘图 |
+| Markmap | `markmap-lib.js` + `markmap-view.js` | Markdown 转思维导图（数据转换 + 渲染视图） |
+| ECharts | `echarts.min.js` | 通用图表 |
+| Graphviz | `viz-standalone.js` | Graphviz DOT 图渲染 |
+| D3.js | `d3.min.js` | 底层可视化引擎（markmap 依赖） |
+| netlistsvg | `netlistsvg.bundle.js` | Yosys 网表转电路原理图 |
+| WaveDrom | `wavedrom.min.js` + `wavedrom-skin.js` | 数字时序波形图 + 默认皮肤 |
+| ELK 布局 | `elk.bundled.js` | 自动布局引擎（netlistsvg/hdelk 依赖） |
+| hdelk | `hdelk.js` | 硬件框图绘制 |
+| SVG | `svg.min.js` | SVG 操作（hdelk 依赖） |
+| Marked | `marked.min.js` | Markdown 解析 |
+| Highlight.js | `highlight.min.js` + `highlight-theme-*.css` | 代码语法高亮 + 主题样式 |
+| DOMPurify | `dompurify.min.js` | HTML 消毒（XSS 防护） |
+| KaTeX | `katex.min.js` + `katex-auto-render.min.js` + `katex.css` | LaTeX 公式渲染 + 自动扫描 + 字体与样式 |
+| Tabulator | `tabulator.min.js` + `tabulator.min.css` | 交互式表格 + 样式 |
+| 字体库 | `jetbrains-mono.css` | 等宽代码字体 |
+| Emoji | `twemoji.css` | 彩色 Emoji 字体 |
+| 文件操作 | `filesaver.min.js` | 前端文件保存/导出 |
+
 ## 建议采用顺序
 
 | 优先级 | 建议 | 价值 |
 |---|---|---|
-| 1 | 使用 `markdown-it + highlight.js` | 更接近 VS Code 预览，并改善代码块阅读体验。 |
-| 2 | 加 `KaTeX` 和 `Mermaid` | 支持公式和结构图，适合技术笔记。 |
-| 3 | 加 `WaveDrom` 示例 | 先支持数字时序图，最适合硬件/RTL 笔记。 |
-| 4 | 在 `blog/labs/` 建一个 `netlist-demo.html` | 用 `netlistsvg` 或 `DigitalJS` 展示 Verilog/Yosys 结构。 |
-| 5 | 在 `blog/labs/` 建一个 `table-demo.html` | 用 `Tabulator + Papa Parse + SheetJS` 做 CSV/XLSX 数据浏览器。 |
-| 6 | 在 `blog/labs/` 建可视化模板 | 预留 `Vue + ECharts + Three.js` 的页面骨架。 |
+| 1 | 使用 `marked.min.js + highlight.min.js + highlight-theme-*.css` | 更接近 VS Code 预览，并改善代码块阅读体验。 |
+| 2 | 加 `katex.min.js + katex-auto-render.min.js + katex.css` 和 `mermaid.min.js` | 支持公式和结构图，适合技术笔记。 |
+| 3 | 加 `wavedrom.min.js + wavedrom-skin.js` 示例 | 先支持数字时序图，最适合硬件/RTL 笔记。 |
+| 4 | 在 `blog/labs/` 建一个 `netlist-demo.html` | 用 `netlistsvg.bundle.js` 或 DigitalJS 展示 Verilog/Yosys 结构。 |
+| 5 | 在 `blog/labs/` 建一个 `table-demo.html` | 用 `tabulator.min.js + Papa Parse + SheetJS` 做 CSV/XLSX 数据浏览器。 |
+| 6 | 在 `blog/labs/` 建可视化模板 | 预留 `echarts.min.js` 和其他图表库的页面骨架。 |
 
 ## 简短结论
 
