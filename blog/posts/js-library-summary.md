@@ -5,23 +5,9 @@ summary: 用表格总结 Markdown 渲染、公式、图表、电路、3D、Vue�
 date: 2026-06-21
 ---
 
-| 常用库 | 用途 | 备注 |
-|---|---|---|
-| Mind Elixir | 思维导图/脑图 | 轻量、交互式，适合笔记与知识管理 |
-| WaveDrom | 数字时序图 | WaveJSON 生成 SVG，适合 RTL/时序示意 |
-| netlistsvg | 网表转原理图 | 结合 Yosys 输出生成电路原理图 |
-| elkjs | 自动布局 | 复杂模块/网表布局引擎，常配合 SVG 使用 |
-| ECharts | 工程图表 | 交互式、中文资料丰富，适合统计与仪表盘 |
-| KaTeX | 公式渲染 | 快速渲染 LaTeX，适合静态博客 |
-| Mermaid | 文本绘图 | 流程图、时序图、类图，适合文档内嵌 |
-| Markdown | 文章内容 | 基础内容格式，使用 marked/markdown-it 渲染 |
-| Tabulator | 交互表格 | 筛选、排序、导出，适合数据浏览 |
-
 # GitHub Pages 博客可用的前端 JS 库汇总
 
-SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。
-
-本清单只保留适合公开 GitHub Pages 博客使用、许可边界相对清晰的库。需要商业授权或许可边界容易误用的库不放入推荐表。
+SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。本清单只保留适合公开 GitHub Pages 博客使用、许可边界相对清晰的库。需要商业授权或许可边界容易误用的库不放入推荐表。
 
 ## 推荐位置
 
@@ -32,115 +18,104 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 | Three.js、ECharts、Vue、电路仿真、复杂表格 | `blog/labs/` | 这些页面通常需要独立的 HTML、CSS、脚本和交互状态。 |
 | CSV、Excel、数据面板 | `blog/labs/` | 更像一个小工具页面，不适合塞进普通 Markdown。 |
 
-## Markdown 与文章增强
+## 按功能分类的库（去重并给出建议位置）
 
-| 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
-|---|---|---|---|---|
-| `markdown-it` | Markdown 转 HTML | 当前文章阅读页已经在用 | `blog/article.html` | 和 VS Code Markdown Preview 的技术路线更接近，也更适合扩展。 |
-| `marked` | Markdown 转 HTML | 只需要很轻量的 Markdown 渲染时 | `blog/article.html` | 简单直接，但和 VS Code 预览可能有细微差异。 |
-| `Prism.js` | 代码高亮 | 技术文章、代码片段 | `blog/posts/` 全局增强 | 主题漂亮，适合手动指定语言。 |
-| `highlight.js` | 代码高亮 | 想要自动识别语言时 | `blog/posts/` 全局增强 | 配置简单，适合文章页统一启用。 |
-| `KaTeX` | 数学公式 | 大多数数学公式、推导文章 | `blog/posts/` 全局增强 | 渲染快，适合静态博客。 |
-| `MathJax` | 数学公式 | 复杂公式、兼容性要求高时 | `blog/posts/` 全局增强 | 功能完整，但比 KaTeX 重一些。 |
-| `Mermaid` | 文本生成图 | 流程图、时序图、状态机、类图 | `blog/posts/` 或 `blog/labs/` | 非常适合技术笔记。 |
-| `draw.io` | 图形绘制 | 架构图、电路图、流程图 | `blog/posts/` 或 `blog/labs/` | 普通文章建议导出 SVG/PNG；交互图再用 embed/iframe。 |
+### 1) Markdown 与文章渲染相关
+- markdown-it — Markdown -> HTML（`blog/article.html` / `blog/posts/`），扩展性强，接近 VS Code 预览技术路线。  
+- marked — 轻量 Markdown 渲染（`blog/article.html` / `blog/posts/`）。  
+- Prism.js — 代码高亮（手动指定语言，`blog/posts/` 全局增强）。  
+- highlight.js — 代码高亮（自动识别语言，`blog/posts/` 全局增强）。  
+- DOMPurify — HTML 消毒（XSS 防护，文章渲染链路必须启用）。  
+- KaTeX — 公式渲染（快速，`blog/posts/` 全局增强）。  
+- MathJax — 复杂公式兼容（功能更完整但体积更大，按需选择）。  
+- Mermaid — 文本绘图（流程图、时序图，`blog/posts/` 或 `blog/labs/`）。  
+- markmap (markmap-lib + markmap-view) — Markdown 转思维导图（`blog/labs/` / 嵌入视图场景）。  
+- Graphviz (viz-standalone.js) — DOT 图渲染（流程/依赖图，`blog/posts/` 或 `blog/labs/`）。
 
-## 图表与数据可视化
+### 2) 图表与数据可视化
+- ECharts — 工程图表（交互强、中文资料多，`blog/labs/`）。  
+- Chart.js — 轻量图表（趋势/小统计图，`blog/labs/`）。  
+- Plotly.js — 科学/统计/3D 图（功能强但体积大，`blog/labs/`）。  
+- D3.js — 底层可视化引擎（需要完全自定义时使用，`blog/labs/`）。  
+- Observable Plot — 快速从表格生成图（比 D3 省代码，`blog/labs/`）。  
+- Cytoscape.js — 网络图（知识图谱、模块关系，`blog/labs/`）。  
+- vis-network — 交互节点图（关系网，`blog/labs/`）。  
+- Leaflet — 地图（地理展示，注意底图服务可用性，`blog/labs/`）。
 
-| 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
-|---|---|---|---|---|
-| `ECharts` | 工程图表 | 折线图、柱状图、关系图、仪表盘 | `blog/labs/` | 中文资料多，交互能力强。 |
-| `Chart.js` | 轻量图表 | 简单统计图、趋势图 | `blog/labs/` | API 简洁，适合小页面。 |
-| `Plotly.js` | 科学图表 | 统计图、3D 图、交互分析 | `blog/labs/` | 功能强，但体积较大。 |
-| `D3.js` | 自定义可视化 | 需要完全控制图形和动画时 | `blog/labs/` | 自由度最高，代码量也更大。 |
-| `Observable Plot` | 快速数据图 | 从表格数据快速生成图形 | `blog/labs/` | 比 D3 更省代码。 |
-| `Cytoscape.js` | 网络图 | 知识图谱、依赖图、模块连接图 | `blog/labs/` | 适合 RTL 模块关系、系统依赖关系。 |
-| `vis-network` | 网络图 | 交互节点图、关系网 | `blog/labs/` | 上手直接，适合浏览关系数据。 |
-| `Leaflet` | 地图 | 地理标注、路线、区域展示 | `blog/labs/` | 需要地图底图服务时注意外部资源可用性。 |
+### 3) 电路与硬件可视化 / 硬件相关工具
+- WaveDrom — 数字时序图（WaveJSON -> SVG，`blog/posts/`/`blog/labs/`）。  
+- netlistsvg — Yosys 网表 -> 原理图 SVG（MIT，适合 Verilog/Yosys 流程，`blog/labs/` 或离线生成 SVG 放文章）。  
+- DigitalJS — 数字逻辑仿真（门级仿真、教学演示，BSD-2-Clause，`blog/labs/`）。  
+- yosys2digitaljs — 格式转换工具（Yosys -> DigitalJS，离线或工具链一部分）。  
+- elkjs — 自动布局（端口布局等，通常与 SVG/渲染库配合，`blog/labs/`）。  
+- dagre / graphre — 有向图布局（简单依赖/信号流图，`blog/labs/`）。  
+- SVG.js — SVG 绘制与交互（自定义电路符号与连线，`blog/labs/`）。  
+- hdelk — 硬件框图绘制（与 ELK / SVG 结合，`blog/labs/`）。  
+- CircuitJS1 — 模拟电路仿真（GPL，注意许可，通常外链或独立实验页）。
 
-## 电路与硬件可视化
+### 4) 3D、动画与互动实验
+- Three.js — WebGL 3D（3D 模型、空间几何，`blog/labs/`）。  
+- p5.js — 创意编码与教学动画（快速原型，`blog/labs/`）。  
+- Matter.js — 2D 物理引擎（碰撞、教学演示，`blog/labs/`）。  
+- Phaser — HTML5 游戏引擎（互动游戏/可玩实验，`blog/labs/`）。  
+- Fabric.js — Canvas 编辑（可拖拽编辑器类工具，`blog/labs/`）。  
+- Rough.js — 手绘风图形（示意图风格，`blog/labs/`）。
 
-| 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
-|---|---|---|---|---|
-| `WaveDrom` | 数字时序图 | 总线协议、握手信号、RTL 时序说明 | `blog/posts/` 或 `blog/labs/` | 用 WaveJSON 生成 SVG，适合技术文章。 |
-| `netlistsvg` | 网表转原理图 SVG | Yosys JSON 网表、RTL 结构图、模块连接图 | `blog/labs/` 或离线生成 SVG 后放文章 | MIT 许可，适合配合 Verilog/Yosys 工作流。[...]
-| `DigitalJS` | 数字逻辑电路仿真 | 门级电路、组合逻辑、寄存器、教学演示 | `blog/labs/` | BSD-2-Clause 许可，输入是 JSON，可配合 `yosys2digitaljs`。 |
-| `yosys2digitaljs` | Yosys 输出转 DigitalJS | Verilog/SystemVerilog 转可交互数字电路 | 离线工具链或 `blog/labs/` 辅助流程 | 不是 UI 库，更像格式转换工具。 |
-| `elkjs` | 自动布局 | 带端口的数据流图、网表图、模块图 | `blog/labs/` | 只负责布局，不负责绘制；常和 SVG/Canvas 配合。 |
-| `dagre` / `graphre` | 有向图布局 | 简单模块框图、依赖图、信号流图 | `blog/labs/` | 比 `elkjs` 简单，适合不需要复杂端口布局的图。 |
-| `SVG.js` | SVG 绘制与交互 | 自制电路符号、连线、标注、动画 | `blog/labs/` | MIT 许可，适合做轻量自定义电路图。 |
-| `CircuitJS1` | 模拟/混合电路仿真 | RLC、二极管、晶体管、运放等电路演示 | 外链参考或独立实验页 | GPL 许可，默认不作为本站基础库；如果内嵌或修[...] 
+### 5) 框架与 UI 组件
+- Vue — 完整前端框架（复杂实验页、状态多的工具页，`blog/labs/`）。  
+- petite-vue — 轻量 Vue（局部响应式控件，`blog/labs/`）。  
+- Alpine.js — HTML 声明式交互（折叠、筛选等，`blog/labs/`）。  
+- Shoelace — Web Components UI（不依赖框架，`blog/labs/`）。  
+- Element Plus — Vue 组件库（完整 UI，依赖 Vue，`blog/labs/`）。  
+- reveal.js — 网页幻灯片（演示/课程，`blog/labs/`）。
 
-## 3D、动画与交互实验
+### 6) 表格、CSV、Excel 与数据处理
+- Tabulator — 交互数据网格（筛选、排序、导出，`blog/labs/`）。  
+- Grid.js — 轻量数据表格 UI（JSON 渲染，`blog/labs/`）。  
+- AG Grid Community — 高级数据网格（大型表格，功能强但复杂，`blog/labs/`）。  
+- SheetJS (xlsx) — 读取/写入 Excel（与表格 UI 配合，`blog/labs/`）。  
+- Papa Parse — CSV 解析（大文件/远程 CSV，`blog/labs/`）。  
+- Arquero — 浏览器内数据处理（group/filter/derive，`blog/labs/`）。  
+- TanStack Table — Headless 表格逻辑（完全自定义 UI 时使用，`blog/labs/`）。
 
-| 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
-|---|---|---|---|---|
-| `Three.js` | WebGL 3D | 3D 模型、空间几何、信号可视化 | `blog/labs/` | 用 CDN/import map，不要直接写裸模块名 `three`。 |
-| `p5.js` | 创意编码 | 教学动画、几何演示、交互草图 | `blog/labs/` | 适合快速做可视化小实验。 |
-| `Matter.js` | 2D 物理 | 碰撞、刚体、物理演示 | `blog/labs/` | 适合教学动画和小游戏。 |
-| `Phaser` | HTML5 游戏 | 交互游戏、可玩实验 | `blog/labs/` | 做完整游戏页面时比手写 Canvas 更稳。 |
-| `Fabric.js` | Canvas 编辑 | 可拖拽图形、标注、画布编辑器 | `blog/labs/` | 适合做图形编辑类小工具。 |
-| `Rough.js` | 手绘风图形 | 手绘风示意图、轻量视觉效果 | `blog/labs/` | 适合让示意图更自然。 |
+### 7) 实用工具与资源
+- DOMPurify — HTML 消毒（放在 Markdown 渲染相关组里，文章安全必备）。  
+- FileSaver.js — 文件保存/导出（导出 CSV/XLSX/图片，`blog/labs/`）。  
+- jetbrains-mono.css — 等宽代码字体（提升代码可读性，文章样式）。  
+- twemoji.css — Emoji 美化（可选，文章表现）。  
+- filesaver.min.js —（同 FileSaver 功能，按需选其一）。
 
-## Vue 与 UI
-
-| 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
-|---|---|---|---|---|
-| `Vue` | 前端交互框架 | 复杂实验页、状态较多的工具页 | `blog/labs/` | 简单页面可用 CDN，不一定需要构建工具。 |
-| `petite-vue` | 轻量 Vue 交互 | 小表单、小控件、局部响应式 | `blog/labs/` | 比完整 Vue 更轻。 |
-| `Alpine.js` | HTML 内声明交互 | 折叠面板、筛选、简单状态 | `blog/labs/` | 适合不想写完整框架的页面。 |
-| `Shoelace` | Web Components UI | 按钮、弹窗、标签页、输入控件 | `blog/labs/` | 不绑定 Vue/React，适合静态页面。 |
-| `Element Plus` | Vue 组件库 | Vue 实验页、表单、标签页、面板 | `blog/labs/` | UI 完整，但依赖 Vue，页面体积更大。 |
-| `reveal.js` | 网页幻灯片 | 技术分享、课程讲义、演示文稿 | `blog/labs/` | 可以把文章变成 slide 页面。 |
-
-## 表格、CSV 与 Excel
-
-| 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
-|---|---|---|---|---|
-| 原生 Markdown 表格 | 普通表格 | 简单对比、参数表、总结表 | `blog/posts/` | 文章正文优先保持轻量，不额外引入表格脚本。 |
-| `Grid.js` | 数据表格 UI | JSON/数组渲染成漂亮表格 | `blog/labs/` | 轻量，适合独立数据页。 |
-| `Tabulator` | 交互数据网格 | 筛选、排序、编辑、分组、导出 | `blog/labs/` | 推荐做复杂数据浏览器。 |
-| `AG Grid Community` | 高级数据网格 | 大型表格、仪表盘、复杂列配置 | `blog/labs/` | 功能强，体积和配置复杂度也更高。 |
-| `SheetJS` | 读取/写入 Excel | 上传 `.xlsx` 并解析成数据 | `blog/labs/` | 不是表格 UI，通常配合 Tabulator/Grid.js。 |
-| `Papa Parse` | CSV 解析 | 上传 CSV、读取远程 CSV、大文件解析 | `blog/labs/` | 适合和图表、表格库配合。 |
-| `Arquero` | 表格数据处理 | 浏览器里做 group/filter/derive | `blog/labs/` | 类似轻量数据处理引擎，适合分析页。 |
-| `TanStack Table` | Headless 表格逻辑 | 自己完全控制 UI 时 | `blog/labs/` | 更适合有构建工具或框架项目。 |
-
-## 库清单速查
-
-| 库 | 文件 | 用途 |
-|---|---|---|
-| Mermaid | `mermaid.min.js` | 流程图/时序图等文本绘图 |
-| Markmap | `markmap-lib.js` + `markmap-view.js` | Markdown 转思维导图（数据转换 + 渲染视图） |
-| ECharts | `echarts.min.js` | 通用图表 |
-| Graphviz | `viz-standalone.js` | Graphviz DOT 图渲染 |
-| D3.js | `d3.min.js` | 底层可视化引擎（markmap 依赖） |
+## 库文件速查（常用构建/CDN 文件名）
+| 库 | 常用文件 | 备注 |
+|---|---:|---|
+| Mermaid | `mermaid.min.js` | 文本绘图 |
+| Markmap | `markmap-lib.js` + `markmap-view.js` | Markdown -> 思维导图 |
+| ECharts | `echarts.min.js` | 工程图表 |
+| Graphviz | `viz-standalone.js` | DOT 渲染 |
+| D3.js | `d3.min.js` | 底层可视化引擎 |
 | netlistsvg | `netlistsvg.bundle.js` | Yosys 网表转电路原理图 |
-| WaveDrom | `wavedrom.min.js` + `wavedrom-skin.js` | 数字时序波形图 + 默认皮肤 |
-| ELK 布局 | `elk.bundled.js` | 自动布局引擎（netlistsvg/hdelk 依赖） |
+| WaveDrom | `wavedrom.min.js` + `wavedrom-skin.js` | 数字时序波形 |
+| ELK | `elk.bundled.js` | 自动布局引擎 |
 | hdelk | `hdelk.js` | 硬件框图绘制 |
-| SVG | `svg.min.js` | SVG 操作（hdelk 依赖） |
+| SVG.js | `svg.min.js` | SVG 操作 |
 | Marked | `marked.min.js` | Markdown 解析 |
-| Highlight.js | `highlight.min.js` + `highlight-theme-*.css` | 代码语法高亮 + 主题样式 |
-| DOMPurify | `dompurify.min.js` | HTML 消毒（XSS 防护） |
-| KaTeX | `katex.min.js` + `katex-auto-render.min.js` + `katex.css` | LaTeX 公式渲染 + 自动扫描 + 字体与样式 |
-| Tabulator | `tabulator.min.js` + `tabulator.min.css` | 交互式表格 + 样式 |
-| 字体库 | `jetbrains-mono.css` | 等宽代码字体 |
-| Emoji | `twemoji.css` | 彩色 Emoji 字体 |
-| 文件操作 | `filesaver.min.js` | 前端文件保存/导出 |
+| Highlight.js | `highlight.min.js` + `highlight-theme-*.css` | 代码高亮 |
+| DOMPurify | `dompurify.min.js` | XSS 防护 |
+| KaTeX | `katex.min.js` + `katex-auto-render.min.js` + `katex.css` | 公式渲染 |
+| Tabulator | `tabulator.min.js` + `tabulator.min.css` | 交互表格 |
+| FileSaver | `filesaver.min.js` | 浏览器端文件保存 |
+| JetBrains Mono | `jetbrains-mono.css` | 代码字体 |
 
-## 建议采用顺序
-
+## 建议采用顺序（按优先级逐步增强博客）
 | 优先级 | 建议 | 价值 |
 |---|---|---|
-| 1 | 使用 `marked.min.js + highlight.min.js + highlight-theme-*.css` | 更接近 VS Code 预览，并改善代码块阅读体验。 |
-| 2 | 加 `katex.min.js + katex-auto-render.min.js + katex.css` 和 `mermaid.min.js` | 支持公式和结构图，适合技术笔记。 |
-| 3 | 加 `wavedrom.min.js + wavedrom-skin.js` 示例 | 先支持数字时序图，最适合硬件/RTL 笔记。 |
-| 4 | 在 `blog/labs/` 建一个 `netlist-demo.html` | 用 `netlistsvg.bundle.js` 或 DigitalJS 展示 Verilog/Yosys 结构。 |
-| 5 | 在 `blog/labs/` 建一个 `table-demo.html` | 用 `tabulator.min.js + Papa Parse + SheetJS` 做 CSV/XLSX 数据浏览器。 |
-| 6 | 在 `blog/labs/` 建可视化模板 | 预留 `echarts.min.js` 和其他图表库的页面骨架。 |
+| 1 | `marked.min.js` + `highlight.min.js` + 主题 CSS | 改善 Markdown 与代码块的阅读体验。 |
+| 2 | `katex.min.js` + `katex-auto-render.min.js` + `mermaid.min.js` | 支持公式与结构图，技术笔记更完整。 |
+| 3 | `wavedrom.min.js` + 皮肤 | 支持数字时序图，适合硬件/RTL 笔记。 |
+| 4 | 在 `blog/labs/` 加 `netlist-demo.html` | 用 `netlistsvg.bundle.js` 或 DigitalJS 展示 Verilog/Yosys 结构。 |
+| 5 | 在 `blog/labs/` 加 `table-demo.html` | 用 `tabulator.min.js` + `Papa Parse` + `SheetJS` 做 CSV/XLSX 浏览器。 |
+| 6 | 建可视化模板 | 预留 `echarts.min.js`、`d3.min.js`、`three.min.js` 的页面骨架用于快速复用。 |
 
 ## 简短结论
 
-如果只是写文章，优先增强 `blog/posts/` 的 Markdown 渲染链路。  
-如果要做图表、3D、数据表格、Vue 工具页，就放到 `blog/labs/`，让每个实验页拥有自己的脚本和样式。
+如果只是写文章，优先增强 `blog/posts/` 的 Markdown 渲染链路（marked/highlight/KaTeX/DOMPurify）。如果要做图表、3D、数据表格、Vue 工具页，就放到 `blog/labs/`，让每个实验页拥有自己的脚本和样式。
