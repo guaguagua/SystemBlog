@@ -5,6 +5,18 @@ summary: 用表格总结 Markdown 渲染、公式、图表、电路、3D、Vue�
 date: 2026-06-21
 ---
 
+| 常用库 | 用途 | 备注 |
+|---|---|---|
+| Mind Elixir | 思维导图/脑图 | 轻量、交互式，适合笔记与知识管理 |
+| WaveDrom | 数字时序图 | WaveJSON 生成 SVG，适合 RTL/时序示意 |
+| netlistsvg | 网表转原理图 | 结合 Yosys 输出生成电路原理图 |
+| elkjs | 自动布局 | 复杂模块/网表布局引擎，常配合 SVG 使用 |
+| ECharts | 工程图表 | 交互式、中文资料丰富，适合统计与仪表盘 |
+| KaTeX | 公式渲染 | 快速渲染 LaTeX，适合静态博客 |
+| Mermaid | 文本绘图 | 流程图、时序图、类图，适合文档内嵌 |
+| Markdown | 文章内容 | 基础内容格式，使用 marked/markdown-it 渲染 |
+| Tabulator | 交互表格 | 筛选、排序、导出，适合数据浏览 |
+
 # GitHub Pages 博客可用的前端 JS 库汇总
 
 SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。
@@ -51,13 +63,13 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 | 库 | 用途 | 推荐场景 | 建议位置 | 备注 |
 |---|---|---|---|---|
 | `WaveDrom` | 数字时序图 | 总线协议、握手信号、RTL 时序说明 | `blog/posts/` 或 `blog/labs/` | 用 WaveJSON 生成 SVG，适合技术文章。 |
-| `netlistsvg` | 网表转原理图 SVG | Yosys JSON 网表、RTL 结构图、模块连接图 | `blog/labs/` 或离线生成 SVG 后放文章 | MIT 许可，适合配合 Verilog/Yosys 工作流。 |
+| `netlistsvg` | 网表转原理图 SVG | Yosys JSON 网表、RTL 结构图、模块连接图 | `blog/labs/` 或离线生成 SVG 后放文章 | MIT 许可，适合配合 Verilog/Yosys 工作流。[...]
 | `DigitalJS` | 数字逻辑电路仿真 | 门级电路、组合逻辑、寄存器、教学演示 | `blog/labs/` | BSD-2-Clause 许可，输入是 JSON，可配合 `yosys2digitaljs`。 |
 | `yosys2digitaljs` | Yosys 输出转 DigitalJS | Verilog/SystemVerilog 转可交互数字电路 | 离线工具链或 `blog/labs/` 辅助流程 | 不是 UI 库，更像格式转换工具。 |
 | `elkjs` | 自动布局 | 带端口的数据流图、网表图、模块图 | `blog/labs/` | 只负责布局，不负责绘制；常和 SVG/Canvas 配合。 |
 | `dagre` / `graphre` | 有向图布局 | 简单模块框图、依赖图、信号流图 | `blog/labs/` | 比 `elkjs` 简单，适合不需要复杂端口布局的图。 |
 | `SVG.js` | SVG 绘制与交互 | 自制电路符号、连线、标注、动画 | `blog/labs/` | MIT 许可，适合做轻量自定义电路图。 |
-| `CircuitJS1` | 模拟/混合电路仿真 | RLC、二极管、晶体管、运放等电路演示 | 外链参考或独立实验页 | GPL 许可，默认不作为本站基础库；如果内嵌或修改需谨慎。 |
+| `CircuitJS1` | 模拟/混合电路仿真 | RLC、二极管、晶体管、运放等电路演示 | 外链参考或独立实验页 | GPL 许可，默认不作为本站基础库；如果内嵌或修[...] 
 
 ## 3D、动画与交互实验
 
