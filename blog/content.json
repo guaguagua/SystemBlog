@@ -1,5 +1,15 @@
 [
   {
+    "type": "post",
+    "slug": "open-eda",
+    "source": "posts/open-eda.md",
+    "title": "开源 EDA 工具全景汇总（含 Python / JS 生态）",
+    "category": "硬件工具",
+    "summary": "按 PCB、数字 ASIC、模拟版图、仿真验证、FPGA 工具链分类汇总主流开源 EDA 工具，梳理 OSS CAD Suite 与 OpenLane 的关系，并整理 Python 与 JS/TS 电路生态。",
+    "date": "2026-08-03",
+    "draft": false
+  },
+  {
     "type": "lab",
     "slug": "ai-agent-goal-stack-revolution-ppt",
     "source": "labs/ai-agent-goal-stack-revolution-ppt.html",

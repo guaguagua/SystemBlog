@@ -13,6 +13,8 @@
 
 ## 文章与实验
 
+- [开源 EDA 工具全景汇总（含 Python / JS 生态）](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/open-eda): 按 PCB、数字 ASIC、模拟版图、仿真验证、FPGA 工具链分类汇总主流开源 EDA 工具，梳理 OSS CAD Suite 与 OpenLane 的关系，并整理 Python 与 JS/TS 电路生态。
+  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/open-eda.md)
 - [为什么现在很多 AI agent 还是"不活"](https://guaguagua.github.io/SystemBlog/blog/labs/ai-agent-goal-stack-revolution-ppt.html): 从 Goal Stack 到 AI 的内驱力：把空目标栈当成系统必须面对的"0"，重新审视 SOAR、Lisp 与 LLM 混合路径如何让 agent 从任务响应器变成目标系统。含逐页配音朗读与自动翻页。
 - [AI时代的组织重构与转型](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/ai-era-organizational-restructuring): 从组织为何出现讲起，分析 AI 如何重写组织的分工逻辑，以及流程、协作、岗位与管理方式的重构路径。
   - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/ai-era-organizational-restructuring.md)
