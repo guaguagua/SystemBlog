@@ -5,9 +5,14 @@ summary: 用表格总结 Markdown 渲染、公式、图表、电路、3D、Vue�
 date: 2026-06-21
 ---
 
+## 个人偏好库
+
+| 库 | 原因 | 备注 |
+|---|---|---|
+
 # GitHub Pages 博客可用的前端 JS 库汇总
 
-SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。本清单只保留适合公开 GitHub Pages 博客使用、许可边界相对清晰的库。需要商业授权或许可边界容易误用的库不放入推荐表。
+SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。本清单只保[...]
 
 ## 推荐位置
 
@@ -118,4 +123,4 @@ SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。
 
 ## 简短结论
 
-如果只是写文章，优先增强 `blog/posts/` 的 Markdown 渲染链路（marked/highlight/KaTeX/DOMPurify）。如果要做图表、3D、数据表格、Vue 工具页，就放到 `blog/labs/`，让每个实验页拥有自己的脚本和样式。
+如果只是写文章，优先增强 `blog/posts/` 的 Markdown 渲染链路（marked/highlight/KaTeX/DOMPurify）。如果要做图表、3D、数据表格、Vue 工具页，就放到 `blog/labs/[...]
