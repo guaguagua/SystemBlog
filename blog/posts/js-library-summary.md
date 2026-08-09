@@ -9,10 +9,11 @@ date: 2026-06-21
 
 | 库 | 原因 | 备注 |
 |---|---|---|
+| Markmap | Markdown -> 思维导图，便于笔记和知识结构化 | markmap-lib + markmap-view，适合在 `blog/labs/` 嵌入或作为文章内嵌视图 |
 
 # GitHub Pages 博客可用的前端 JS 库汇总
 
-SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。本清单只保[...]
+SystemBlog 是静态博客，适合使用浏览器端运行的 JavaScript 库。原则很简单：普通文章放在 `blog/posts/`，复杂交互和可视化实验放在 `blog/labs/`。本清单只保[...] 
 
 ## 推荐位置
 
