@@ -1,6 +1,16 @@
 [
   {
     "type": "post",
+    "slug": "commonly-used-ai-models",
+    "source": "posts/commonly-used-ai-models.md",
+    "title": "常用 AI 模型与应用场景",
+    "category": "AI 工具",
+    "summary": "整理常用的 Codex、语音识别和语音合成模型，以及它们在不同任务中的组合方式。",
+    "date": "2026-08-22",
+    "draft": false
+  },
+  {
+    "type": "post",
     "slug": "open-eda",
     "source": "posts/open-eda.md",
     "title": "开源 EDA 工具全景汇总（含 Python / JS 生态）",
