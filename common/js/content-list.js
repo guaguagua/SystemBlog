@@ -40,7 +40,7 @@
         ].join("");
     };
 
-    fetch(contentSrc)
+    fetch(contentSrc, { cache: "no-store" })
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
