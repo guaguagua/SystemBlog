@@ -1,5 +1,16 @@
 [
   {
+    "type": "lab",
+    "slug": "unified-university-mathematics",
+    "source": "labs/unified-university-mathematics.html",
+    "url": "labs/unified-university-mathematics.html",
+    "title": "大学数学统一框架",
+    "category": "数学",
+    "summary": "从空间、变化、对称性与测度四条主线，统一理解高等数学、线性代数、近世代数与概率统计。",
+    "date": "2026-08-25",
+    "draft": false
+  },
+  {
     "type": "post",
     "slug": "commonly-used-ai-models",
     "source": "posts/commonly-used-ai-models.md",
