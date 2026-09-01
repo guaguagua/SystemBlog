@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "semiconductor-industry-markmap",
+    "source": "labs/semiconductor-industry-markmap.html",
+    "url": "labs/semiconductor-industry-markmap.html",
+    "title": "芯片行业全景图谱",
+    "category": "芯片与半导体",
+    "summary": "从材料、设备、设计、制造、芯片种类、应用、产业角色到通信协议，系统梳理芯片行业的交互式思维导图。",
+    "date": "2026-09-01",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "unified-university-mathematics",
     "source": "labs/unified-university-mathematics.html",
     "url": "labs/unified-university-mathematics.html",

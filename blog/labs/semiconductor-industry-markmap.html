@@ -1,0 +1,1289 @@
+<!doctype html>
+<!--
+blog-title: 芯片行业全景图谱
+blog-category: 芯片与半导体
+blog-summary: 从材料、设备、设计、制造、芯片种类、应用、产业角色到通信协议，系统梳理芯片行业的交互式思维导图。
+blog-date: 2026-09-01
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="从材料、设备、设计、制造、芯片种类到终端应用的芯片行业全景思维导图" />
+  <title>芯片行业全景图谱 · Interactive Markmap</title>
+  <style>
+    :root{--bg:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--text:#164f78;--muted:#4f7e9c;--cyan:#44ACFF;--orange:#FE9EC7;--purple:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden}body{font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;color:var(--text);background:#EAE7DE}
+    body::before{display:none}
+    button,input{font:inherit}.topbar{position:fixed;z-index:20;left:18px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.control,.searchbox{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.control{height:38px;border-radius:10px;color:var(--text);padding:0 12px;cursor:pointer;transition:.2s}.control:hover,.control.active{border-color:#44ACFF;background:#89D4FF;transform:translateY(-1px)}.control:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.searchbox{height:38px;border-radius:10px;display:flex;align-items:center;padding:0 11px;gap:8px}.searchbox input{width:210px;background:transparent;border:0;color:#164f78;outline:0}.searchbox input::placeholder{color:#6392ad}.search-count{min-width:20px;padding:1px 6px;border-radius:10px;background:#44ACFF;color:#fff;font-size:10px;text-align:center}.search-count:empty{display:none}.kbd{border:1px solid var(--line);border-bottom-color:rgba(68,172,255,.55);border-radius:5px;padding:1px 5px;font-size:10px;color:var(--muted);background:rgba(137,212,255,.25)}
+    .stage{position:fixed;inset:0}.stage svg{width:100%;height:100%;display:block}#mindmap{--markmap-text-color:#164f78;--markmap-circle-open-bg:#F9F6C4}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:#164f78}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-link{stroke-opacity:.68}.markmap-node-circle{stroke-width:1.8px;fill:#F9F6C4}.match-node foreignObject>div{color:#164f78!important;background:#FE9EC7!important;border-radius:5px;padding:2px 6px!important;box-shadow:0 0 0 3px rgba(254,158,199,.25)}.dim-node{opacity:.16}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    dialog{width:min(760px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;color:var(--text);background:#fff2c2;box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:18px 20px 22px;color:#5f643f;font-size:13px;line-height:1.75;overflow:auto}.modal-body a{color:#287594;text-decoration:none}.modal-body a:hover{text-decoration:underline}.source{padding:10px 0;border-bottom:1px solid var(--line)}.source:last-child{border:0}.source b{color:#43502e}.close{border:0;background:transparent;color:#7a6c43;font-size:22px;cursor:pointer}
+    .loading{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.loader-ring{width:38px;height:38px;border-radius:50%;border:2px solid rgba(68,172,255,.18);border-top-color:#44ACFF;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:900px){.searchbox input{width:150px}}@media(max-width:620px){.topbar{left:10px;right:10px;top:10px}.actions{gap:5px}.control{height:34px;padding:0 9px;font-size:11px}.searchbox{height:34px}.searchbox input{width:128px}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading"><div><div class="loader-ring"></div><p style="font-size:11px;color:#164f78;margin-left:-24px">正在构建产业图谱…</p></div></div>
+  <header class="topbar">
+    <nav class="actions" aria-label="图谱工具">
+      <label class="searchbox" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索：AI、光刻、HBM…" /><span class="search-count" id="searchCount"></span><span class="kbd">/</span></label>
+      <button class="control" data-level="2">概览</button><button class="control" data-level="99">全部展开</button><button class="control" id="fit">适应画布</button><button class="control" id="reset">重置</button><button class="control" id="fullscreen">全屏</button>
+    </nav>
+  </header>
+  <main class="stage"><svg id="mindmap" role="img" aria-label="芯片行业全景思维导图"></svg></main>
+  <div class="sr-only" id="status" aria-live="polite">概览模式</div>
+  <script type="text/plain" id="markdown">
+# 芯片行业全景 · 从沙粒到系统
+
+## ① 半导体材料
+- 晶圆与衬底
+  - 硅基材料
+    - 单晶硅锭：直拉 CZ / 区熔 FZ
+    - 抛光硅片：150 / 200 / 300 mm
+    - 外延片 Epi：控制掺杂与缺陷
+    - SOI：RF-SOI / FD-SOI / Power-SOI
+    - 代表供应商：Shin-Etsu / SUMCO / GlobalWafers / Siltronic / SK Siltron
+  - 宽禁带半导体
+    - SiC 碳化硅：导电型 / 半绝缘型
+    - GaN 氮化镓：GaN-on-Si / SiC / Sapphire
+    - 氧化镓 Ga₂O₃ / 金刚石：超宽禁带探索
+    - SiC 衬底代表：Wolfspeed / Coherent / ROHM SiCrystal / ST / onsemi
+  - III-V 族化合物
+    - GaAs：射频 PA / 光电
+    - InP：高速光通信 / 毫米波
+    - GaSb / InAs：红外与特种器件
+  - 其他衬底
+    - 蓝宝石：LED / GaN 外延
+    - 石英与玻璃：掩模 / 先进封装
+    - 陶瓷：Al₂O₃ / AlN / Si₃N₄
+- 图形化材料
+  - 光掩模与掩模版
+    - 石英掩模基板 / 铬膜
+    - DUV 光掩模 / EUV 反射式掩模
+    - 掩模保护膜 Pellicle
+    - 代表供应商：Hoya / DNP / Toppan / Photronics / Shin-Etsu
+  - 光刻胶 Photoresist
+    - 正胶 / 负胶
+    - KrF 248 nm / ArF 193 nm
+    - ArF 浸没式 / EUV 胶
+    - 电子束胶 / 纳米压印胶
+    - 代表供应商：JSR / TOK / Shin-Etsu / Fujifilm / DuPont
+  - 配套材料 Ancillaries
+    - 显影液 TMAH / 去胶剂
+    - 底部抗反射层 BARC
+    - 顶涂层 / 增粘剂 HMDS
+- 薄膜、互连与掺杂材料
+  - 介质与绝缘层
+    - SiO₂ / SiN / Low-k / Ultra-low-k
+    - High-k：HfO₂ 等
+  - 导体与阻挡层
+    - 铜 Cu / 铝 Al / 钨 W / 钴 Co / 钌 Ru
+    - Ta / TaN / Ti / TiN
+  - 沉积源材料
+    - 溅射靶材：Cu / Al / Ti / Ta / W
+    - 金属有机与 ALD / CVD 前驱体
+  - 掺杂源
+    - 硼 B / 磷 P / 砷 As
+    - 离子注入源与扩散源
+- 电子气体
+  - 大宗气体
+    - N₂ / O₂ / H₂ / Ar / He
+  - 特种与反应气体
+    - 沉积：SiH₄ / NH₃ / WF₆ / N₂O
+    - 刻蚀：CF₄ / C₄F₆ / SF₆ / Cl₂ / HBr
+    - 清洁：NF₃ / F₂
+    - 掺杂：BF₃ / PH₃ / AsH₃
+  - 光刻相关
+    - 氖 Ne / 氩 Ar / 氪 Kr / 氙 Xe
+  - 代表供应商：Linde / Air Liquide / Air Products / Merck / Taiyo Nippon Sanso
+- 湿电子化学品
+  - 清洗：H₂SO₄ / H₂O₂ / NH₄OH / HCl
+  - 刻蚀：HF / H₃PO₄ / KOH
+  - 溶剂：IPA / PGMEA / NMP 替代体系
+  - 电镀液：铜 / 镍 / 锡银
+  - 代表供应商：Entegris / Kanto Chemical / BASF / Honeywell / Stella Chemifa
+- 工艺水与污染控制材料
+  - 超纯水 UPW / 离子交换树脂
+  - 化学品与气体过滤器 / 膜材料
+  - 晶圆盒 / FOUP / 洁净室耗材
+- CMP 材料
+  - 抛光液 Slurry：氧化物 / 钨 / 铜
+  - 抛光垫 Pad / 修整盘
+  - 清洗液与后 CMP 化学品
+  - 代表供应商：Entegris / DuPont / Fujimi / Resonac / AGC
+- 封装材料
+  - 载体与互连
+    - 引线框架 Leadframe
+    - 有机封装基板 ABF / BT
+    - 硅 / 玻璃中介层 Interposer
+    - 键合线：Cu / Au / Al
+  - 连接与保护
+    - 焊球 / 微凸点 / 铜柱
+    - 底部填充 Underfill
+    - 塑封料 EMC / 液态封装料
+    - 固晶胶 / 烧结银 / 热界面材料 TIM
+  - 工艺辅材
+    - 切割胶带 / UV 胶带
+    - 临时键合与解键合材料
+  - 代表供应商：Ajinomoto / Resonac / Sumitomo Bakelite / Ibiden / Shinko / Kyocera
+
+## ② 半导体设备
+- 晶圆制造与衬底设备
+  - 单晶炉 / 长晶炉
+  - 切片 / 倒角 / 研磨 / 抛光
+  - 外延炉：Si / SiC / GaN
+  - 晶圆清洗与缺陷检测
+- 掩模版设备
+  - 激光 / 电子束掩模写入
+  - 掩模涂胶显影 / 刻蚀 / 清洗
+  - 掩模 CD 量测 / 缺陷检测 / 修复
+- 晶圆前道设备 WFE
+  - 清洗与表面处理
+    - 槽式湿法 / 单片清洗 / 超临界干燥
+    - 去胶 Ashing / 湿法剥离
+  - 涂胶显影 Track
+    - 涂胶 / 烘烤 / 显影 / 边缘去胶
+  - 光刻曝光
+    - i-line / KrF / ArF 干式
+    - ArF 浸没式 DUV
+    - EUV / High-NA EUV
+    - 纳米压印 / 直写（特定场景）
+    - 代表厂商：ASML / Nikon / Canon
+  - 薄膜沉积
+    - PVD 物理气相沉积 / 溅射
+    - CVD：LPCVD / PECVD / MOCVD
+    - ALD：热 ALD / PEALD
+    - 外延 Epitaxy
+    - 电化学沉积 ECD
+    - 代表厂商：Applied Materials / Lam Research / Tokyo Electron / ASM / Kokusai / AIXTRON
+  - 刻蚀
+    - 干法等离子：RIE / ICP / ALE
+    - 湿法刻蚀
+    - 深硅刻蚀 DRIE / 高深宽比刻蚀
+    - 代表厂商：Lam Research / Tokyo Electron / Applied Materials / AMEC / Hitachi High-Tech
+  - 掺杂与热处理
+    - 离子注入：低 / 中 / 高能
+    - 扩散炉 / 氧化炉
+    - 快速热处理 RTP / 激光退火
+    - 代表厂商：Axcelis / Applied Materials / Kokusai / Tokyo Electron / SCREEN
+  - 平坦化
+    - CMP 抛光设备
+    - 刷洗与后 CMP 清洗
+    - 代表厂商：Applied Materials / Ebara
+  - 量测与检测 Metrology & Inspection
+    - 光学缺陷检测 / 明暗场
+    - 电子束检测 EBI / SEM Review
+    - CD-SEM / OCD / Overlay
+    - 膜厚 / 应力 / 颗粒 / 成分量测
+    - 探针式 / AFM / X-ray
+    - 代表厂商：KLA / Applied Materials / Hitachi High-Tech / Onto Innovation / Nova
+- 工厂设施与自动化
+  - 晶圆搬运
+    - FOUP / Load Port / EFEM
+    - AMHS 天车 OHT / Stocker
+    - 晶圆机器人 / 对准器
+  - 核心子系统
+    - 真空泵 / 阀门 / 射频电源
+    - 精密运动平台 / 激光器 / 光学系统
+    - 温控 Chiller / 过滤器 / 密封件
+  - 厂务系统 Facilities
+    - 洁净室 / HVAC / 防微振
+    - 超纯水 / 特气与化学品输送
+    - 电力 / 冷却水 / 排气 / 废气治理
+  - 智能制造
+    - MES / APC / FDC / EAP
+    - 设备通信 SECS/GEM
+    - 良率管理 YMS / 预测维护
+- 封装组装设备
+  - 晶圆减薄 / 背磨 / 临时键合
+  - 划片：刀片 / 激光 / 等离子
+  - 固晶 Die Attach / Flip-Chip Bonder
+  - 引线键合 Wire Bonding
+  - 混合键合 Hybrid Bonding
+  - 植球 / 凸点 / 电镀 / 回流焊
+  - 塑封 / 底填 / 固化 / 打标
+  - 基板与 RDL 制造设备
+  - 代表厂商：DISCO / ASMPT / BESI / Kulicke & Soffa / TOWA / Hanmi
+- 测试设备
+  - 晶圆测试
+    - 探针台 Prober / 探针卡 Probe Card
+    - ATE 自动测试机：SoC / Memory / RF / Power
+  - 成品测试
+    - Handler 分选机 / 测试座 Socket
+    - Burn-in 老化 / SLT 系统级测试
+  - 可靠性与失效分析
+    - 温循 / HAST / 功率循环
+    - X-ray / SAM / FIB / TEM / 发光分析
+  - 代表厂商：Advantest / Teradyne / Cohu / Tokyo Seimitsu / FormFactor
+
+## ③ 芯片设计
+- 设计流程
+  - 产品定义与规格
+    - 市场与应用需求 / PPA 目标
+    - 接口、算力、功耗、安全、可靠性
+    - 工艺节点 / 成本 / 封装 / 上市时间
+  - 系统与架构设计
+    - 系统划分：软硬件协同
+    - ISA 指令集：Arm / x86 / RISC-V
+    - 微架构 / 存储层次 / NoC
+    - Chiplet 划分与 UCIe 等互连
+    - 功耗、时钟、复位、安全架构
+  - IP 复用与开发
+    - 按交付形态
+      - Soft IP 软核
+        - 可综合 RTL 源码
+        - 参数可配置，工艺可移植
+        - 常见于 CPU、总线控制器、数字算法模块
+      - Firm IP 固核
+        - 已优化门级网表与时序约束
+        - PPA 较确定，仍保留有限工艺适配能力
+      - Hard IP 硬核
+        - 版图 GDS、抽取模型与时序功耗模型
+        - 与晶圆厂、工艺节点和 PVT 条件绑定
+        - 常见于 PHY、SerDes、PLL、模拟与存储器 IP
+      - Subsystem IP 子系统
+        - 多个 IP 预集成、预验证
+        - 配套固件、驱动、参考设计与验证环境
+      - Verification IP 验证 IP
+        - 协议模型、UVM 组件与总线功能模型
+        - 断言、覆盖率模型与协议检查器
+    - 计算 IP
+      - CPU 处理器核
+        - Arm Cortex、Neoverse
+        - RISC-V 处理器核
+        - MCU 微控制器核
+      - DSP 数字信号处理器
+        - 音频与语音 DSP
+        - 通信与基带 DSP
+        - 视觉与雷达 DSP
+      - GPU 图形处理器
+        - 图形渲染
+        - 通用并行计算
+      - NPU 与 AI 加速器
+        - 矩阵与张量计算
+        - 端侧推理与神经网络引擎
+      - 专用加速器
+        - 视频编解码引擎
+        - 密码运算引擎
+        - 数据压缩与正则表达式引擎
+    - 系统基础设施 IP
+      - 片上互连
+        - AMBA AXI、AHB、APB
+        - ACE、CHI 一致性互连
+        - NoC 片上网络与 QoS
+      - 缓存与内存系统
+        - 系统级缓存 SLC
+        - Cache Coherent Hub
+        - DMA 与内存搬运引擎
+      - 系统控制
+        - 中断控制器与定时器
+        - 时钟、复位与电源控制器
+        - 电源域、隔离与低功耗握手
+      - 地址与访问管理
+        - IOMMU 与 SMMU
+        - 地址转换与内存保护
+      - 调试与可观测性
+        - JTAG 与片上调试
+        - Trace 追踪与性能监视器
+    - 基础与存储器 IP
+      - 标准单元库
+        - 多阈值电压单元
+        - 高密度、高性能与低功耗库
+        - 时序、功耗、噪声与版图视图
+      - 嵌入式存储器
+        - SRAM Compiler
+        - ROM 与 Register File
+        - Cache Tag 与多端口存储器
+      - 嵌入式非易失存储器
+        - eFuse 与 OTP
+        - eFlash、MRAM 与 ReRAM
+      - I/O 与物理基础库
+        - GPIO 与 Pad Library
+        - ESD、Level Shifter 与 Isolation Cell
+        - PVT Monitor 与片上传感器
+    - 接口控制器与 PHY IP
+      - 存储器接口
+        - DDR、LPDDR 控制器与 PHY
+        - HBM 控制器与 PHY
+        - GDDR 控制器与 PHY
+      - 芯片与系统互连
+        - PCIe 控制器、SerDes 与 PHY
+        - CXL 控制器与协议栈
+        - UCIe 与 Die-to-Die PHY
+      - 存储设备接口
+        - UFS、eMMC 与 SD
+        - SATA 与 NVMe 控制器
+      - 移动与外设接口
+        - USB 与 Thunderbolt
+        - MIPI CSI、DSI 与 C-PHY、D-PHY
+        - I3C、I2C、SPI 与 UART
+        - CAN、LIN 与车载以太网
+      - 网络与通信接口
+        - Ethernet MAC、PCS 与 PHY
+        - TSN 时间敏感网络
+        - Interlaken 与高速串行链路
+    - 模拟与混合信号 IP
+      - 时钟生成
+        - PLL、DLL 与振荡器
+        - Clock Generator 与抖动清理
+      - 数据转换
+        - ADC 与 DAC
+        - 高速、精密与低功耗转换器
+      - 电源管理
+        - LDO 与 DC-DC
+        - PMIC 控制与电源监测
+      - 高速收发
+        - SerDes、CDR 与均衡器
+        - 发送驱动与接收前端
+      - 传感器前端
+        - AFE 模拟前端
+        - 温度、电压与工艺监测
+    - 安全 IP
+      - 硬件信任根
+        - Root of Trust
+        - Secure Enclave 与安全控制器
+      - 密码算法引擎
+        - AES、SHA、RSA 与 ECC
+        - 后量子密码 PQC
+        - TRNG 与密钥派生
+      - 身份与密钥
+        - Secure Boot
+        - Key Vault、eFuse 与 OTP
+        - PUF 物理不可克隆函数
+      - 系统防护
+        - 安全总线与访问防火墙
+        - 内存保护与可信执行环境
+        - 防篡改、侧信道与故障注入防护
+    - 多媒体与传感器 IP
+      - ISP 图像信号处理器
+      - 视频编码与解码器
+      - 显示控制器与合成引擎
+      - 音频编解码与语音处理
+      - 计算机视觉与传感器融合
+    - 测试、安全与可靠性 IP
+      - 可测性设计 DFT
+        - Scan 与压缩扫描
+        - MBIST 与存储器修复
+        - LBIST 与边界扫描
+      - 功能安全
+        - Safety Island
+        - Lockstep 锁步核
+        - ECC、奇偶校验与故障注入
+        - FMEDA 与 ISO 26262 支撑包
+      - RAS 与在役监测
+        - 错误检测、隔离与恢复
+        - 老化、温度与电压监控
+    - Chiplet 与先进封装 IP
+      - Die-to-Die 控制器与 PHY
+        - UCIe
+        - BoW
+      - Chiplet 互连与协议桥
+        - 一致性与非一致性互连
+        - PCIe、CXL 与片内协议转换
+      - 2.5D 与 3D 集成支持
+        - HBM 接口
+        - Interposer 与硅桥连接
+        - 3D 堆叠测试与 Die Repair
+    - IP 集成配套
+      - IP-XACT 寄存器与互连描述
+      - 软件驱动、固件与 BSP
+      - 仿真模型、验证环境与参考测试
+      - 综合、时序、功耗与物理实现约束
+      - 安全手册与功能安全文档
+    - IP 选型与验收
+      - 功能、协议版本与配置能力
+      - PPA 性能、功耗与面积
+      - 晶圆厂、工艺节点与 PVT 覆盖
+      - Silicon Proven 硅验证记录
+      - 验证完整度与互操作性
+      - 安全和功能安全认证
+      - 集成支持、生命周期与供货风险
+    - IP 授权模式
+      - 单项目与多项目授权
+      - 单工艺与多工艺授权
+      - 永久授权、订阅与按次使用
+      - 前期授权费与按芯片版税
+      - 处理器 IP 授权与架构授权
+      - 商业 IP 与开源 IP
+  - 前端设计
+    - 数字：RTL 编码 Verilog / SystemVerilog / VHDL
+    - 高层综合 HLS / 模型驱动设计
+    - 模拟与混合信号：原理图 / SPICE
+    - 射频 / 光子 / MEMS 协同设计
+  - 功能验证
+    - 仿真 / 形式验证 / 静态检查
+    - UVM 验证平台 / 覆盖率收敛
+    - FPGA 原型 / 硬件仿真 Emulator
+    - 软硬件协同验证 / 虚拟原型
+  - 逻辑实现与 DFT
+    - 逻辑综合 / 时序约束 SDC
+    - 低功耗设计 UPF / 电源域
+    - DFT：Scan / MBIST / JTAG / BIST
+    - 等价性检查
+  - 物理设计 Back-end Design
+    - Floorplan / 电源网络 PDN
+    - 布局 Placement / 时钟树 CTS
+    - 布线 Routing / ECO
+    - 寄生参数提取 RC Extraction
+  - 签核 Sign-off
+    - STA 静态时序分析
+    - 功耗 / IR Drop / EM / 热分析
+    - 物理验证：DRC / LVS / ERC
+    - 可制造性 DFM / 良率 / 老化可靠性
+  - 封装与系统协同设计
+    - SI / PI / EMI / 热 / 机械应力
+    - 2.5D / 3D / Chiplet 布局与互连
+    - 封装—板级—系统协同优化
+  - 流片与硅后
+    - GDSII / OASIS Tape-out
+    - OPC / RET / 掩模数据准备 MDP
+    - 工程样片 / Bring-up / 调试
+    - 特性验证 / 量产测试程序 / Bin 分档
+    - 固件、驱动与参考设计
+- 设计支撑体系
+  - EDA 工具链
+    - 前端设计与验证
+      - RTL 仿真 / Debug / Lint / CDC / RDC
+      - 形式验证 / UVM / VIP / Emulation
+      - 代表厂商：Synopsys / Cadence / Siemens EDA
+    - 综合与物理实现
+      - Logic Synthesis / Place & Route / STA / ECO
+      - 功耗、IR Drop、EM、物理签核
+      - 代表厂商：Synopsys / Cadence / Siemens EDA / Ansys
+    - 模拟、射频与多物理场
+      - SPICE / Layout / RF / EM / Thermal / Stress
+      - 代表厂商：Cadence / Synopsys / Siemens EDA / Ansys / Keysight
+    - 制造 EDA
+      - TCAD / OPC / RET / 计算光刻 / Mask Synthesis
+      - 缺陷分析 / 良率学习 / Process Control
+    - 封装与 PCB
+      - Package / Interposer / PCB / Cable 协同设计
+      - SI / PI / EMI / 热与结构分析
+    - 开源工具生态
+      - Yosys / Verilator / OpenROAD / KLayout / Magic / ngspice
+      - 开源 PDK：SkyWater SKY130 / GF180MCU
+    - EDA 商业模式
+      - 年度订阅 / Token / Cloud EDA
+      - Foundry Certified Flow / Reference Flow
+      - IP + EDA + Cloud 联合交付
+
+## ④ 芯片制造
+- 晶圆准备
+  - 多晶硅提纯 → 单晶拉制 → 切片抛光
+  - 外延生长 / 清洗 / 来料检测
+- 前道工艺 FEOL
+  - 隔离：STI 浅沟槽隔离
+  - 阱区与掺杂：离子注入 / 退火
+  - 栅极堆栈：High-k / Metal Gate
+  - 器件结构演进
+    - Planar 平面晶体管
+    - FinFET 鳍式晶体管
+    - GAA / Nanosheet 环绕栅
+    - CFET / 2D 材料（研发）
+  - 源漏外延 / 掺杂激活退火
+  - 循环核心：沉积 → 涂胶 → 曝光 → 显影 → 刻蚀 → 注入 → 去胶
+- 中段工艺 MOL
+  - 接触孔 / 局部互连
+  - Silicide / 钨塞 / 钴或钌接触
+  - 源漏、栅极与 BEOL 的连接
+- 后段互连 BEOL
+  - 层间介质 ILD / Low-k
+  - 铜互连：双镶嵌 Damascene
+  - Barrier / Seed / 电镀 / CMP
+  - 通孔 Via 与多层金属
+  - 顶层金属 / 钝化层 / 焊盘
+  - 背面供电 BSPDN（先进节点）
+- 在线控制与良率
+  - 缺陷检测 / Overlay / CD / 膜厚量测
+  - SPC / APC / FDC 制程控制
+  - 工艺窗口 / 缺陷密度 / 良率爬坡
+- 制造平台维度
+  - 工艺整合与设计接口
+    - Process Integration / 模块工艺协同
+    - PDK / Design Rules / Device Models
+    - DTCO 设计技术协同 / STCO 系统技术协同
+  - 制程平台
+    - 先进逻辑：FinFET / GAA / EUV / 背面供电
+    - 成熟逻辑：28 nm–180 nm CMOS
+    - 特色工艺：BCD / HV / RF-SOI / CIS / MEMS / eNVM
+    - 存储工艺：DRAM / 3D NAND / HBM Base Die
+    - 功率工艺：Si / SiC / GaN
+  - 晶圆尺寸
+    - 300 mm：先进逻辑、存储与部分成熟工艺
+    - 200 mm：模拟、功率、MEMS、特色工艺
+    - 150 mm 及以下：化合物与特种器件
+- 晶圆测试与挑选
+  - PCM / WAT 工艺监控
+  - CP 晶圆级电测 / Known Good Die
+  - Wafer Map / 修复冗余 / 性能分档
+- 封装 Assembly
+  - 晶圆减薄 → 划片 → 固晶 → 互连 → 塑封 → 成型
+  - 传统封装
+    - DIP / SOP / QFP / QFN
+    - BGA / LGA / PGA
+  - 晶圆级与扇出
+    - WLCSP / Fan-in WLP
+    - Fan-out WLP / Panel-level Packaging
+  - 倒装与系统级
+    - Flip Chip / FC-BGA
+    - SiP / MCM / PoP
+  - 先进封装与异构集成
+    - 2.5D：硅 / 有机 / 玻璃中介层
+    - 3D IC：TSV / Die-to-Wafer / Wafer-to-Wafer
+    - Hybrid Bonding 混合键合
+    - Chiplet / HBM / 共同封装光学 CPO
+- 测试、认证与出货
+  - FT 成品测试 / Burn-in / SLT
+  - 性能与功耗 Bin 分档
+  - 可靠性：HTOL / HAST / 温循 / ESD / Latch-up
+  - 车规 AEC-Q100 / 功能安全 ISO 26262
+  - 失效分析 → 设计 / 工艺 / 测试闭环
+
+## ⑤ 芯片种类
+- 基础产品分类（按功能）
+  - 逻辑 Logic
+    - 通用处理器
+      - CPU 中央处理器
+        - 指令集 ISA
+          - x86-64：复杂指令集；Intel / AMD
+          - Arm：精简指令集；Armv8-A / Armv9-A
+            - 架构配置 Profile
+              - A-profile：应用处理器；高性能与操作系统
+              - R-profile：实时处理器；确定性响应
+              - M-profile：微控制器；低功耗嵌入式
+            - Arm 处理器 IP
+              - Cortex-X：旗舰性能核心
+              - Cortex-A：应用处理器核心
+              - Neoverse：服务器与基础设施核心
+              - Cortex-R：实时处理器核心
+              - Cortex-M：微控制器核心
+          - RISC-V：开放指令集；RV32 / RV64 / Vector
+            - 基础整数集：RV32I / RV64I
+            - 标准扩展：M / A / F / D / C / V
+            - CPU IP：SiFive / Andes 等
+          - POWER：IBM 服务器与高性能计算
+          - LoongArch：龙芯自主指令系统
+          - MIPS / SPARC：存量与特定嵌入式场景
+        - 微架构组成
+          - 前端：取指 / 分支预测 / 解码
+          - 执行：ALU / FPU / SIMD / Vector
+          - 乱序执行 / 重排序缓冲区 / 寄存器重命名
+          - Cache：L1 / L2 / L3 / 一致性
+          - 内存控制器 / PCIe / CXL / I/O
+          - SMT 多线程 / 多核 / NUMA / Chiplet
+        - 按应用市场
+          - PC：桌面 / 笔记本 / 工作站
+          - 服务器：云计算 / 数据库 / HPC
+          - 移动：智能手机 / 平板 / XR
+          - 嵌入式：工业 / 网络 / 边缘计算
+        - 代表厂商与产品族
+          - Intel：Core / Xeon / Atom；x86-64
+          - AMD：Ryzen / EPYC；x86-64
+          - Apple：M 系列 / A 系列；自研 Arm CPU
+          - Qualcomm：Snapdragon X / Snapdragon；自研 Arm CPU
+          - MediaTek：Dimensity；Arm CPU 集成 SoC
+          - AWS：Graviton；云端自研 Arm CPU
+          - Ampere Computing：AmpereOne；Arm 服务器 CPU
+          - IBM：Power；企业与 HPC
+          - SiFive / Andes：RISC-V CPU IP
+          - 龙芯：Loongson；LoongArch
+      - MCU 微控制器
+        - 位宽：8 位 / 16 位 / 32 位
+        - 架构：Arm Cortex-M / RISC-V / AVR / PIC / RL78 / RX / TriCore
+        - 片上资源：Flash / SRAM / Timer / ADC / PWM / CAN / USB
+        - 实时与安全：中断延迟 / ECC / Lockstep / HSM
+        - 超低功耗：Sleep / Stop / Standby / Energy Harvesting
+        - 代表厂商：ST / NXP / Infineon / Renesas / Microchip / TI / GigaDevice / Espressif
+      - MPU / Application Processor
+        - MMU + 外部 DRAM + Linux / Android
+        - 多媒体：GPU / ISP / Video Codec / Display
+        - 连接：5G / Wi-Fi / Bluetooth / GNSS
+        - 代表厂商：Qualcomm / MediaTek / Samsung / NXP / Rockchip / Allwinner
+    - 并行与专用计算
+      - GPU 图形与通用并行计算
+        - 形态：独立 GPU / 集成 GPU / 移动 GPU IP
+        - 架构：SIMT / SIMD / Shader Core / Tensor Core / Ray Tracing
+        - 存储：GDDR / HBM / Cache / Unified Memory
+        - 软件生态：CUDA / ROCm / oneAPI / OpenCL / Vulkan
+        - 代表厂商：NVIDIA / AMD / Intel / Apple / Qualcomm / Arm / Imagination
+      - NPU / TPU / AI Accelerator
+        - 工作负载：训练 / 推理 / 大模型 / 推荐系统 / 视觉
+        - 数据精度：FP32 / TF32 / BF16 / FP16 / FP8 / INT8 / INT4
+        - 架构：Systolic Array / Tensor Core / Dataflow / Sparse Engine
+        - 部署：云端 / 数据中心 / 边缘 / 端侧
+        - 代表产品：Google TPU / AWS Trainium & Inferentia / Intel Gaudi
+        - 代表厂商：NVIDIA / AMD / Google / AWS / Intel / Huawei / Cambricon
+        - 端侧 NPU：Apple / Qualcomm / MediaTek / Samsung
+      - DSP 数字信号处理器
+        - 特征：MAC 阵列 / Harvard 架构 / 定点与饱和运算
+        - 应用：音频 / 通信基带 / 雷达 / 电机控制
+        - 代表厂商：TI / Qualcomm / Cadence Tensilica / CEVA / ADI
+      - DPU / IPU / SmartNIC
+        - 卸载：网络 / 存储 / 安全 / 虚拟化
+        - 关键模块：Arm 核 / Packet Engine / Crypto / RDMA
+        - 代表：NVIDIA BlueField / AMD Pensando / Intel IPU / AWS Nitro
+    - 可编程逻辑
+      - FPGA
+        - 资源：LUT / FF / BRAM / DSP / SerDes / Hard IP
+        - 形态：SRAM FPGA / Flash FPGA / SoC FPGA
+        - 应用：原型验证 / 通信 / 工业 / 航空航天 / AI
+        - 代表厂商：AMD Xilinx / Altera / Lattice / Microchip / Achronix / Gowin
+      - CPLD / PLD：低密度逻辑与板级控制
+    - 定制逻辑
+      - ASIC / ASSP
+      - SoC 系统级芯片
+      - Chiplet / 多芯粒系统
+      - 代表厂商：Broadcom / Marvell / MediaTek / Qualcomm / Apple / Realtek
+    - 控制与接口
+      - Baseband / Modem
+        - 蜂窝协议栈 / 信道编解码 / MIMO / RF 控制
+        - 代表厂商：Qualcomm / MediaTek / Samsung / Unisoc
+      - Display Driver / TCON
+        - LCD / OLED / MiniLED / MicroLED
+        - 源极驱动 / 栅极驱动 / 时序控制 / 触控集成 TDDI
+        - 代表厂商：Novatek / Himax / Realtek / Samsung LSI / Synaptics
+      - 高速接口控制器
+        - PCIe / CXL / USB / Thunderbolt / SATA
+        - Ethernet PHY / Switch / Retimer / Redriver
+        - SerDes / DSP / Gearbox / Clock Data Recovery
+        - 代表厂商：Broadcom / Marvell / Realtek / Microchip / Astera Labs
+      - 安全芯片
+        - TPM / Secure Element / HSM / Smart Card IC
+        - 密码加速 / 安全启动 / 密钥存储 / PUF
+        - 代表厂商：Infineon / NXP / ST / Microchip / G+D
+  - 存储 Memory
+    - 易失性
+      - DRAM
+        - DDR：DDR4 / DDR5；PC 与服务器
+        - LPDDR：低功耗移动与汽车
+        - GDDR：GPU 与图形存储
+        - 结构：1T1C / Bank / Rank / Channel
+        - 代表厂商：Samsung / SK hynix / Micron / Nanya
+      - HBM 高带宽存储
+        - TSV 3D 堆叠 + 宽 I/O 接口
+        - HBM2E / HBM3 / HBM3E / HBM4
+        - 应用：AI GPU / HPC / 网络 ASIC
+        - 代表厂商：SK hynix / Samsung / Micron
+      - SRAM / Cache
+        - 6T SRAM / eSRAM / Register File
+        - CPU Cache / MCU SRAM / 网络缓存
+    - 非易失性
+      - NAND Flash
+        - Cell：SLC / MLC / TLC / QLC / PLC
+        - 结构：2D NAND / 3D NAND / Charge Trap
+        - 产品：UFS / eMMC / SSD / Memory Card
+        - 控制器：FTL / ECC / Wear Leveling / Garbage Collection
+        - 代表厂商：Samsung / Kioxia / Western Digital / SK hynix / Solidigm / Micron
+      - NOR Flash
+        - 并行 NOR / SPI NOR / Octal NOR
+        - 代码执行 XIP / 启动存储 / 汽车
+        - 代表厂商：Infineon / Micron / Winbond / Macronix / GigaDevice
+      - EEPROM / eFlash
+        - 小容量参数存储 / MCU 嵌入式非易失存储
+        - 代表厂商：Microchip / ST / onsemi / ROHM
+    - 新型存储
+      - MRAM / STT-MRAM
+      - ReRAM / PCM / FeRAM
+      - 关键挑战：耐久度 / 保持时间 / 写入能耗 / CMOS 集成
+    - 内存系统与互连
+      - DIMM / Rank / Channel / Memory Controller
+      - CXL Type 3 内存扩展与池化
+      - 一致性 / 带宽 / 延迟 / RAS
+  - 模拟与混合信号 Analog / Mixed-Signal
+    - 信号链
+      - 运算放大器 / 比较器 / 仪表放大器
+      - ADC / DAC / 数据采集 AFE
+      - 模拟开关 / 多路复用器
+      - 关键指标：SNR / ENOB / 带宽 / 失调 / 噪声 / 线性度
+      - 代表厂商：Texas Instruments / Analog Devices / ST / Renesas / ROHM
+    - 电源管理
+      - PMIC / LDO / DC-DC / 电池管理 BMS
+      - 栅极驱动 / LED Driver / 充电管理
+      - 拓扑：Buck / Boost / Buck-Boost / Flyback / LLC
+      - 关键指标：效率 / 静态电流 / 瞬态响应 / 功率密度
+      - 代表厂商：TI / Infineon / ADI / ST / MPS / Renesas / onsemi
+    - 时钟与接口
+      - PLL / Oscillator / Clock Buffer
+      - Level Shifter / 隔离器 / 收发器
+      - 代表厂商：ADI / TI / Skyworks / Renesas / NXP / Silicon Labs
+    - 音频 / 视频 / 触控 / 生物传感前端
+      - Audio Codec / Class-D Amplifier / ANC DSP
+      - Touch Controller / Haptic Driver
+      - PPG / ECG / Bio-impedance AFE
+      - 代表厂商：Cirrus Logic / TI / ADI / Synaptics / Goodix
+  - 分立器件 Discrete
+    - 二极管
+      - 整流 / 肖特基 / TVS / 齐纳
+    - 晶体管
+      - BJT / JFET
+      - MOSFET：低压 / 中高压 / SuperJunction
+      - IGBT
+    - 晶闸管 / TRIAC / 可控硅
+    - 功率模块：IPM / 半桥 / 全桥
+    - 关键参数
+      - 耐压 / 导通电阻 RDS(on) / 电流密度
+      - 开关损耗 / 结温 / 热阻 / SOA
+    - 代表厂商：Infineon / onsemi / ST / ROHM / Toshiba / Vishay / Nexperia
+  - 光电子 Optoelectronics
+    - 发光器件
+      - LED：照明 / 背光 / RGB / UV / IR
+      - MiniLED / MicroLED
+      - 关键材料：GaN / AlGaInP / GaAs
+      - 代表厂商：Nichia / ams OSRAM / Lumileds / Seoul Semiconductor
+    - 激光器
+      - VCSEL：3D 感测 / 短距互连
+      - DFB / EML：光通信
+      - 边发射激光 / 量子级联激光
+      - 代表厂商：Coherent / Lumentum / Broadcom / ams OSRAM
+    - 光探测器
+      - PIN Photodiode / APD / SPAD / SiPM
+      - 材料：Si / Ge / InGaAs
+      - 应用：光通信 / ToF / 医疗 / 辐射检测
+    - 图像传感器：CMOS CIS / CCD
+      - 像素：FSI / BSI / Stacked CIS / Global Shutter
+      - 代表厂商：Sony / Samsung / OmniVision / onsemi / ST
+    - 光耦 / 光收发器 / 硅光子 PIC
+      - 代表厂商：Broadcom / Coherent / Lumentum / Marvell / Intel / Sony
+  - 传感器与执行器 Sensors & Actuators
+    - MEMS 惯性
+      - 加速度计 / 陀螺仪 / 6轴与9轴 IMU
+      - 电容式 / 压阻式 / 谐振式检测
+      - 消费级 / 工业级 / 车规级 / 导航级
+    - 环境与物理传感
+      - 压力 / 温湿度 / 气体 / 流量 / 力 / 应变
+      - 电容 / 压阻 / 热电堆 / MOX / 超声原理
+    - 声学 MEMS
+      - MEMS 麦克风：模拟 / PDM / I²S
+      - 压电 MEMS 扬声器 / 超声换能器 PMUT / CMUT
+    - 磁传感
+      - Hall / AMR / GMR / TMR
+      - 电流检测 / 位置 / 角度 / 电子罗盘
+    - 生物与化学传感
+      - 电化学 / ISFET / 光学 / 微流控
+      - 血糖 / 血氧 / DNA / 病原体 / 环境监测
+    - 3D 感知
+      - ToF：iToF / dToF / SPAD
+      - LiDAR：Flash / MEMS 扫描 / FMCW
+      - Radar MMIC：24 / 60 / 77–81 GHz
+    - MEMS 执行器
+      - DMD 微镜 / 喷墨头 / 微阀 / 微泵 / 微流控
+      - RF MEMS Switch / Tunable Capacitor
+    - 集成链路：敏感结构 → AFE → ADC → 校准 → 数字接口
+    - 代表厂商：Bosch Sensortec / ST / TDK InvenSense / Infineon / ADI / NXP / Sensirion
+- 跨功能专业赛道（按工艺与应用）
+  - 功率与化合物半导体
+    - Silicon Power：MOSFET / IGBT / BCD
+    - SiC：SBD / MOSFET / 功率模块
+    - GaN：HEMT / RF GaN / 功率 IC
+    - GaAs / InP：PA / LNA / 高频毫米波
+    - 技术比较
+      - Si：成熟低成本 / 控制与中低压
+      - SiC：高压高温 / 650V–3.3kV / 车载与电网
+      - GaN：高频高效率 / 低中压 / 快充与数据中心
+    - 代表厂商
+      - SiC：Wolfspeed / Infineon / ST / ROHM / onsemi / Mitsubishi Electric
+      - GaN Power：Infineon / Navitas / Power Integrations / EPC / Innoscience
+      - RF GaN / GaAs：Qorvo / Skyworks / NXP / MACOM / Broadcom
+  - 射频与连接 RF / Connectivity
+    - RF 前端：PA / LNA / Switch / Tuner
+    - 滤波器：SAW / BAW / FBAR
+    - Wi-Fi / Bluetooth / UWB / GNSS
+    - 蜂窝 4G / 5G / 6G 射频收发器
+    - 毫米波 / 卫星通信 / 雷达芯片
+    - RF 前端链路
+      - Antenna → Tuner → Switch → Filter → LNA / PA → Transceiver
+    - 工艺平台：RF-SOI / SOI CMOS / SiGe BiCMOS / GaAs / GaN
+    - 关键指标：频段 / 功率 / 噪声系数 / 线性度 / EVM / PAE
+    - 代表厂商：Qualcomm / Broadcom / Qorvo / Skyworks / MediaTek / NXP / Murata
+  - 特种与新兴
+    - 硅光 / 光计算 / 光互连
+    - 量子芯片：超导 / 离子阱 / 光量子 / 自旋
+    - 神经形态 / 存算一体 / 模内计算
+    - DNA / 生物芯片 / Lab-on-Chip
+    - 抗辐照 / 高可靠 / 极端环境芯片
+    - 关键成熟度阶段
+      - 实验室器件 → IP / PDK → 工程样片
+      - 小批验证 → 生态适配 → 规模量产
+      - 评价：可制造性 / 良率 / 软件栈 / 总成本
+
+## ⑥ 终端应用
+- 计算与数据中心
+  - PC / 工作站 / 游戏主机
+  - 服务器：CPU / GPU / AI 加速器 / DPU
+  - 内存与存储：DRAM / HBM / SSD / HDD 控制
+  - 数据中心网络：交换 / 光模块 / CPO
+  - 边缘计算 / 云服务 / HPC 超算
+- 通信基础设施
+  - 智能手机 / 平板 / 可穿戴
+  - 4G / 5G / 6G 基站与核心网
+  - 光纤通信 / 路由器 / 交换机
+  - 卫星互联网 / GNSS / 微波回传
+  - Wi-Fi / Bluetooth / UWB / NFC
+- 汽车与交通
+  - 动力与能源：BMS / OBC / 逆变器 / SiC
+  - ADAS 与自动驾驶：CPU / GPU / NPU
+  - 传感：CIS / Radar / LiDAR / IMU
+  - 座舱与车身：MCU / Display / Audio / Connectivity
+  - 底盘、制动、转向 / 功能安全
+  - 充电桩 / 轨道交通 / 无人机
+- 工业与机器人
+  - PLC / 工业 PC / 运动控制 / Servo
+  - 机器视觉 / 协作机器人 / AMR
+  - 工业以太网 / TSN / 现场总线
+  - 预测维护 / 数字孪生 / 边缘 AI
+  - 仪器仪表 / 测试测量 / 半导体设备
+- 能源与电力电子
+  - 光伏逆变 / 储能 PCS / BMS
+  - 风电 / 智能电网 / HVDC
+  - 数据中心与通信电源
+  - 消费快充 / USB-PD / 无线充电
+  - 电机驱动 / 变频器 / SiC 与 GaN 功率器件
+- 消费电子
+  - 电视 / 显示器 / 投影 / 相机
+  - 游戏 / AR / VR / XR
+  - 智能家居 / 家电 / 音频
+  - 影像、触控、音视频编解码
+- 医疗与生命科学
+  - 医疗影像：CT / MRI / 超声 / X-ray
+  - 监护与可穿戴：ECG / PPG / 血糖
+  - 手术机器人 / 植入式器械
+  - 基因测序 / Lab-on-Chip / 生物传感
+  - 医疗设备电源、隔离与高可靠 MCU
+- 航空航天、国防与政府
+  - 航电 / 雷达 / 电子战 / 导航
+  - 卫星 / 深空探测 / 抗辐照 FPGA
+  - 安全通信 / 密码 / 可信计算
+  - 高温、高压、辐射等极端环境
+- 物联网与基础设施
+  - 智慧城市 / 表计 / 安防 / 门禁
+  - 农业 / 环境监测 / 物流追踪
+  - 低功耗 MCU / 传感器 / LPWAN
+  - 边缘 AI / TinyML / 能量采集
+
+## ⑦ 产业角色与商业模式
+- 基础研究与标准
+  - 大学 / 国家实验室 / 产业研究机构
+  - IEEE / JEDEC / SEMI / UCIe / RISC-V
+  - 工艺与设计协同：imec / CEA-Leti / IBM Research
+- 上游供应商
+  - 材料厂商 / 晶圆厂商
+  - 设备整机 / 核心零部件 / 厂务工程
+  - IP 厂商
+    - 处理器与计算 IP
+      - Arm：CPU、GPU、NPU 与计算子系统
+      - SiFive、Andes：RISC-V CPU IP
+      - Synopsys ARC：CPU、DSP 与 AI IP
+      - Cadence Tensilica：可配置 DSP 与处理器 IP
+      - CEVA：DSP、AI 与无线连接 IP
+      - Imagination：GPU 与 RISC-V CPU IP
+    - 系统与子系统 IP
+      - Arm：AMBA、CoreLink、CoreSight、Corstone 与 CSS
+      - Synopsys：ARC 子系统与 SoC 基础设施 IP
+      - Arteris：NoC 与系统互连 IP
+    - 接口、SerDes 与存储器 IP
+      - Synopsys、Cadence：控制器与 PHY 产品线
+      - Rambus：内存接口、安全与高速连接 IP
+      - Alphawave Semi：高速连接与 Chiplet IP
+    - 基础库与物理 IP
+      - Arm Artisan：标准单元、存储器编译器与 I/O
+      - Synopsys、Cadence：Foundation 与 Memory IP
+      - eMemory：嵌入式非易失存储器 IP
+    - 多媒体与视觉 IP
+      - Arm、Imagination：GPU 与显示相关 IP
+      - VeriSilicon：GPU、NPU、ISP 与视频 IP
+      - CEVA：视觉、音频与传感器 DSP IP
+    - 安全 IP
+      - Arm：TrustZone 与安全子系统
+      - Synopsys、Cadence：密码、安全控制器与接口安全 IP
+      - Rambus：Root of Trust 与密码 IP
+    - Verification IP
+      - Synopsys、Cadence、Siemens EDA
+      - 协议 VIP、UVM 组件、断言与覆盖率模型
+    - 开源 IP 生态
+      - CHIPS Alliance
+      - OpenHW Group
+      - OpenTitan
+  - EDA 厂商：Synopsys / Cadence / Siemens EDA / Ansys
+  - 设计服务：ASIC Turnkey / 后端实现 / 验证服务
+- 设计与制造模式
+  - Fabless：只设计，委托制造
+  - Foundry：晶圆代工
+    - 先进逻辑：TSMC / Samsung Foundry / Intel Foundry
+    - 成熟与特色：GlobalFoundries / UMC / SMIC / Hua Hong / Tower / PSMC / VIS
+  - IDM：设计 + 制造 + 封测
+  - Design Service：Turnkey / ASIC 服务
+- 后道、系统制造与渠道
+  - OSAT：外包封装与测试
+    - 代表厂商：ASE / Amkor / JCET / Tongfu Microelectronics / Huatian / PTI
+  - Distributor：分销 / 目录型电商
+  - EMS / OEM / ODM：系统制造与品牌
+- 关键协同文件与接口
+  - PDK / Design Rules / SPICE Model
+  - IP License / EDA Flow / Reference Flow
+  - GDS / Mask / Wafer / Known Good Die
+  - Package / Substrate / PCB / Firmware
+- 产业评价维度
+  - 设计：PPA / 一次流片成功率 / IP 生态
+  - 制造：节点 / 良率 / 产能 / 周期 / 成本
+  - 封测：I/O 密度 / 热 / 带宽 / 可靠性
+  - 供应链：纯度 / 一致性 / 认证 / 交期
+  - 应用：性能功耗 / 安全 / 生命周期 / TCO
+
+## ⑧ 通信协议与互连
+- 分类说明
+  - 由简单到复杂的判断维度
+    - 引脚、时钟与电气要求
+    - 寻址、仲裁与流量控制
+    - 数据链路、事务与软件协议栈
+    - 链路训练、均衡、纠错与缓存一致性
+  - 名称所处层次
+    - UART、I²C、PCIe：通信协议或总线规范
+    - DDR：存储器接口规范
+    - SerDes：高速串并转换物理层技术
+    - CXL、USB4、UCIe：承载多类事务的分层协议栈
+- 简单点对点与静态信号
+  - GPIO
+    - 单向或双向数字引脚
+    - 电平、边沿、中断与握手信号
+  - UART 异步串口
+    - TX、RX，可选 RTS、CTS
+    - 起始位、数据位、奇偶校验与停止位
+    - 点对点、无独立时钟、全双工
+    - TTL UART 是逻辑接口
+    - RS-232、RS-422、RS-485 是常见物理层
+  - 1-Wire
+    - 单数据线加地线
+    - 主从寻址与寄生供电
+    - 常用于身份芯片和温度传感器
+  - 脉冲与简单传感器接口
+    - PWM 脉宽调制
+    - PDM 脉冲密度调制
+    - SENT 单边半字节传输
+- 低速同步串行总线
+  - I²C 也称 IIC
+    - SDA 数据与 SCL 时钟
+    - 开漏、上拉、多设备共享
+    - 7 位与 10 位寻址
+    - 多主仲裁与时钟拉伸
+    - Standard、Fast、Fast-mode Plus、High-speed
+  - SMBus 与 PMBus
+    - SMBus：在 I²C 基础上增加超时与管理约束
+    - PMBus：面向电源器件的命令与数据模型
+  - I3C
+    - 兼容多数传统 I²C 设备
+    - 动态地址分配、带内中断与热加入
+    - SDR、HDR 高速传输模式
+  - SPI
+    - SCLK、MOSI、MISO 与片选
+    - 全双工、无统一寻址与应答机制
+    - Mode 0、1、2、3
+    - 多片选、菊花链与三线 SPI
+  - 扩展 SPI 闪存接口
+    - Dual SPI
+    - Quad SPI 与 QSPI
+    - Octal SPI 与 OSPI
+    - xSPI 统一串行闪存接口
+  - Microwire
+    - 三线同步串行接口
+    - 常用于 EEPROM 与小型外设
+- 音频、控制与片上总线
+  - 数字音频接口
+    - I²S：位时钟、帧时钟与串行音频数据
+    - Left Justified 与 Right Justified
+    - TDM：多通道时分复用
+    - PDM：数字麦克风
+    - S/PDIF 与 AES3
+    - MIPI SoundWire 与 SLIMbus
+  - Arm AMBA 非一致性总线
+    - APB：低带宽寄存器外设
+    - AHB、AHB-Lite：MCU 与中等性能系统
+    - AXI4-Lite：寄存器映射控制
+    - AXI4：高性能存储器映射事务
+    - AXI4-Stream：无地址流式数据
+  - 其他片上开放互连
+    - Wishbone
+    - TileLink
+    - Avalon-MM 与 Avalon-ST
+    - OCP
+  - 片上网络 NoC
+    - 总线矩阵与交叉开关
+    - Packetized NoC
+    - 路由、虚通道、QoS 与拥塞控制
+- 工业与汽车现场通信
+  - 串行物理层
+    - RS-232：短距离点对点
+    - RS-422：差分单向或多点
+    - RS-485：差分多点半双工或全双工
+  - 工业协议
+    - Modbus RTU 与 Modbus TCP
+    - PROFIBUS 与 PROFINET
+    - EtherCAT
+    - EtherNet/IP
+    - CANopen 与 DeviceNet
+    - IO-Link
+    - HART
+  - 汽车控制网络
+    - LIN：低成本单主多从
+    - CAN 经典 CAN
+    - CAN FD：更长数据段与更高速率
+    - CAN XL：面向更大负载与更高带宽
+    - FlexRay：确定性双通道网络
+    - SENT 与 PSI5：传感器到 ECU
+  - 汽车高速网络
+    - 100BASE-T1 与 1000BASE-T1
+    - 10BASE-T1S
+    - Automotive Ethernet
+    - TSN 时间敏感网络
+- 外设、移动与多媒体接口
+  - USB 协议族
+    - USB 1.x 与 USB 2.0
+      - Low Speed、Full Speed、High Speed
+      - Control、Bulk、Interrupt、Isochronous 传输
+    - USB 3.2
+      - SuperSpeed 与多 Lane 传输
+    - USB4
+      - 分层路由与带宽共享
+      - USB、DisplayPort 与 PCIe 隧道
+    - USB Type-C
+      - 连接器、方向检测与 Alternate Mode
+      - 不是传输协议本身
+    - USB Power Delivery
+      - 供电协商、角色切换与可编程电源
+  - MIPI 移动接口
+    - CSI-2：摄像头串行接口
+    - DSI-2：显示串行接口
+    - C-PHY、D-PHY 与 A-PHY
+    - UniPro：分层高速互连
+    - RFFE：射频前端控制
+    - M-PHY：高速串行物理层
+  - 显示接口
+    - RGB 与并行显示接口
+    - LVDS 与 OpenLDI
+    - HDMI
+    - DisplayPort 与 Embedded DisplayPort
+    - V-by-One HS
+  - 摄像头与视觉接口
+    - 并行 DVP
+    - MIPI CSI-2
+    - FPD-Link
+    - GMSL
+  - 消费电子控制
+    - CEC
+    - Consumer IR
+- 存储设备与存储器接口
+  - 块存储设备接口
+    - SD、miniSD 与 microSD
+    - SDIO
+    - eMMC
+    - UFS
+      - MIPI M-PHY
+      - MIPI UniPro
+      - SCSI 命令集
+    - PATA 与 SATA
+    - SAS
+    - NVMe
+      - NVMe over PCIe
+      - NVMe over Fabrics
+  - NAND Flash 接口
+    - 异步 NAND
+    - ONFI
+    - Toggle DDR NAND
+  - 并行内存接口
+    - 异步 SRAM 与 NOR Flash
+    - SDR SDRAM
+    - DDR、DDR2、DDR3、DDR4 与 DDR5
+      - 命令地址总线、DQ、DQS 与时钟
+      - 初始化、训练、校准与刷新
+      - DIMM、UDIMM、RDIMM 与 LRDIMM
+    - LPDDR、LPDDR2、LPDDR3、LPDDR4、LPDDR4X、LPDDR5 与 LPDDR5X
+      - 移动和低功耗存储器
+      - 深度低功耗状态与链路训练
+    - GDDR5、GDDR6 与 GDDR6X
+      - GPU 与高带宽图形存储器
+    - HBM、HBM2、HBM2E、HBM3 与 HBM3E
+      - 超宽并行接口
+      - TSV 堆叠与 2.5D 封装
+  - 串行存储器
+    - SPI NOR 与 SPI NAND
+    - QSPI、OSPI 与 xSPI
+    - HyperBus
+- 高速 SerDes 与分层 I/O 协议
+  - SerDes 物理层基础
+    - Serializer 与 Deserializer
+    - 差分 Lane 与多 Lane 聚合
+    - PLL、CDR 与时钟恢复
+    - CTLE、FFE 与 DFE 均衡
+    - Link Training 与 Lane Deskew
+    - NRZ 与 PAM4 调制
+    - 8b/10b、64b/66b 与 128b/130b 编码
+    - CRC、FEC、重放与误码率 BER
+  - PCI Express
+    - PCIe 1.0 到 PCIe 7.0
+    - x1、x2、x4、x8 与 x16 Lane
+    - 物理层、数据链路层与事务层
+    - TLP、DLLP、Flow Control 与 Replay
+    - Link Training、LTSSM 与均衡
+    - MSI、MSI-X、DMA 与 BAR
+    - SR-IOV、ATS、PASID 与 PRI
+    - IDE 链路加密
+  - CXL 缓存一致性互连
+    - 复用 PCIe 物理层
+    - CXL.io：设备发现与 I/O
+    - CXL.cache：设备访问主机缓存
+    - CXL.mem：主机访问设备内存
+    - Type 1、Type 2 与 Type 3 设备
+    - Switch、Fabric 与内存池化
+  - 高速数据转换器接口
+    - JESD204A、JESD204B 与 JESD204C
+    - 确定性延迟与多 Lane 同步
+  - 电信与网络芯片接口
+    - Interlaken
+    - Serial RapidIO
+    - Common Public Radio Interface
+    - eCPRI
+    - OIF CEI 电气接口
+  - 厂商与领域专用高速互连
+    - Aurora
+    - NVLink
+    - Infinity Fabric
+    - Infinity Architecture
+- 以太网、数据中心与网络协议栈
+  - Ethernet 分层
+    - MAC、PCS、PMA 与 PMD
+    - Auto-Negotiation 与 Link Training
+    - 单 Lane 与多 Lane 聚合
+  - Ethernet 速率族
+    - 10M、100M 与 1G Ethernet
+    - 2.5G、5G、10G 与 25G
+    - 40G、50G、100G 与 200G
+    - 400G、800G 与更高速率
+  - 数据中心增强
+    - VLAN 与 QinQ
+    - LACP 链路聚合
+    - Priority Flow Control
+    - Data Center Bridging
+    - RDMA over Converged Ethernet
+      - RoCE v1 与 RoCE v2
+    - Precision Time Protocol
+    - TSN 时间敏感网络
+  - HPC 与存储网络
+    - InfiniBand
+    - Fibre Channel
+    - iSCSI
+    - NVMe over Fabrics
+  - 网络层与传输层
+    - ARP 与 Neighbor Discovery
+    - IPv4 与 IPv6
+    - ICMP、IGMP 与 MLD
+    - TCP 与 UDP
+    - SCTP
+    - QUIC
+  - 路由与隧道
+    - BGP、OSPF 与 IS-IS
+    - MPLS
+    - GRE、VXLAN 与 Geneve
+    - IPsec 与 WireGuard
+  - 应用与安全协议
+    - DNS、DHCP 与 NTP
+    - HTTP、HTTP/2 与 HTTP/3
+    - TLS 与 DTLS
+    - MQTT、CoAP、DDS 与 AMQP
+- 无线通信协议栈
+  - 近场与个人区域网
+    - NFC
+    - RFID
+    - Bluetooth Classic
+    - Bluetooth Low Energy
+    - UWB
+  - 低功耗物联网
+    - IEEE 802.15.4
+    - Zigbee
+    - Thread
+    - Matter
+    - Z-Wave
+    - LoRa 与 LoRaWAN
+    - Sigfox
+  - 无线局域网
+    - Wi-Fi 4、Wi-Fi 5、Wi-Fi 6 与 Wi-Fi 6E
+    - Wi-Fi 7
+    - MAC、PHY、安全与漫游
+  - 蜂窝通信
+    - 2G GSM、GPRS 与 EDGE
+    - 3G UMTS 与 HSPA
+    - 4G LTE 与 LTE-Advanced
+    - 5G NR
+      - Sub-6 GHz 与毫米波
+      - NSA 与 SA
+      - eMBB、URLLC 与 mMTC
+    - NB-IoT、LTE-M 与 RedCap
+  - 卫星与非地面网络
+    - GNSS 接收接口
+    - NTN 非地面网络
+    - 卫星物联网链路
+- 一致性片上互连与 Chiplet
+  - 缓存一致性片上协议
+    - AMBA ACE 与 ACE-Lite
+    - AMBA CHI
+    - TileLink-C
+    - MESI、MOESI 等一致性状态模型
+  - UCIe
+    - Package 内 Die-to-Die 标准
+    - Electrical PHY 与可选 Retimer
+    - Die-to-Die Adapter
+    - Protocol Layer
+    - PCIe、CXL 与 Streaming Protocol
+    - Link Management、CRC、重试与降级
+    - 2D、2.5D 与 3D 封装场景
+  - 其他 Die-to-Die 接口
+    - BoW Bunch of Wires
+    - AIB Advanced Interface Bus
+    - OpenHBI
+    - XSR 与 USR 超短距 SerDes
+  - Chiplet 系统一致性
+    - 协议桥接与地址映射
+    - 缓存一致性与共享内存
+    - 服务质量、遥测、调试与安全
+- 协议选型方法
+  - 距离与拓扑
+    - 片内、封装内、板级、机箱、局域网与广域网
+    - 点对点、总线、星形、环形、Mesh 与交换网络
+  - 带宽与时延
+    - 有效吞吐率、单向与双向带宽
+    - 固定时延、尾延迟与抖动
+  - 电气与信号完整性
+    - 单端或差分
+    - 并行或串行
+    - 电压摆幅、阻抗、损耗、串扰与抖动
+  - 可靠性
+    - 奇偶校验、CRC、ECC、FEC 与重传
+    - 冗余 Lane、链路降级与故障隔离
+  - 系统能力
+    - 热插拔、即插即用与设备发现
+    - QoS、虚拟化、缓存一致性与安全
+    - 控制器、PHY、连接器、线缆与软件驱动生态
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const markdown=document.querySelector('#markdown').textContent.trim();
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const {root}=transformer.transform(markdown);
+    const mm=Markmap.create('#mindmap',{autoFit:true,duration:420,maxWidth:260,spacingHorizontal:92,spacingVertical:9,paddingX:14,colorFreezeLevel:2,initialExpandLevel:2},root);window.industryMap=mm;
+    document.querySelector('#mindmap').addEventListener('click',event=>{const target=event.target,node=target?.closest?.('g.markmap-node');if(!node||target.closest?.('circle'))return;const circle=node.querySelector('circle');if(circle)circle.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const walk=(node,fn,path=[])=>{fn(node,path);(node.children||[]).forEach(c=>walk(c,fn,[...path,node]));};
+    let currentLevel=2;
+    function setLevel(level,remember=true){if(remember)currentLevel=level;const expandLevel=level>20?-1:level,freshRoot=transformer.transform(markdown).root;Promise.resolve(mm.setData(freshRoot,{initialExpandLevel:expandLevel})).then(()=>mm.fit());document.querySelectorAll('[data-level]').forEach(b=>b.classList.toggle('active',+b.dataset.level===level));document.querySelector('#status').textContent=level>20?'全部展开':`展开至第 ${level} 层`;}
+    document.querySelectorAll('[data-level]').forEach(b=>b.onclick=()=>setLevel(+b.dataset.level));
+    document.querySelector('#fit').onclick=()=>mm.fit();
+    const strip=s=>{const el=document.createElement('div');el.innerHTML=s||'';return el.textContent};const plain=s=>strip(s).toLocaleLowerCase();
+    const search=document.querySelector('#search'),searchCount=document.querySelector('#searchCount');let searchTimer;
+    const matchesQuery=(text,q)=>/^[a-z0-9]+$/i.test(q)?new RegExp(`(^|[^a-z0-9])${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}($|[^a-z0-9])`,'i').test(text):text.toLocaleLowerCase().includes(q);
+    search.addEventListener('input',()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{const raw=search.value.trim(),q=raw.toLocaleLowerCase();document.querySelectorAll('.markmap-node').forEach(n=>n.classList.remove('match-node','dim-node'));if(!q){searchCount.textContent='';setLevel(currentLevel,false);document.querySelector('#status').textContent='搜索已清除';return}const matches=[];walk(root,(n,path)=>{if(matchesQuery(strip(String(n.content||'')),q)){const labels=[...path.slice(1),n].map(item=>strip(String(item.content||'')).replace(/[\r\n]/g,' '));matches.push(labels.join(' › '))}});searchCount.textContent=String(matches.length);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`;const resultMarkdown=`# 搜索：${raw.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配的节点'}`,resultRoot=transformer.transform(resultMarkdown).root;Promise.resolve(mm.setData(resultRoot)).then(()=>setTimeout(()=>mm.fit(),420));},100)});
+    document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==search){e.preventDefault();search.focus()}if(e.key==='Escape'){search.value='';search.dispatchEvent(new Event('input'));search.blur()}});
+    document.querySelector('#reset').onclick=()=>{search.value='';searchCount.textContent='';document.querySelectorAll('.markmap-node').forEach(n=>n.classList.remove('match-node','dim-node'));setLevel(2);setTimeout(()=>mm.fit(),450)};
+    const fullButton=document.querySelector('#fullscreen');fullButton.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();document.addEventListener('fullscreenchange',()=>fullButton.textContent=document.fullscreenElement?'退出全屏':'全屏');
+    setLevel(2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),700);
+  </script>
+</body>
+</html>
