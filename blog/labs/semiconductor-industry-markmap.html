@@ -13,25 +13,32 @@ blog-date: 2026-09-01
   <title>芯片行业全景图谱 · Interactive Markmap</title>
   <style>
     :root{--bg:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--text:#164f78;--muted:#4f7e9c;--cyan:#44ACFF;--orange:#FE9EC7;--purple:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
-    *{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden}body{font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;color:var(--text);background:#EAE7DE}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;color:var(--text);background:#EAE7DE}
     body::before{display:none}
-    button,input{font:inherit}.topbar{position:fixed;z-index:20;left:18px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.control,.searchbox{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.control{height:38px;border-radius:10px;color:var(--text);padding:0 12px;cursor:pointer;transition:.2s}.control:hover,.control.active{border-color:#44ACFF;background:#89D4FF;transform:translateY(-1px)}.control:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.searchbox{height:38px;border-radius:10px;display:flex;align-items:center;padding:0 11px;gap:8px}.searchbox input{width:210px;background:transparent;border:0;color:#164f78;outline:0}.searchbox input::placeholder{color:#6392ad}.search-count{min-width:20px;padding:1px 6px;border-radius:10px;background:#44ACFF;color:#fff;font-size:10px;text-align:center}.search-count:empty{display:none}.kbd{border:1px solid var(--line);border-bottom-color:rgba(68,172,255,.55);border-radius:5px;padding:1px 5px;font-size:10px;color:var(--muted);background:rgba(137,212,255,.25)}
-    .stage{position:fixed;inset:0}.stage svg{width:100%;height:100%;display:block}#mindmap{--markmap-text-color:#164f78;--markmap-circle-open-bg:#F9F6C4}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:#164f78}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-link{stroke-opacity:.68}.markmap-node-circle{stroke-width:1.8px;fill:#F9F6C4}.match-node foreignObject>div{color:#164f78!important;background:#FE9EC7!important;border-radius:5px;padding:2px 6px!important;box-shadow:0 0 0 3px rgba(254,158,199,.25)}.dim-node{opacity:.16}
+    button,input{font:inherit}.topbar{position:absolute;z-index:20;left:18px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start}.map-title{position:absolute;z-index:20;left:20px;top:20px;margin:0;max-width:calc(100% - 720px);color:#164f78;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.control,.searchbox{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.control{height:38px;border-radius:10px;color:var(--text);padding:0 12px;cursor:pointer;transition:.2s}.control:hover,.control.active{border-color:#44ACFF;background:#89D4FF;transform:translateY(-1px)}.control:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.searchbox{height:38px;border-radius:10px;display:flex;align-items:center;padding:0 11px;gap:8px}.searchbox input{width:210px;background:transparent;border:0;color:#164f78;outline:0}.searchbox input::placeholder{color:#6392ad}.search-count{min-width:20px;padding:1px 6px;border-radius:10px;background:#44ACFF;color:#fff;font-size:10px;text-align:center}.search-count:empty{display:none}.kbd{border:1px solid var(--line);border-bottom-color:rgba(68,172,255,.55);border-radius:5px;padding:1px 5px;font-size:10px;color:var(--muted);background:rgba(137,212,255,.25)}
+    .stage{position:relative;height:calc(100vh - 68px);min-height:620px}.stage svg{width:100%;height:100%;display:block}#mindmap{--markmap-text-color:#164f78;--markmap-circle-open-bg:#F9F6C4}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:#164f78}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-link{stroke-opacity:.68}.markmap-node-circle{stroke-width:1.8px;fill:#F9F6C4}.match-node foreignObject>div{color:#164f78!important;background:#FE9EC7!important;border-radius:5px;padding:2px 6px!important;box-shadow:0 0 0 3px rgba(254,158,199,.25)}.dim-node{opacity:.16}
     .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
     dialog{width:min(760px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;color:var(--text);background:#fff2c2;box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.modal-head h2{font-size:16px;margin:0}.modal-body{padding:18px 20px 22px;color:#5f643f;font-size:13px;line-height:1.75;overflow:auto}.modal-body a{color:#287594;text-decoration:none}.modal-body a:hover{text-decoration:underline}.source{padding:10px 0;border-bottom:1px solid var(--line)}.source:last-child{border:0}.source b{color:#43502e}.close{border:0;background:transparent;color:#7a6c43;font-size:22px;cursor:pointer}
     .loading{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.loader-ring{width:38px;height:38px;border-radius:50%;border:2px solid rgba(68,172,255,.18);border-top-color:#44ACFF;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-    @media(max-width:900px){.searchbox input{width:150px}}@media(max-width:620px){.topbar{left:10px;right:10px;top:10px}.actions{gap:5px}.control{height:34px;padding:0 9px;font-size:11px}.searchbox{height:34px}.searchbox input{width:128px}}
+    @media(max-width:900px){.map-title{left:14px;top:14px;max-width:calc(100% - 28px);font-size:18px}.topbar{top:52px}.searchbox input{width:150px}}@media(max-width:620px){.stage{height:calc(100vh - 112px);min-height:660px}.topbar{left:10px;right:10px;top:50px}.actions{gap:5px}.control{height:34px;padding:0 9px;font-size:11px}.searchbox{height:34px}.searchbox input{width:128px}}
   </style>
 </head>
 <body>
   <div class="loading" id="loading"><div><div class="loader-ring"></div><p style="font-size:11px;color:#164f78;margin-left:-24px">正在构建产业图谱…</p></div></div>
-  <header class="topbar">
-    <nav class="actions" aria-label="图谱工具">
-      <label class="searchbox" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索：AI、光刻、HBM…" /><span class="search-count" id="searchCount"></span><span class="kbd">/</span></label>
-      <button class="control" data-level="2">概览</button><button class="control" data-level="99">全部展开</button><button class="control" id="fit">适应画布</button><button class="control" id="reset">重置</button><button class="control" id="fullscreen">全屏</button>
-    </nav>
-  </header>
-  <main class="stage"><svg id="mindmap" role="img" aria-label="芯片行业全景思维导图"></svg></main>
+  <div data-site-header data-active="blog"></div>
+  <script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">芯片行业全景图谱</h1>
+    <header class="topbar">
+      <nav class="actions" aria-label="图谱工具">
+        <label class="searchbox" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索：AI、光刻、HBM…" /><span class="search-count" id="searchCount"></span><span class="kbd">/</span></label>
+        <button class="control" data-level="2">概览</button><button class="control" data-level="99">全部展开</button><button class="control" id="fit">适应画布</button><button class="control" id="reset">重置</button><button class="control" id="fullscreen">全屏</button>
+      </nav>
+    </header>
+    <svg id="mindmap" role="img" aria-label="芯片行业全景思维导图"></svg>
+  </main>
+  <div data-site-reward></div>
+  <script src="../../common/js/site-reward.js"></script>
   <div class="sr-only" id="status" aria-live="polite">概览模式</div>
   <script type="text/plain" id="markdown">
 # 芯片行业全景 · 从沙粒到系统
