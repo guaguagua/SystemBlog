@@ -1,0 +1,561 @@
+<!doctype html>
+<!--
+blog-title: 未解数学猜想全景思维导图
+blog-category: 数学与前沿
+blog-summary: 按数论、几何、分析、计算、组合与数学物理梳理重要未解猜想，单列六大未解千禧年难题及已知进展。
+blog-date: 2026-09-03
+blog-published: 2026-09-03T23:19:07+08:00
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用交互式 Markmap 梳理仍未证明的重要数学猜想、千禧年难题、部分进展与研究意义" />
+  <title>未解数学猜想全景思维导图 · Markmap</title>
+  <style>
+    :root{--ink:#164f78;--paper:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--cyan:#44ACFF;--pink:#FE9EC7;--pale-blue:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;color:var(--ink);font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;background:var(--paper)}button,input{font:inherit}
+    .stage{position:relative;width:100%;height:calc(100vh - 68px);min-height:620px}.map-title{position:absolute;z-index:6;left:20px;top:20px;max-width:370px;margin:0;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}.topbar{position:absolute;z-index:6;left:410px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start;pointer-events:none}.actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;pointer-events:auto}
+    .tab,.tool{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);height:38px;padding:0 12px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:.2s ease}.tab:hover,.tool:hover,.tab.active{transform:translateY(-1px);border-color:var(--cyan);background:var(--pale-blue)}.search{display:flex;align-items:center;gap:7px;height:38px;padding:0 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.search input{width:145px;border:0;outline:0;background:transparent;color:var(--ink)}.search input::placeholder{color:#6392ad}.count{min-width:18px;padding:1px 5px;border-radius:10px;background:var(--cyan);color:#fff;font-size:10px;text-align:center}.count:empty{display:none}
+    #mindmap{width:100%;height:100%;display:block;--markmap-text-color:var(--ink);--markmap-circle-open-bg:#fff}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:var(--ink)}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-foreign code{padding:1px 4px;border-radius:4px;background:rgba(255,255,255,.52);font-family:"Cascadia Code",Consolas,monospace;color:#164f78}.markmap-link{stroke-opacity:.68}.markmap-node-circle{fill:#F9F6C4;stroke-width:1.8px}
+    dialog{width:min(790px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;background:#fff2c2;color:var(--ink);box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.dialog-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:24px;color:#7a6c43;cursor:pointer}.dialog-body{padding:8px 20px 22px}.source-item{padding:13px 0;border-bottom:1px solid var(--line)}.source-item:last-child{border-bottom:0}.source-item a{color:#287594;font-weight:700;text-decoration:none}.source-item a:hover{text-decoration:underline}.source-item p{margin:5px 0 0;color:#5f643f;font-size:12px;line-height:1.6}
+    .loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.seal{width:38px;height:38px;border:2px solid rgba(68,172,255,.18);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:1080px){.topbar{left:340px}.map-title{max-width:310px}.search input{width:110px}.tool.hide-mobile{display:none}}@media(max-width:760px){.stage{height:calc(100vh - 112px);min-height:700px}.map-title{left:14px;top:14px;font-size:18px}.topbar{left:10px;right:10px;top:50px;justify-content:flex-start}.actions{justify-content:flex-start}.tab,.tool,.search{height:33px;padding:0 10px;font-size:12px}.search{order:9}.search input{width:125px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading" aria-hidden="true"><div class="seal"></div></div>
+  <div data-site-header data-active="blog"></div><script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">未解数学猜想全景思维导图</h1>
+    <header class="topbar"><nav class="actions" aria-label="图谱工具">
+      <button class="tab active" data-map="overview">全景总览</button><button class="tab" data-map="millennium">千禧年难题</button><button class="tab" data-map="fields">按领域详图</button>
+      <label class="search" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索猜想或领域…" /><span class="count" id="count"></span></label>
+      <button class="tool hide-mobile" id="overviewBtn">收至二级</button><button class="tool" id="expand">全部展开</button><button class="tool" id="fit">适应画布</button><button class="tool" id="openSources">资料</button>
+    </nav></header>
+    <svg id="mindmap" role="img" aria-label="未解数学猜想交互式思维导图"></svg><div id="status" class="sr-only" aria-live="polite">全景总览已加载</div>
+  </main>
+  <div data-site-reward></div><script src="../../common/js/site-reward.js"></script>
+
+  <dialog id="sources"><div class="dialog-head"><h2>资料来源与状态口径</h2><button class="close" id="closeSources" aria-label="关闭">×</button></div><div class="dialog-body">
+    <div class="source-item"><a href="https://www.claymath.org/problem/unsolved/" target="_blank" rel="noreferrer">Unsolved Millennium Prize Problems · Clay Mathematics Institute</a><p>截至页面更新，六项仍列为未解决：BSD、Hodge、Navier–Stokes、P vs NP、Riemann、Yang–Mills。</p></div>
+    <div class="source-item"><a href="https://www.claymath.org/millennium-problems/" target="_blank" rel="noreferrer">The Millennium Prize Problems · Clay Mathematics Institute</a><p>七项问题的官方介绍；Poincaré 猜想单列为已解决。</p></div>
+    <div class="source-item"><a href="https://www.claymath.org/library/monographs/MPPc.pdf" target="_blank" rel="noreferrer">Millennium Prize Problems · Official Problem Descriptions</a><p>各题的正式表述、背景和获奖标准。通俗表述不能替代正式问题文本。</p></div>
+    <div class="source-item"><a href="https://aimath.org/problemlists/" target="_blank" rel="noreferrer">AIM Problem Lists · American Institute of Mathematics</a><p>按代数几何、数论、分析、组合、拓扑等研究领域整理的专家维护问题列表。</p></div>
+    <div class="source-item"><a href="https://mathvoices.ams.org/featurecolumn/2021/10/01/decomposition/" target="_blank" rel="noreferrer">Prime gaps, Goldbach and twin primes · American Mathematical Society</a><p>用于素数间隔、孪生素数和哥德巴赫猜想的进展口径。</p></div>
+    <div class="source-item"><a href="https://blogs.ams.org/matheducation/2015/05/01/famous-unsolved-math-problems-as-homework/" target="_blank" rel="noreferrer">Famous Unsolved Math Problems · American Mathematical Society</a><p>包含 Collatz、Erdős–Straus 等表述简单却长期未解的问题。</p></div>
+    <div class="source-item"><a href="https://www.ams.org/journals/notices/201006/201006-full-issue.pdf" target="_blank" rel="noreferrer">Hadwiger’s Conjecture · Notices of the AMS</a><p>图论中的 Hadwiger 猜想及其与图着色、图子式理论的关系。</p></div>
+    <div class="source-item"><p><strong>状态口径：</strong>截至 2026-09-03。数学问题的状态可能因新论文和同行验证而变化；“大量数值验证”“证明了特殊情形”“论文已发表”都不自动等于猜想已被公认解决。本图是代表性地图，不是所有开放问题的穷举。</p></div>
+  </div></dialog>
+
+  <script type="text/plain" id="map-overview">
+# 未解数学猜想 · 全景总览
+
+## 先读懂“未解”的四种状态
+- 🟠 公开未解决
+  - 没有被数学共同体接受的完整证明或反例
+  - 可能已有大量部分结果与数值证据
+- 🟡 部分解决
+  - 特殊维数、特殊参数、几乎处处或弱形式已证明
+  - 原始完整命题仍然开放
+- ⚠️ 存在证明声称或争议
+  - 论文出现甚至正式发表，不代表已形成广泛共识
+  - 需要专家逐步核验关键论证
+- ✅ 已解决，不能继续列为未解
+  - Poincaré 猜想：Perelman 已证明
+  - Fermat 大定理：Wiles 与 Taylor–Wiles 已证明
+  - 四色定理：已由计算机辅助证明
+  - Kepler 猜想：已完成并形式化验证
+
+## 六大未解千禧年难题
+- Riemann 假设
+  - ζ函数所有非平凡零点实部都是 `1/2`
+  - 控制素数分布相对平均规律的误差
+- P vs NP
+  - 能快速验证的解，是否总能快速找到？
+  - 主流猜测 `P ≠ NP`，但两边都未证明
+- Navier–Stokes 存在性与光滑性
+  - 三维不可压缩流体的光滑初值是否永远保持光滑？
+  - 或能否在有限时间形成奇点？
+- Yang–Mills 存在性与质量间隙
+  - 严格构造四维量子 Yang–Mills 理论
+  - 并证明其存在正的质量间隙
+- Hodge 猜想
+  - 特定有理 Hodge 类是否来自代数循环？
+  - 整系数版本已有反例，不能混淆
+- Birch–Swinnerton-Dyer 猜想
+  - 椭圆曲线有理点群的秩由 L 函数在 `s=1` 的零点阶数给出
+  - 是算术几何的核心桥梁
+
+## 数论：整数最容易提问，也最难驯服
+- 强哥德巴赫猜想
+  - 每个大于2的偶数都是两个素数之和
+  - 弱哥德巴赫“三个奇素数”版本已证明
+- 孪生素数猜想
+  - 存在无穷多对相差2的素数
+  - 已知能证明无穷多对素数间隔有某个统一上界，但还未降到2
+- Legendre 猜想
+  - 任意相邻平方数 `n²` 与 `(n+1)²` 之间都有素数
+- Bunyakovsky / Bateman–Horn
+  - 描述多项式取素数值的条件与频率
+  - 统一解释许多素数模式
+- abc 猜想 ⚠️
+  - 连接互素整数 `a+b=c` 与素因子乘积 `rad(abc)`
+  - 存在已发表的证明声称，但尚未形成普遍接受的解决共识
+- Schanuel 猜想
+  - 预测复数指数与代数独立性的深层关系
+  - 蕴含许多超越数论结果
+- 奇完美数是否存在
+  - 已知完美数都是偶数；尚未证明不存在奇完美数
+  - 假如存在，必须满足极强的大小与素因子结构限制
+- Collatz 猜想
+  - 偶数除以2，奇数变为 `3n+1`；反复迭代是否总到1？
+  - 计算验证再大也不能覆盖全部正整数
+- Erdős–Straus 猜想
+  - 对每个 `n≥2`，`4/n` 能否写成三个正单位分数之和？
+
+## 几何与拓扑：形状背后的结构
+- 光滑四维 Poincaré 猜想
+  - 与标准四维球面同伦等价的光滑闭流形，是否必微分同胚于标准球面？
+  - 拓扑版本已解决，光滑版本仍开放
+- Hodge 猜想
+  - 拓扑信息能否由代数子簇表达
+  - 已知许多低维或特殊情形
+- Tate 猜想
+  - 用 Galois 不变量刻画有限生成域上代数簇的代数循环
+  - 与 Hodge、BSD 等构成庞大猜想网络
+- 体积猜想 Volume Conjecture
+  - 结的不变量渐近行为与补空间双曲体积相连
+- Slice–Ribbon 猜想
+  - 每个光滑 slice knot 是否都是 ribbon knot？
+- Novikov 猜想
+  - 高阶 signature 是否在定向同伦等价下不变？
+  - 对许多群已证明，完整形式仍开放
+- Borel 猜想
+  - 闭 aspherical 流形的拓扑类型是否由基本群决定？
+
+## 分析与偏微分方程：解会不会爆炸？
+- Navier–Stokes 三维正则性
+  - 弱解存在，但全局光滑性与适当唯一性仍是核心难题
+- 三维 Euler 方程有限时爆破
+  - 光滑不可压缩无黏流能否形成有限时奇点？
+  - 与涡量拉伸和湍流机制有关
+- Kakeya 猜想
+  - 能容纳每个方向单位线段的集合，是否必须具有满维数？
+  - 与调和分析、PDE及限制估计紧密相关
+- Hilbert–Smith 猜想
+  - 局部紧群连续作用于流形时，作用群是否必为 Lie 群？
+- Jacobian 猜想
+  - 复多项式映射若 Jacobian 行列式为非零常数，是否必有多项式逆？
+  - 连接代数、几何与分析思想
+
+## 离散数学与组合
+- Hadwiger 猜想
+  - 色数至少为 `t` 的图是否一定含 `K_t` 子式？
+  - 包含四色定理作为一个特殊层级
+- 图重构猜想
+  - 至少3个顶点的有限图，能否由删除每个顶点所得的“牌组”唯一重构？
+- Hadamard 矩阵猜想
+  - 每个4的正倍数阶是否都存在元素为 `±1` 的 Hadamard 矩阵？
+- 优美树猜想 Graceful Tree
+  - 每棵树是否都有优美标号？
+- Caccetta–Häggkvist 猜想
+  - 有向图最小出度如何强迫短有向环存在？
+- Lonely Runner 猜想
+  - 不同速度绕圆奔跑时，每个跑者是否都曾与其他人充分分离？
+- Erdős–Hajnal 猜想
+  - 禁止固定诱导子图是否强迫大团或大独立集？
+
+## 计算复杂性与算法
+- P vs NP
+  - 若相等，大量搜索与优化问题理论上可高效求解
+  - 不等于所有实例都会快，也不等于密码系统立刻全部失效
+- NP vs coNP
+  - “存在短证明”和“不存在短反证”是否同样强？
+  - 若 `P=NP` 则相等；反向关系更复杂
+- 电路下界
+  - 显式函数需要多大布尔电路？
+  - 强下界是分离复杂性类的重要路径
+- Unique Games 猜想
+  - 预测一大类近似优化问题的最优可近似阈值
+- Exponential Time Hypothesis
+  - 3-SAT 是否不存在次指数时间算法？
+  - 是细粒度复杂性下界的常用假设
+- Hilbert 第十问题 over ℚ
+  - 是否存在算法判定任意有理系数丢番图方程有无有理解？
+  - 整数版本已证明不可判定，有理数版本仍开放
+
+## 概率、动力系统与数学物理
+- Yang–Mills 质量间隙
+  - 需要严格数学构造，不只是物理实验和数值模拟支持
+- 三维 Ising 模型
+  - 尚无像二维情形那样的完整精确解
+  - 临界指数与普适性的严格理论仍有大量开放问题
+- 三维自回避游走
+  - 临界指数的精确值和严格证明未知
+- KPZ 普适性
+  - 许多随机增长模型是否共享同一标度指数与极限分布？
+  - 一维若干模型已精确解决，高维和一般性仍开放
+- 宇宙监督猜想 Cosmic Censorship
+  - 广义相对论奇点是否通常被事件视界隐藏？
+  - 弱形式和强形式都有多种精确定义
+- 量子引力严格化
+  - 不是单一猜想，而是一组寻求统一量子理论与时空几何的开放计划
+
+## 怎样判断“一个猜想被解决了”
+- 必须有完整证明或明确反例
+- 论证需公开、可检查，并经相关专家长期核验
+- 证明特殊情形不等于证明一般情形
+- 验证前 `10^N` 个例子仍不等于证明所有整数
+- 预印本、媒体报道、论文发表都不是最终共识的充分条件
+- 反例只需一个；证明则必须覆盖命题规定的全部对象
+
+## 为什么这些猜想重要
+- 结论本身：回答素数、形状、流体、算法等基本问题
+- 方法溢出：失败的尝试也会创造新工具和新理论
+- 统一作用：一个猜想常连接多个看似无关的领域
+- 边界意识：告诉我们计算证据、直觉和严格证明之间的差别
+  </script>
+
+  <script type="text/plain" id="map-millennium">
+# 千禧年大奖难题 · 六项仍未解
+
+## 总体状态
+- 2000年由 Clay Mathematics Institute 公布7题
+- 每题设置100万美元奖金
+- 截至 2026-09-03
+  - 6题仍列为 Unsolved
+  - Poincaré 猜想已由 Perelman 解决
+- 获奖不只要求论文出现
+  - 需在合格出版物发表
+  - 经过规定等待期与数学共同体普遍接受
+
+## 1. Riemann 假设 · 数论
+- 正式核心
+  - Riemann ζ函数 `ζ(s)` 的所有非平凡零点满足 `Re(s)=1/2`
+- 为什么重要
+  - 素数定理给平均分布，RH约束偏离平均的误差
+  - 大量数论定理在“假设RH成立”下可得到更强结论
+- 已知进展
+  - 所有非平凡零点位于临界带 `0<Re(s)<1`
+  - 已证明临界线上有正比例的零点
+  - 计算验证了极高范围内的零点，但仍非证明
+- 常见误区
+  - 画出许多零点不等于覆盖无穷多个零点
+  - 广义Riemann假设涉及更广的L函数家族，是更强命题
+
+## 2. P vs NP · 理论计算机科学
+- 正式核心
+  - `P`：确定性算法可在多项式时间求解
+  - `NP`：给定候选解可在多项式时间验证
+  - 问题：`P = NP` 还是 `P ≠ NP`？
+- NP完全性
+  - 若任一NP完全问题属于P，则所有NP问题都属于P
+  - SAT是第一个被证明NP完全的典型问题
+- 为什么重要
+  - 优化、自动证明、密码学、调度、设计等大量问题受影响
+  - 也是我们能否系统发现短证明的元问题
+- 已知障碍
+  - 相对化、Natural Proofs、代数化等结果表明许多常见证明策略不够
+- 常见误区
+  - `P ≠ NP` 尚未证明，只是多数研究者倾向的判断
+  - 量子计算的BQP并不自动解决所有NP完全问题
+  - 多项式时间也可能因次数和常数过大而不实用
+
+## 3. Navier–Stokes · PDE
+- 方程描述
+  - 速度场受惯性、压力、黏性和外力共同作用
+  - 不可压缩条件要求散度为0
+- Clay 问题核心
+  - 三维空间中，光滑有限能量初值是否产生全局光滑解？
+  - 或构造会在有限时间失去正则性的解
+- 已知进展
+  - 二维情形的全局正则性较好理解
+  - 三维 Leray 弱解全局存在
+  - 弱解是否足够光滑、是否唯一仍是核心难点
+- 为什么难
+  - 非线性对流把能量推向小尺度
+  - 黏性耗散与涡量拉伸竞争
+- 常见误区
+  - 数值流体模拟能工作，不等于方程所有光滑初值都不会爆破
+
+## 4. Yang–Mills 与质量间隙 · 数学物理
+- 两个目标缺一不可
+  - 在四维建立满足公理要求的非平凡量子Yang–Mills理论
+  - 证明谱在真空之上存在正的质量间隙 `Δ>0`
+- 物理背景
+  - Yang–Mills理论是粒子物理标准模型规范理论的基础
+  - 质量间隙与强相互作用的短程/长程行为相关
+- 已知进展
+  - 物理实验和格点数值给出强支持
+  - 低维、有限格点或特定极限不等于完整四维连续理论
+- 为什么难
+  - 需要把路径积分、重整化和连续极限放在严格数学框架中
+- 常见误区
+  - “物理上大家相信”与“满足正式问题要求的数学证明”不是一回事
+
+## 5. Hodge 猜想 · 代数几何
+- 背景对象
+  - 光滑复射影代数簇
+  - 上同调同时带有拓扑结构与Hodge分解
+- 正式核心
+  - 每个有理Hodge类是否为代数循环类的有理线性组合？
+- 为什么重要
+  - 询问拓扑可见的特定类是否真正由代数子簇产生
+  - 连接代数、拓扑、复分析与数论
+- 已知进展
+  - 除子情形由 Lefschetz `(1,1)` 定理解决
+  - 某些低维和特殊簇已证明
+  - 整系数Hodge猜想已有反例
+- 常见误区
+  - Clay题是有理系数版本，不是已被反例否定的整系数版本
+
+## 6. Birch–Swinnerton-Dyer · 算术几何
+- 椭圆曲线
+  - 形如 `y²=x³+ax+b` 的非奇异三次曲线
+  - 有理点形成有限生成交换群
+- 核心等式
+  - 代数秩 = L函数 `L(E,s)` 在 `s=1` 的解析零点阶数
+- 精细版本
+  - 领先系数还与周期、调节子、Tate–Shafarevich群等算术不变量相连
+- 为什么重要
+  - 把“有多少独立有理点”转成解析函数在特殊点的行为
+  - 深刻影响丢番图方程、模形式与密码学
+- 已知进展
+  - 解析秩0和1的许多重要情形已建立
+  - 一般高秩和精细公式仍开放
+- 常见误区
+  - 在许多曲线上数值成立，不代表对所有椭圆曲线证明完毕
+
+## 已解决的第七题：Poincaré 猜想 ✅
+- 命题
+  - 每个闭、单连通三维流形都同胚于三维球面
+- 解决
+  - Perelman 基于 Hamilton 的 Ricci flow 完成证明
+  - 也推出更强的 Thurston 几何化猜想
+- 与仍开放问题的边界
+  - 三维拓扑 Poincaré 猜想已解决
+  - 光滑四维 Poincaré 猜想仍未解决
+  - 不能只说“Poincaré 猜想还没解决”
+
+## 六题的共同结构
+- 找极限
+  - RH：零点位置
+  - P vs NP：计算效率边界
+  - Navier–Stokes：正则性边界
+  - Yang–Mills：量子场论谱隙
+  - Hodge：拓扑类的代数来源
+  - BSD：有理点与L函数的对应
+- 共同难点
+  - 局部信息很丰富，仍难控制全局结构
+  - 数值证据强，却无法替代无限对象上的证明
+  - 已有理论常在临界参数或高维处失效
+  </script>
+
+  <script type="text/plain" id="map-fields">
+# 未解猜想 · 按领域详图
+
+## 初等表述型：小学生能听懂，专家也解不开
+- Collatz
+  - 规则：偶数 `/2`，奇数 `3n+1`
+  - 问题：所有正整数轨道是否最终到1？
+  - 障碍：局部平均下降无法排除极少数发散轨道或非平凡循环
+- 强哥德巴赫
+  - 每个大于2的偶数是否为两个素数之和？
+  - 弱哥德巴赫已解决不能替代二素数版本
+- 孪生素数
+  - 是否有无穷多素数 `p` 使 `p+2` 也为素数？
+  - 有界素数间隔是里程碑，但“某个固定上界”仍不等于2
+- 奇完美数
+  - 是否存在奇数等于其所有真因子之和？
+  - 无实例 + 强必要条件仍不能推出不存在
+- Erdős–Straus
+  - `4/n = 1/x + 1/y + 1/z` 对所有 `n≥2` 是否可解？
+- 完美长方体
+  - 是否存在边长、三个面对角线和体对角线全为整数的长方体？
+
+## 素数分布与解析数论
+- Riemann 假设
+  - ζ函数非平凡零点位于临界线
+- 广义Riemann假设 GRH
+  - 推广到 Dirichlet L函数等
+  - 对算术级数中素数分布给出更强误差控制
+- Legendre 猜想
+  - 相邻平方数之间必有素数
+- Cramér 猜想
+  - 预测素数间隙最大量级约为 `O((log p)²)`
+- Bunyakovsky 猜想
+  - 满足自然必要条件的不可约整系数多项式取无穷多个素数值
+- Bateman–Horn 猜想
+  - 进一步预测多个多项式同时取素数值的渐近频率
+- Chowla / Sarnak 猜想网络
+  - 描述 Möbius、Liouville函数的随机性与动力系统正交性
+
+## 丢番图方程与算术几何
+- BSD
+  - 椭圆曲线秩 ↔ L函数零点阶数
+- abc ⚠️
+  - 加法关系与乘法素因子复杂度之间的惊人约束
+- Fermat–Catalan
+  - 满足 `aᵐ+bⁿ=cᵏ` 且倒数指数和小于1的互素解是否只有有限多个？
+- Beal 猜想
+  - `Aˣ+Bʸ=Cᶻ` 且指数都大于2时，三底数是否必有公因子？
+- Hilbert 第十问题 over ℚ
+  - 有理解的算法判定问题
+- Tate 猜想
+  - ℓ-adic 上同调中的Galois不变量是否来自代数循环
+- Fontaine–Mazur 猜想
+  - 哪些Galois表示来自几何对象或自守形式？
+- Langlands 纲领开放部分
+  - Galois表示与自守表示之间的广泛对应
+  - 这是猜想网络，不是一道单一命题
+
+## 超越数与代数独立性
+- Schanuel 猜想
+  - 对线性无关复数，数与其指数应产生足够大的超越次数
+- 四指数猜想
+  - 两组各自线性无关的数的指数矩阵中至少有一个超越数
+- Euler 常数 `γ`
+  - 是否无理尚未知，更不用说是否超越
+- `π+e` 与 `πe`
+  - 至少一个是超越数，但不知道各自是否无理
+- 代数独立性难点
+  - 证明一个数超越已难，证明多个数之间没有代数关系更难
+
+## 代数几何
+- Hodge 猜想
+  - 有理Hodge类的代数性
+- Tate 猜想
+  - 算术域上的对应版本
+- 标准猜想 Standard Conjectures
+  - 代数循环与 Weil 上同调的正性、Lefschetz型性质
+- 正特征奇点消解
+  - 特征0已由 Hironaka 解决
+  - 正特征高维一般情形仍开放
+- Jacobian 猜想
+  - 常数非零Jacobian的多项式自映射是否可逆且逆仍为多项式
+
+## 拓扑与流形
+- 光滑四维 Poincaré
+  - 拓扑同胚已知，是否必光滑等价未知
+- Slice–Ribbon
+  - slice 结是否总能通过更受控的 ribbon 方式实现？
+- Andrews–Curtis 猜想
+  - 平衡的平凡群表示是否可通过基本变换化为标准表示？
+  - 许多疑似反例尚未最终确认
+- Novikov 猜想
+  - 高阶signature的同伦不变性
+- Borel 猜想
+  - aspherical 流形的拓扑刚性
+- 结体积猜想
+  - 彩色 Jones 多项式渐近 ↔ 结补空间双曲体积
+
+## 几何与凸体
+- Kakeya
+  - 每个方向都含单位线段的集合是否具有满维
+- Mahler 猜想
+  - 中心对称凸体与极体的体积乘积下界
+- Hadwiger 覆盖猜想
+  - 任意 `n` 维凸体能否由不超过 `2ⁿ` 个更小正比例副本覆盖？
+- Kissing Number
+  - 只有部分维数的精确接触数已知
+- Falconer 距离集猜想
+  - 足够高维数的集合，其距离集是否具有正测度？
+- 不要混淆
+  - 图论 Hadwiger 猜想与凸几何 Hadwiger 猜想同名但不同
+
+## 图论与组合
+- 图论 Hadwiger
+  - 高色数强迫大完全图子式
+- 图重构
+  - 顶点删除牌组能否确定原图
+- Hadamard 矩阵
+  - 每个 `4k` 阶是否存在正交 `±1` 矩阵
+- Graceful Tree
+  - 每棵树是否具有覆盖 `1…m` 边差的顶点标号
+- Caccetta–Häggkvist
+  - 最小出度强迫短有向环
+- Erdős–Hajnal
+  - 禁止固定诱导子图强迫多项式规模的大团或独立集
+- Rota 基猜想
+  - 多组基能否重排成新的“彩虹基”
+
+## 理论计算机科学
+- P vs NP
+  - 搜索与验证的根本鸿沟
+- NP vs coNP
+  - 是与否是否都总有短证书
+- Unique Games
+  - 约束满足问题的近似困难阈值
+- ETH / SETH
+  - SAT是否需要指数时间，以及指数底能否任意逼近2
+- 电路复杂度下界
+  - 能否证明显式函数不属于小电路类
+- 矩阵乘法指数 `ω=2?`
+  - 矩阵乘法能否以接近输入规模的二次时间完成
+- Games Complexity
+  - `PPAD` 中的完全问题能否高效求解，如一般 Nash 均衡计算
+
+## PDE与动力系统
+- Navier–Stokes
+  - 三维全局光滑性或有限时奇点
+- 三维 Euler 爆破
+  - 无黏流的涡量能否有限时发散
+- 正则性猜想
+  - 非线性色散方程在临界尺度下的全局适定性
+- Hilbert–Smith
+  - 流形变换群的Lie结构
+- 动力系统稳定性
+  - 许多系统的遍历性、混合性和普适性仍依赖具体模型
+- 湍流严格理论
+  - Kolmogorov 标度等物理预测在一般条件下的数学证明仍不完整
+
+## 概率与统计物理
+- 三维 Ising 精确理论
+  - 临界点、临界指数和标度极限
+- 三维自回避游走
+  - 端到端距离与计数增长的临界指数
+- KPZ 高维普适性
+  - 随机生长模型的共同指数与极限分布
+- 渗流临界指数
+  - 二维精确理论丰富，三维精确指数仍未知
+- 自旋玻璃
+  - 有限维模型的相结构与副本对称破缺严格化
+- 随机矩阵普适性
+  - 已解决许多模型，但稀疏、非厄米和相关结构仍有广泛开放区
+
+## 数学物理与相对论
+- Yang–Mills 质量间隙
+  - 四维量子规范场论严格构造
+- 弱宇宙监督
+  - 一般引力坍缩形成的奇点是否不被远方观察者看见
+- 强宇宙监督
+  - 广义相对论演化是否保持适当决定论
+- 黑洞稳定性
+  - Kerr 等时空在一般扰动下的非线性稳定性
+- 量子场论严格构造
+  - 四维相互作用理论满足公理、重整化与连续极限
+
+## 读研究进展的正确姿势
+- “已验证到很大范围” → 强证据，不是证明
+- “几乎所有数成立” → 仍可能留下无限例外
+- “平均成立” → 不保证逐点成立
+- “条件于RH/GRH” → 结论依赖尚未证明的假设
+- “某个维数已解决” → 其他维数可能完全不同
+- “给出预印本” → 还需同行逐行检查
+- “找到反例” → 若反例有效，原猜想立即被否定，而非被证明
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script><script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const texts={overview:document.querySelector('#map-overview').textContent.trim(),millennium:document.querySelector('#map-millennium').textContent.trim(),fields:document.querySelector('#map-fields').textContent.trim()};const nodeColors=d3.schemeCategory10;let active='overview',level=2,root;
+    function prepareTree(tree){const counters=[];const visit=(node,depth=0)=>{const index=counters[depth]||0;counters[depth]=index+1;node.payload={...(node.payload||{}),paletteIndex:index};(node.children||[]).forEach(child=>visit(child,depth+1))};visit(tree);return tree}
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:292,spacingHorizontal:98,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:2},prepareTree(transformer.transform(texts.overview).root));
+    function colorFor(node){if((node.state?.depth||0)===0)return '#164f78';return nodeColors[(node.payload?.paletteIndex??node.state?.id??0)%nodeColors.length]}mm.options.color=colorFor;
+    function render(map=active,nextLevel=level){active=map;level=nextLevel;root=prepareTree(transformer.transform(texts[active]).root);mm.options.color=colorFor;mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('.tab').forEach(button=>button.classList.toggle('active',button.dataset.map===active));document.querySelector('#search').value='';document.querySelector('#count').textContent='';document.querySelector('#status').textContent=`${document.querySelector('.tab.active').textContent}已加载`;setTimeout(()=>mm.fit(),380)}
+    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,2)));document.querySelector('#overviewBtn').addEventListener('click',()=>render(active,2));document.querySelector('#expand').addEventListener('click',()=>render(active,99));document.querySelector('#fit').addEventListener('click',()=>mm.fit());document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){render(active,level);return}const matches=[];walk(transformer.transform(texts[active]).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepareTree(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});render('overview',2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
+  </script>
+</body>
+</html>

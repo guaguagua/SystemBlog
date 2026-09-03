@@ -1,6 +1,18 @@
 [
   {
     "type": "lab",
+    "slug": "unsolved-mathematical-conjectures-markmap",
+    "source": "labs/unsolved-mathematical-conjectures-markmap.html",
+    "url": "labs/unsolved-mathematical-conjectures-markmap.html",
+    "title": "未解数学猜想全景思维导图",
+    "category": "数学与前沿",
+    "summary": "按数论、几何、分析、计算、组合与数学物理梳理重要未解猜想，单列六大未解千禧年难题及已知进展。",
+    "date": "2026-09-03",
+    "published": "2026-09-03T23:19:07+08:00",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "information-theory-markmap",
     "source": "labs/information-theory-markmap.html",
     "url": "labs/information-theory-markmap.html",
