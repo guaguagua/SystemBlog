@@ -1,0 +1,642 @@
+<!doctype html>
+<!--
+blog-title: 信息论全景思维导图
+blog-category: 数学与通信
+blog-summary: 从信息量、熵与互信息出发，串起无损压缩、信道容量、纠错编码、率失真、统计推断与机器学习。
+blog-date: 2026-09-03
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用交互式 Markmap 系统梳理信息论的核心概念、公式、定理与通信应用" />
+  <title>信息论全景思维导图 · Markmap</title>
+  <style>
+    :root{--ink:#164f78;--muted:#4f7e9c;--paper:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--cyan:#44ACFF;--pink:#FE9EC7;--pale-blue:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;color:var(--ink);font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;background:var(--paper)}button,input{font:inherit}
+    .stage{position:relative;width:100%;height:calc(100vh - 68px);min-height:620px}.map-title{position:absolute;z-index:6;left:20px;top:20px;max-width:340px;margin:0;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}.topbar{position:absolute;z-index:6;left:380px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start;pointer-events:none}.actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;pointer-events:auto}
+    .tab,.tool{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);height:38px;padding:0 12px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:.2s ease}.tab:hover,.tool:hover,.tab.active{transform:translateY(-1px);border-color:var(--cyan);background:var(--pale-blue)}.search{display:flex;align-items:center;gap:7px;height:38px;padding:0 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.search input{width:150px;border:0;outline:0;background:transparent;color:var(--ink)}.search input::placeholder{color:#6392ad}.count{min-width:18px;padding:1px 5px;border-radius:10px;background:var(--cyan);color:#fff;font-size:10px;text-align:center}.count:empty{display:none}
+    #mindmap{width:100%;height:100%;display:block;--markmap-text-color:var(--ink);--markmap-circle-open-bg:#fff}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:var(--ink)}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-foreign code{padding:1px 4px;border-radius:4px;background:rgba(255,255,255,.52);font-family:"Cascadia Code",Consolas,monospace;color:#164f78}.markmap-link{stroke-opacity:.68}.markmap-node-circle{fill:#F9F6C4;stroke-width:1.8px}
+    dialog{width:min(780px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;background:#fff2c2;color:var(--ink);box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.dialog-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:24px;color:#7a6c43;cursor:pointer}.dialog-body{padding:8px 20px 22px}.source-item{padding:13px 0;border-bottom:1px solid var(--line)}.source-item:last-child{border-bottom:0}.source-item a{color:#287594;font-weight:700;text-decoration:none}.source-item a:hover{text-decoration:underline}.source-item p{margin:5px 0 0;color:#5f643f;font-size:12px;line-height:1.6}
+    .loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.seal{width:38px;height:38px;border:2px solid rgba(68,172,255,.18);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:1080px){.topbar{left:310px}.map-title{max-width:280px}.search input{width:115px}.tool.hide-mobile{display:none}}@media(max-width:760px){.stage{height:calc(100vh - 112px);min-height:700px}.map-title{left:14px;top:14px;font-size:18px}.topbar{left:10px;right:10px;top:50px;justify-content:flex-start}.actions{justify-content:flex-start}.tab,.tool,.search{height:33px;padding:0 10px;font-size:12px}.search{order:9}.search input{width:125px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading" aria-hidden="true"><div class="seal"></div></div>
+  <div data-site-header data-active="blog"></div><script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">信息论全景思维导图</h1>
+    <header class="topbar"><nav class="actions" aria-label="图谱工具">
+      <button class="tab active" data-map="world">全景总览</button><button class="tab" data-map="formula">公式主线</button><button class="tab" data-map="system">通信主线</button>
+      <label class="search" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索概念或公式…" /><span class="count" id="count"></span></label>
+      <button class="tool hide-mobile" id="overview">收至二级</button><button class="tool" id="expand">全部展开</button><button class="tool" id="fit">适应画布</button><button class="tool" id="openSources">资料</button>
+    </nav></header>
+    <svg id="mindmap" role="img" aria-label="信息论核心内容交互式思维导图"></svg><div id="status" class="sr-only" aria-live="polite">全景总览已加载</div>
+  </main>
+  <div data-site-reward></div><script src="../../common/js/site-reward.js"></script>
+
+  <dialog id="sources"><div class="dialog-head"><h2>资料来源与符号约定</h2><button class="close" id="closeSources" aria-label="关闭">×</button></div><div class="dialog-body">
+    <div class="source-item"><a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x" target="_blank" rel="noreferrer">C. E. Shannon, A Mathematical Theory of Communication（1948，上篇）</a><p>信息熵、信道容量、信源与信道编码基本定理的奠基论文。</p></div>
+    <div class="source-item"><a href="https://doi.org/10.1002/j.1538-7305.1948.tb00917.x" target="_blank" rel="noreferrer">C. E. Shannon, A Mathematical Theory of Communication（1948，下篇）</a><p>原论文第二部分，涵盖连续信道、失真与通信系统等内容。</p></div>
+    <div class="source-item"><a href="https://web.stanford.edu/class/ee376a/outline.html" target="_blank" rel="noreferrer">Stanford EE376A · Information Theory</a><p>用于信息度量、AEP、无损压缩、信道容量、率失真与联合信源信道编码的课程结构。</p></div>
+    <div class="source-item"><a href="https://ocw.mit.edu/courses/6-441-information-theory-spring-2010/" target="_blank" rel="noreferrer">MIT 6.441 · Information Theory</a><p>研究生课程资料，覆盖编码定理、高斯信道、多用户信道与时变信道。</p></div>
+    <div class="source-item"><a href="https://www.inference.org.uk/itila/book.html" target="_blank" rel="noreferrer">David MacKay · Information Theory, Inference, and Learning Algorithms</a><p>免费教材，将信息论、概率推断、纠错码与机器学习联系起来。</p></div>
+    <div class="source-item"><a href="https://web.stanford.edu/class/ee376a/reading.html" target="_blank" rel="noreferrer">Stanford EE376A · Readings</a><p>延伸阅读包括 Cover &amp; Thomas、Shannon 原论文及经典信息论教材。</p></div>
+    <div class="source-item"><p><strong>符号约定：</strong>默认以2为对数底，单位为 bit；改用自然对数时单位为 nat。离散熵与微分熵性质不同，图中已单列提醒。公式旨在展示结构，严格成立条件以教材与定理原文为准。</p></div>
+  </div></dialog>
+
+  <script type="text/plain" id="map-world">
+# 信息论 · 从不确定性到可通信性
+
+## 1. 核心问题：信息能否被度量？
+- 消息的“意义”不是经典信息论的直接对象
+  - 研究消息集合、概率和可区分性
+  - 同一串比特可承载不同语义
+  - 信息量描述惊讶程度，不等于知识、价值或真实性
+- 三个基本任务
+  - 表示：最少需要多少比特？
+  - 传输：噪声中最高能以多快速度可靠通信？
+  - 重构：允许失真时最少需要多少比特？
+- Shannon 的关键转变
+  - 从“怎样设计一个码”上升到“任何方案都不能突破的极限”
+  - 先证明边界存在，再寻找接近边界的算法
+
+## 2. 概率基础：信息论的语法
+- 随机变量与概率分布
+  - 离散：概率质量函数 `p(x)`
+  - 连续：概率密度 `f(x)`
+  - 联合分布 `p(x,y)` 描述相关关系
+- 条件概率与贝叶斯公式
+  - `p(x|y) = p(x,y) / p(y)`
+  - 观察 `Y` 后，关于 `X` 的不确定性发生改变
+- 期望
+  - 信息度量通常是某个随机量的平均
+  - 大数定律让长序列的经验频率接近真实概率
+- 马尔可夫链
+  - `X → Y → Z`：给定 `Y` 后，`Z` 不再额外依赖 `X`
+  - 是数据处理不等式的结构前提
+
+## 3. 自信息与熵：给不确定性定标
+- 自信息 Self-information
+  - `i(x) = −log₂ p(x)`
+  - 越罕见的事件，发生时提供的信息越多
+  - 独立事件联合发生时信息量相加
+- 熵 Entropy
+  - `H(X) = −Σ p(x) log₂ p(x)`
+  - 事件发生前的平均不确定性
+  - 也是最优无损编码的平均码长极限
+- 基本性质
+  - `H(X) ≥ 0`
+  - 确定变量的熵为0
+  - 固定字母表大小时，均匀分布熵最大
+  - 二元熵 `h₂(p)` 在 `p=1/2` 达到1 bit
+- 联合熵与条件熵
+  - `H(X,Y)`：同时描述两变量所需信息
+  - `H(X|Y)`：知道 `Y` 后 `X` 还剩多少不确定性
+  - 链式法则：`H(X,Y)=H(X)+H(Y|X)`
+- 熵率 Entropy Rate
+  - 每个符号长期平均产生的新信息
+  - 对有记忆信源，比单符号熵更能描述可压缩极限
+
+## 4. 互信息、KL与交叉熵：比较关系和分布
+- 互信息 Mutual Information
+  - `I(X;Y)=H(X)−H(X|Y)`
+  - 观察 `Y` 平均减少了多少关于 `X` 的不确定性
+  - 对称：`I(X;Y)=I(Y;X)`
+  - 独立时为0，但“互信息为0”等价独立需在定义良好时理解
+- KL散度 Relative Entropy
+  - `Dₖₗ(P||Q)=Σ p(x) log[p(x)/q(x)]`
+  - 用 `Q` 近似真实分布 `P` 的额外编码代价
+  - 非负且不对称，因此不是距离
+- 交叉熵 Cross-entropy
+  - `H(P,Q)=−Σ p(x)log q(x)`
+  - `H(P,Q)=H(P)+Dₖₗ(P||Q)`
+  - 固定数据分布时，最小化交叉熵等价最小化KL散度
+- 条件互信息
+  - `I(X;Y|Z)`：已知 `Z` 后，`X` 与 `Y` 仍共享多少信息
+  - 用于网络信息论、因果分析和统计推断
+- 数据处理不等式
+  - 若 `X → Y → Z`，则 `I(X;Z) ≤ I(X;Y)`
+  - 后处理不能凭空增加关于原变量的信息
+
+## 5. 典型序列与 AEP：从概率走向编码
+- 渐近等分性质 AEP
+  - 长独立同分布序列大多落入典型集
+  - 每条典型序列概率约为 `2⁻ⁿᴴ`
+  - 典型序列数量约为 `2ⁿᴴ`
+- 直觉
+  - 全部可能序列很多，但绝大多数概率集中在典型集
+  - 给典型集编号大约需要 `nH` bit
+- 方法论
+  - 用高概率集合替代逐个枚举
+  - 随机编码证明“存在好码”
+  - 大数极限揭示平均意义下的基本边界
+- 扩展工具
+  - 强典型 / 弱典型 / 联合典型
+  - 类型方法 Method of Types
+  - 大偏差、Sanov 定理与误差指数
+
+## 6. 无损信源编码：去掉可预测性
+- 目标
+  - 原始消息可完全恢复
+  - 最小化平均码长或压缩率
+- 基本极限
+  - 对独立信源，平均码长不能长期低于熵
+  - Shannon 信源编码定理：足够长分组可逼近 `H(X)`
+- 即时码与 Kraft–McMillan 不等式
+  - 前缀码：任何码字都不是另一码字的前缀
+  - 二进制码长须满足 `Σ2⁻ˡⁱ ≤ 1`
+- 典型方法
+  - Shannon–Fano：按概率构造码长
+  - Huffman：已知符号概率下的最优前缀码
+  - 算术编码：用区间表示整段序列，逼近熵率
+  - Lempel–Ziv：不预先知道模型的通用压缩
+- 实际系统还需要
+  - 概率建模：捕捉上下文和重复
+  - 熵编码：把概率变成短码字
+  - 元数据、随机访问、速度与鲁棒性权衡
+
+## 7. 有噪信道与信道容量
+- 离散无记忆信道 DMC
+  - 输入 `X`、输出 `Y`、转移概率 `p(y|x)`
+  - 每次使用条件相同，且在给定输入时彼此独立
+- 典型信道
+  - BSC：二元对称翻转，错误概率 `p`
+  - BEC：符号要么正确要么被擦除
+  - AWGN：信号叠加高斯噪声
+- 信道容量
+  - `C = maxₚ₍ₓ₎ I(X;Y)`
+  - 对所有输入分布优化得到每次信道使用的最高可靠信息率
+- 有噪信道编码定理
+  - `R < C`：存在误码率可随码长趋近0的编码序列
+  - `R > C`：不能实现任意可靠通信
+  - 定理给出“可不可以”，不自动给出低复杂度构造
+- Shannon–Hartley 高斯信道容量
+  - `C = B log₂(1+S/N)` bit/s
+  - 带宽和信噪比可交换，但收益呈对数增长
+
+## 8. 纠错编码：用冗余对抗噪声
+- 基本参数
+  - 分组码 `(n,k,dₘᵢₙ)`
+  - 码率 `R=k/n`
+  - 最小距离决定检错与纠错能力
+- 线性分组码
+  - 生成矩阵 `G`：消息映射到码字
+  - 校验矩阵 `H`：综合 syndrome 定位错误
+  - Hamming、BCH、Reed–Solomon
+- 有记忆与图模型码
+  - 卷积码 + Viterbi 译码
+  - Turbo 码：迭代交换软信息
+  - LDPC：稀疏校验图上的消息传递
+  - Polar：信道极化，理论上可达容量
+- 译码思想
+  - 最大似然 / 最大后验
+  - 硬判决 vs 软判决
+  - 性能、时延、功耗、码长和复杂度权衡
+- 不要混淆
+  - 压缩去冗余；纠错主动加结构化冗余
+  - 调制把比特映射为波形；编码决定比特间约束
+
+## 9. 有损压缩与率失真理论
+- 为什么允许失真
+  - 图像、音频、视频无需逐比特完全恢复
+  - 感知上不重要的细节可舍弃
+- 失真度量
+  - 均方误差、汉明失真、感知加权指标
+  - 选错失真函数会优化出“不符合人感受”的结果
+- 率失真函数
+  - `R(D)=min I(X;X̂)`，约束 `E[d(X,X̂)]≤D`
+  - 给定允许失真 `D` 时，最低所需码率
+  - 与信道容量形成“压缩极限—传输极限”的镜像
+- 实际编解码
+  - 变换：DCT / 小波 / 学习型表示
+  - 量化：连续或高精度系数离散化
+  - 熵编码：压缩量化后的符号
+  - 码率控制：质量、带宽和缓冲区间权衡
+
+## 10. 信源—信道分离与网络信息论
+- 分离定理
+  - 在经典点到点、长码长、平稳条件下
+  - 先压缩到信源熵，再用容量内的信道码传输即可
+  - 条件不满足时，联合设计可能更合适
+- 多用户信道
+  - 多址信道 MAC：多个发送者到一个接收者
+  - 广播信道 BC：一个发送者到多个接收者
+  - 中继信道 / 干扰信道 / 窃听信道
+- 网络编码
+  - 中间节点可组合信息而非只做转发
+  - 最大流—最小割在多播中出现信息论对应
+- 现实偏离理想模型
+  - 有限码长 / 严格时延
+  - 信道未知或时变
+  - 反馈、同步、计算和能耗约束
+
+## 11. 连续变量与高斯世界
+- 微分熵
+  - `h(X)=−∫f(x)log f(x)dx`
+  - 可为负，且随坐标尺度变化
+  - 不能把离散熵的所有直觉直接搬过来
+- 连续互信息
+  - 仍具有非负性和坐标变换不变性
+  - 比单独的微分熵更稳定
+- 高斯分布
+  - 固定协方差时，高斯分布微分熵最大
+  - AWGN 模型带来简洁容量表达式
+- 量化
+  - 连续信号映射到离散表示
+  - 分辨率增加时，码率和量化噪声发生系统性权衡
+
+## 12. 统计推断与机器学习
+- 假设检验
+  - KL散度控制区分两个分布的渐近难度
+  - Chernoff 信息与错误指数描述错误概率下降速度
+  - Fano 不等式把分类错误率与条件熵联系起来
+- 参数估计
+  - Fisher 信息衡量数据对参数的局部辨识力
+  - Cramér–Rao 下界给出无偏估计方差下限
+  - 与 Shannon 信息同名但不是同一量
+- 机器学习损失
+  - 分类交叉熵对应负对数似然
+  - 最大似然可解释为让经验分布与模型分布更接近
+  - 变分推断：ELBO 中出现KL散度
+- 表示学习
+  - 信息瓶颈：保留与目标有关的信息，压缩无关输入
+  - 最小描述长度 MDL：能最短描述数据的模型更有解释力
+  - 互信息估计在高维连续场景中并不简单
+- 生成模型
+  - 自回归模型逐项预测，编码长度对应负对数概率
+  - 熵模型决定神经压缩的实际码率
+  - “困惑度低”反映预测编码效率，不等同于事实正确
+
+## 13. 密码学、物理与其他应用
+- 密码学
+  - 完美保密：密文不泄露关于明文的互信息
+  - 一次一密要求密钥真正随机、等长且不重复
+  - 信道编码与密码编码目标不同：可靠性 vs 保密性
+- 数据存储
+  - 磁盘、闪存、光盘、二维码都依赖纠错码
+  - 分布式存储关注擦除码和修复带宽
+- 生物与神经系统
+  - 可用熵和互信息描述编码效率
+  - 相关不等于因果；采样偏差会扭曲估计
+- 热力学
+  - 统计熵与信息熵形式相关
+  - Landauer 原理连接逻辑擦除与能耗
+  - 不能仅凭公式相似把物理熵与语义信息混为一谈
+- 量子信息
+  - qubit、von Neumann 熵、量子信道
+  - 不可克隆和纠缠改变经典通信直觉
+
+## 14. 学习路线
+- 第一步：概率、条件概率、期望与对数
+- 第二步：熵、条件熵、互信息、KL与链式法则
+- 第三步：AEP、典型集与无损信源编码
+- 第四步：DMC、容量和信道编码定理
+- 第五步：高斯信道、率失真与联合信源信道编码
+- 第六步：纠错码、网络信息论或机器学习方向深入
+- 始终追问
+  - 随机变量是什么？分布是什么？
+  - 平均是对什么取的？极限让哪个量趋于无穷？
+  - 定理的成立条件是什么？
+  - 这是可达上界、不可突破下界，还是具体算法？
+  </script>
+
+  <script type="text/plain" id="map-formula">
+# 信息论公式主线 · 一张关系网
+
+## 概率与对数单位
+- `p(x) ≥ 0`，`Σₓp(x)=1`
+- `p(x,y)=p(x|y)p(y)`
+- `p(x|y)=p(y|x)p(x)/p(y)`
+- 对数底
+  - `log₂` → bit
+  - `ln` → nat
+  - 单位转换只差常数因子
+
+## 自信息
+- `i(x)=−log p(x)`
+- `p(x)` 越小，`i(x)` 越大
+- 独立事件：`i(x,y)=i(x)+i(y)`
+- 不是事件发生后的主观“意义”，而是概率惊讶度
+
+## 熵族
+- 熵：`H(X)=E[i(X)]=−Σₓp(x)log p(x)`
+- 联合熵：`H(X,Y)=−Σₓ,ᵧp(x,y)log p(x,y)`
+- 条件熵：`H(X|Y)=−Σₓ,ᵧp(x,y)log p(x|y)`
+- 链式法则
+  - `H(X,Y)=H(X)+H(Y|X)`
+  - `H(X₁…Xₙ)=ΣᵢH(Xᵢ|X₁…Xᵢ₋₁)`
+- 边界
+  - `0≤H(X)≤log|𝒳|`
+  - `H(X|Y)≤H(X)`（离散情形）
+  - 独立时 `H(X,Y)=H(X)+H(Y)`
+- 二元熵
+  - `h₂(p)=−p log₂p−(1−p)log₂(1−p)`
+  - `h₂(0)=h₂(1)=0`，`h₂(1/2)=1`
+
+## 互信息族
+- `I(X;Y)=Σp(x,y)log[p(x,y)/(p(x)p(y))]`
+- 等价形式
+  - `I(X;Y)=H(X)−H(X|Y)`
+  - `I(X;Y)=H(Y)−H(Y|X)`
+  - `I(X;Y)=H(X)+H(Y)−H(X,Y)`
+- 条件互信息
+  - `I(X;Y|Z)=H(X|Z)−H(X|Y,Z)`
+- 链式法则
+  - `I(X;Y,Z)=I(X;Y)+I(X;Z|Y)`
+- 性质
+  - `I(X;Y)≥0`
+  - `I(X;Y)=0 ⇔ X,Y独立`
+  - 数据处理：`X→Y→Z ⇒ I(X;Z)≤I(X;Y)`
+
+## KL散度与交叉熵
+- `Dₖₗ(P||Q)=Σp(x)log[p(x)/q(x)]`
+- Gibbs 不等式：`Dₖₗ(P||Q)≥0`
+- 不对称：`Dₖₗ(P||Q)≠Dₖₗ(Q||P)`
+- 若 `q(x)=0` 而 `p(x)>0`，则KL可为无穷
+- 交叉熵：`H(P,Q)=−Σp(x)log q(x)`
+- 分解：`H(P,Q)=H(P)+Dₖₗ(P||Q)`
+- 互信息也是KL
+  - `I(X;Y)=Dₖₗ(Pₓᵧ || PₓPᵧ)`
+
+## 典型集与熵率
+- AEP：`−(1/n)log p(Xⁿ) → H(X)`
+- 典型序列概率：`p(xⁿ)≈2⁻ⁿᴴ`
+- 典型集大小：`|A⁽ⁿ⁾ε|≈2ⁿᴴ`
+- 平稳过程熵率
+  - `H̄(X)=limₙ→∞ H(X₁…Xₙ)/n`
+  - 也常写为条件熵极限
+
+## 无损编码边界
+- Kraft 不等式：`ΣᵢD⁻ˡⁱ≤1`
+- 二进制前缀码：`Σᵢ2⁻ˡⁱ≤1`
+- 单符号最优前缀码平均长度
+  - `H(X)≤L<H(X)+1`
+- 块编码
+  - 对长度 `n` 分组，单位符号码长可逼近 `H(X)`
+- 概率与理想码长
+  - `l(x)≈−log₂p(x)`
+
+## 信道与容量
+- DMC：`p(yⁿ|xⁿ)=∏ᵢp(yᵢ|xᵢ)`
+- 容量：`C=maxₚ₍ₓ₎I(X;Y)`
+- 可靠通信
+  - `R<C` 可达：存在误码率趋零的码
+  - `R>C` 不可达：强/弱逆定理给出不同形式
+- BSC 容量：`C=1−h₂(p)` bit/use
+- BEC 容量：`C=1−ε` bit/use
+- 实际码率：`R=k/n`
+
+## 高斯与连续变量
+- 微分熵：`h(X)=−∫f(x)log f(x)dx`
+- 高斯熵：`h(X)=½log(2πeσ²)`
+- 固定方差下高斯分布使微分熵最大
+- AWGN 容量：`C=B log₂(1+S/N)` bit/s
+- 每实维常见归一化：`C=½log₂(1+SNR)` bit/use
+- 注意
+  - 微分熵可为负
+  - 单独的 `h(X)` 随尺度变
+  - 连续互信息仍非负并具有更稳定解释
+
+## 率失真
+- 平均失真约束：`E[d(X,X̂)]≤D`
+- 率失真函数：`R(D)=min I(X;X̂)`
+- 优化变量：条件分布 `p(x̂|x)`
+- 性质
+  - `R(D)` 单调不增
+  - 通常为凸函数
+  - `D=0` 时在适当离散条件下回到无损极限
+- 对偶问题
+  - 给定码率 `R` 的最小失真 `D(R)`
+
+## 错误概率与推断下界
+- Fano 不等式
+  - `H(X|Y)≤h₂(Pₑ)+Pₑlog(|𝒳|−1)`
+  - 若剩余不确定性很大，分类错误率不可能很小
+- Pinsker 不等式
+  - 总变差距离受KL散度控制
+- Fisher 信息
+  - `J(θ)=E[(∂θ log p(X;θ))²]`
+- Cramér–Rao 下界
+  - `Var(θ̂)≥1/J(θ)`（标量无偏、正则条件下）
+- 注意：Fisher 信息与 Shannon 信息度量相关但定义不同
+
+## 保密性
+- 完美保密：`I(M;C)=0`
+- 等价直觉：观察密文 `C` 不改变消息 `M` 的分布
+- 一次一密
+  - 真随机密钥
+  - 密钥长度至少匹配消息信息量
+  - 密钥只使用一次
+- 可靠性、保密性、认证性是不同目标
+
+## 一张公式依赖图
+- `p(x)` → `−log p(x)` → `H(X)`
+- `p(x,y)` → `H(X,Y), H(X|Y)` → `I(X;Y)`
+- `P,Q` → `Dₖₗ(P||Q)` → 交叉熵 / 假设检验 / 变分推断
+- `H(X)` + AEP → 无损压缩极限
+- `I(X;Y)` 最大化 → 信道容量 `C`
+- `I(X;X̂)` 最小化 + 失真约束 → `R(D)`
+- 熵、容量、率失真共同回答：表示和传输至少/至多需要多少资源？
+  </script>
+
+  <script type="text/plain" id="map-system">
+# 通信系统主线 · 信息怎样穿过噪声
+
+## 0. 系统目标
+- 信源产生消息
+- 发送端把消息变成适合信道的波形或符号
+- 信道引入衰减、噪声、干扰、失真与丢失
+- 接收端从观测恢复消息
+- 衡量
+  - 可靠性：误码率 / 块错误率
+  - 效率：bit/s、bit/s/Hz、每比特能耗
+  - 质量：失真、时延、覆盖和复杂度
+
+## 1. 信源 Source
+- 离散信源：字符、比特、符号
+- 连续信源：语音、图像、传感器波形
+- 无记忆信源：符号独立同分布
+- 有记忆信源：文本上下文、视频时间相关
+- 建模任务
+  - 估计概率 `p(x)` 或条件概率 `p(xᵢ|x₍<ᵢ₎)`
+  - 找出可预测性和冗余
+  - 决定保真要求与允许失真
+
+## 2. 信源编码 Source Coding
+- 无损路径
+  - 建模 → 概率分配 → Huffman/算术/ANS等熵编码
+  - 极限由熵或熵率决定
+- 有损路径
+  - 变换 → 量化 → 熵编码
+  - 极限由率失真函数决定
+- 输出目标
+  - 更接近均匀、不可预测的比特流
+  - 去除统计冗余但保留需要的信息
+- 风险
+  - 压缩后的错误扩散可能更严重
+  - 丢包恢复、随机访问常需要额外结构
+
+## 3. 加密与完整性（可选层）
+- 加密：让未授权者难以得到明文
+- 消息认证码/数字签名：验证完整性与来源
+- 通常在压缩之后进行
+  - 密文接近随机，难再压缩
+- 与纠错码分工不同
+  - 密码学处理对手
+  - 信道编码处理随机噪声和擦除
+
+## 4. 信道编码 Channel Coding
+- 编码器把 `k` 个信息比特映射到 `n` 个码比特
+- 码率 `R=k/n`
+  - 低码率通常意味着更多冗余和更强保护
+  - 但占用更多时间/带宽资源
+- 码的选择
+  - 短包低时延：短分组码、Polar等
+  - 突发错误：交织 + RS/BCH等
+  - 近容量传输：Turbo、LDPC、Polar
+- 软信息
+  - 解调器输出对每个比特的置信度 LLR
+  - 软译码通常优于只输出0/1的硬判决
+
+## 5. 调制 Modulation
+- 比特映射到复平面符号
+  - BPSK：每符号1 bit
+  - QPSK：每符号2 bit
+  - 16/64/256-QAM：更高频谱效率，需更高信噪比
+- 波形成形
+  - 控制带宽和码间干扰
+  - 根升余弦等滤波
+- 多载波
+  - OFDM把频率选择性信道分成许多窄带子载波
+  - 需要循环前缀、同步和峰均比管理
+- 编码调制
+  - 实际系统联合选择码率与调制阶数 MCS
+  - 根据SNR、误码率和吞吐目标自适应
+
+## 6. 物理信道 Channel
+- 加性噪声
+  - 热噪声常近似高斯
+  - AWGN 是基准模型而非所有现实
+- 衰落
+  - 多径引起幅度和相位随机变化
+  - 快衰落 / 慢衰落，平坦 / 频率选择性
+- 干扰
+  - 同频用户、邻频、脉冲和人为干扰
+- 擦除与丢包
+  - 接收端知道某符号/分组缺失
+  - 与“不知道哪里错了”的翻转错误不同
+- 信道状态信息 CSI
+  - 接收端CSI用于检测
+  - 发送端CSI可用于功率和速率分配
+
+## 7. 接收前端与同步
+- 射频前端：滤波、放大、下变频
+- 采样与量化：连续波形进入数字域
+- 同步
+  - 载波频率与相位同步
+  - 符号定时同步
+  - 帧同步
+- 信道估计
+  - 导频/训练序列帮助估计信道
+  - 估计误差会降低有效容量和译码性能
+- 均衡
+  - 抵消码间干扰和频率选择性
+  - ZF、MMSE及迭代均衡
+
+## 8. 解调与信道译码
+- 解调
+  - 根据接收点和信道估计计算符号概率
+  - 输出硬比特或LLR软信息
+- 译码
+  - 最大似然：找最可能产生观测的码字
+  - MAP：结合先验找后验概率最大的消息
+  - Viterbi：卷积码格图最短路径
+  - Belief Propagation：LDPC因子图消息传递
+  - Successive Cancellation：Polar逐位译码
+- 校验
+  - CRC擅长检错，通常与纠错码配合
+  - 失败时可触发ARQ重传
+
+## 9. 可靠性机制：FEC、ARQ与混合ARQ
+- FEC 前向纠错
+  - 不等待反馈即可纠错
+  - 适合广播、长时延或严格实时链路
+- ARQ 自动重传
+  - 检测错误后请求重传
+  - 用额外时延换取可靠性
+- HARQ
+  - 重传信息与先前软信息合并
+  - Chase combining / Incremental redundancy
+- 端到端视角
+  - 物理层误码并不是应用层唯一故障
+  - 拥塞、排队、丢包和协议超时也影响可靠性
+
+## 10. 信源译码与呈现
+- 无损：恢复原始比特序列
+- 有损：在码率允许范围内重构信号
+- 错误隐藏
+  - 音视频可利用空间/时间相关性掩盖局部丢失
+- 质量指标
+  - MSE / PSNR / SSIM
+  - 语音、图像感知指标
+  - 用户体验指标不总与数学失真完全一致
+- 最终目的地
+  - 人类感知
+  - 机器识别或控制
+  - 存储、转发或进一步计算
+
+## 11. Shannon 极限怎样约束整条链
+- 信源端
+  - 无损最低平均码率约为熵率
+  - 有损最低码率由 `R(D)` 给出
+- 信道端
+  - 最高可靠传输率由容量 `C` 给出
+- 分离条件下
+  - 若信源所需率 `<` 信道可提供容量，则原则上可可靠传输
+  - 若所需率 `>` 容量，再复杂的编码也无法满足同样目标
+- 工程差距
+  - 有限码长导致不能无限逼近渐近极限
+  - 复杂度、时延、功耗和标准限制决定可实现点
+
+## 12. 一个数字例子
+- 信源：每秒产生100万像素
+- 原始：每像素24 bit → 24 Mbit/s
+- 有损压缩10:1 → 2.4 Mbit/s
+- 信道编码码率1/2 → 4.8 Mbit/s编码比特
+- 16-QAM：每符号4 bit → 理想至少1.2 Msymbol/s
+- 实际还要加
+  - 导频、同步、循环前缀、协议头、重传余量
+  - 因此“应用净速率”小于物理层标称速率
+
+## 13. 设计时的六个旋钮
+- 压缩率：越高越省速率，但质量/鲁棒性可能下降
+- 码率：冗余越多通常越可靠，但吞吐下降
+- 调制阶数：越高越快，但对SNR更敏感
+- 发射功率：提高可靠性，但受能耗和法规限制
+- 带宽：更宽可提高容量，但频谱稀缺
+- 时延：长码长和重传提高性能，却增加等待
+
+## 14. 常见误区
+- Shannon 容量不是某一种芯片或协议的固定速度
+- `R<C` 只保证存在好码，不保证任意现有码都可靠
+- 加冗余并不违背压缩：两者去除和加入的是不同性质的冗余
+- SNR翻倍不会让容量翻倍，因为容量随 `log(1+SNR)` 增长
+- 低误码率不等于低端到端时延，也不等于高用户体验
+- 信息论研究可区分性和概率结构，不直接判断消息是否“有意义”
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script><script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const texts={world:document.querySelector('#map-world').textContent.trim(),formula:document.querySelector('#map-formula').textContent.trim(),system:document.querySelector('#map-system').textContent.trim()};const nodeColors=d3.schemeCategory10;let active='world',level=2,root;
+    function prepareTree(tree){const counters=[];const visit=(node,depth=0)=>{const index=counters[depth]||0;counters[depth]=index+1;node.payload={...(node.payload||{}),paletteIndex:index};(node.children||[]).forEach(child=>visit(child,depth+1))};visit(tree);return tree}
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:292,spacingHorizontal:98,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:2},prepareTree(transformer.transform(texts.world).root));
+    function colorFor(node){if((node.state?.depth||0)===0)return '#164f78';return nodeColors[(node.payload?.paletteIndex??node.state?.id??0)%nodeColors.length]}mm.options.color=colorFor;
+    function render(map=active,nextLevel=level){active=map;level=nextLevel;root=prepareTree(transformer.transform(texts[active]).root);mm.options.color=colorFor;mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('.tab').forEach(button=>button.classList.toggle('active',button.dataset.map===active));document.querySelector('#search').value='';document.querySelector('#count').textContent='';document.querySelector('#status').textContent=`${document.querySelector('.tab.active').textContent}已加载`;setTimeout(()=>mm.fit(),380)}
+    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,2)));document.querySelector('#overview').addEventListener('click',()=>render(active,2));document.querySelector('#expand').addEventListener('click',()=>render(active,99));document.querySelector('#fit').addEventListener('click',()=>mm.fit());document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){render(active,level);return}const matches=[];walk(transformer.transform(texts[active]).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepareTree(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});render('world',2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
+  </script>
+</body>
+</html>

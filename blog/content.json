@@ -34,6 +34,17 @@
   },
   {
     "type": "lab",
+    "slug": "information-theory-markmap",
+    "source": "labs/information-theory-markmap.html",
+    "url": "labs/information-theory-markmap.html",
+    "title": "信息论全景思维导图",
+    "category": "数学与通信",
+    "summary": "从信息量、熵与互信息出发，串起无损压缩、信道容量、纠错编码、率失真、统计推断与机器学习。",
+    "date": "2026-09-03",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "semiconductor-industry-markmap",
     "source": "labs/semiconductor-industry-markmap.html",
     "url": "labs/semiconductor-industry-markmap.html",
