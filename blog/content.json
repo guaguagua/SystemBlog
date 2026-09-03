@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "world-government-structures-markmap",
+    "source": "labs/world-government-structures-markmap.html",
+    "url": "labs/world-government-structures-markmap.html",
+    "title": "世界主要国家政府层级图谱",
+    "category": "政治与制度",
+    "summary": "用交互式 Markmap 对照中国、美国及主要国家的横向权力结构与纵向中央—地方层级。",
+    "date": "2026-09-03",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "semiconductor-industry-markmap",
     "source": "labs/semiconductor-industry-markmap.html",
     "url": "labs/semiconductor-industry-markmap.html",

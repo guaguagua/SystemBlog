@@ -1,0 +1,593 @@
+<!doctype html>
+<!--
+blog-title: 世界主要国家政府层级图谱
+blog-category: 政治与制度
+blog-summary: 用交互式 Markmap 对照中国、美国及主要国家的横向权力结构与纵向中央—地方层级。
+blog-date: 2026-09-03
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用交互式 Markmap 梳理中国、美国及世界主要国家的政府层级与权力结构" />
+  <title>世界主要国家政府层级图谱 · Markmap</title>
+  <style>
+    :root{
+      --ink:#164f78;--muted:#4f7e9c;--paper:#EAE7DE;--panel:rgba(249,246,196,.9);
+      --line:rgba(68,172,255,.32);--china:#FE9EC7;--usa:#44ACFF;--gold:#44ACFF;
+      --cyan:#44ACFF;--pink:#FE9EC7;--pale-blue:#89D4FF;
+      --shadow:0 16px 42px rgba(68,172,255,.18);--radius:10px;
+    }
+    *{box-sizing:border-box}
+    html,body{min-height:100%;margin:0}
+    body{overflow-x:hidden;color:var(--ink);font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;background:var(--paper)}
+    body::before{display:none}
+    button,input{font:inherit}
+    .stage{position:relative;width:100%;height:calc(100vh - 68px);min-height:620px}
+    .map-title{position:absolute;z-index:6;left:20px;top:20px;max-width:360px;margin:0;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}
+    .topbar{position:absolute;z-index:6;left:400px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start;pointer-events:none}
+    .actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;pointer-events:auto}
+    .tab,.tool{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);height:38px;padding:0 12px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:.2s ease}.tab:hover,.tool:hover,.tab.active{transform:translateY(-1px);border-color:var(--cyan);background:var(--pale-blue);color:var(--ink)}
+    .search{display:flex;align-items:center;gap:7px;height:38px;padding:0 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.search input{width:155px;border:0;outline:0;background:transparent;color:var(--ink)}.search input::placeholder{color:#6392ad}.count{min-width:18px;padding:1px 5px;border-radius:10px;background:var(--cyan);color:#fff;font-size:10px;text-align:center}.count:empty{display:none}
+    #mindmap{width:100%;height:100%;display:block;--markmap-text-color:var(--ink);--markmap-circle-open-bg:#fff}
+    .markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:var(--ink)}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-link{stroke-opacity:.68}.markmap-node-circle{fill:#F9F6C4;stroke-width:1.8px}.match-node foreignObject>div{color:var(--ink)!important;background:var(--pink)!important;border-radius:5px;padding:2px 6px!important;box-shadow:0 0 0 3px rgba(254,158,199,.25)}
+    dialog{width:min(760px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;background:#fff2c2;color:var(--ink);box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.dialog-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:24px;color:#7a6c43;cursor:pointer}.dialog-body{padding:8px 20px 22px}.source-item{padding:13px 0;border-bottom:1px solid var(--line)}.source-item:last-child{border-bottom:0}.source-item a{color:#287594;font-weight:700;text-decoration:none}.source-item a:hover{text-decoration:underline}.source-item p{margin:5px 0 0;color:#5f643f;font-size:12px;line-height:1.6}
+    .loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.seal{width:38px;height:38px;border:2px solid rgba(68,172,255,.18);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:1080px){.topbar{left:330px}.map-title{max-width:300px}.search input{width:120px}.tool.hide-mobile{display:none}}
+    @media(max-width:760px){.stage{height:calc(100vh - 112px);min-height:700px}.map-title{left:14px;top:14px;font-size:18px}.topbar{left:10px;right:10px;top:50px;justify-content:flex-start}.actions{justify-content:flex-start}.tab,.tool,.search{height:33px;padding:0 10px;font-size:12px}.search{order:9}.search input{width:125px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading" aria-hidden="true"><div class="seal"></div></div>
+  <div data-site-header data-active="blog"></div>
+  <script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">世界主要国家政府层级图谱</h1>
+    <header class="topbar">
+      <nav class="actions" aria-label="图谱工具">
+        <button class="tab active" data-map="world">全球总览</button>
+        <button class="tab" data-map="china">中国详图</button>
+        <button class="tab" data-map="usa">美国详图</button>
+        <label class="search" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索层级或机构…" /><span class="count" id="count"></span></label>
+        <button class="tool hide-mobile" id="overview">收至二级</button>
+        <button class="tool" id="expand">全部展开</button>
+        <button class="tool" id="fit">适应画布</button>
+        <button class="tool" id="openSources">资料</button>
+      </nav>
+    </header>
+    <svg id="mindmap" role="img" aria-label="世界主要国家政府结构交互式思维导图"></svg>
+    <div id="status" class="sr-only" aria-live="polite">全球总览已加载</div>
+  </main>
+  <div data-site-reward></div>
+  <script src="../../common/js/site-reward.js"></script>
+
+  <dialog id="sources">
+    <div class="dialog-head"><h2>资料来源与口径</h2><button class="close" id="closeSources" aria-label="关闭">×</button></div>
+    <div class="dialog-body">
+      <div class="source-item"><a href="https://www.npc.gov.cn/c2/c30834/201905/t20190521_281393.html" target="_blank" rel="noreferrer">《中华人民共和国宪法》（2018年修正）· 中国人大网</a><p>用于国家机构、民主集中制、中央与地方关系、“一府一委两院”等基本口径。</p></div>
+      <div class="source-item"><a href="https://www.npc.gov.cn/zgrdw/npc/gjjg/node_506.htm" target="_blank" rel="noreferrer">中华人民共和国国家机构 · 中国人大网</a><p>用于全国人大、国家主席、国务院、中央军委及地方国家机构的定位。</p></div>
+      <div class="source-item"><a href="https://www.usa.gov/branches-of-government" target="_blank" rel="noreferrer">Branches of the U.S. government · USAGov</a><p>用于美国联邦政府立法、行政、司法三分支及其制衡关系。</p></div>
+      <div class="source-item"><a href="https://constitution.congress.gov/browse/essay/intro-7-3/ALDE_00000032/" target="_blank" rel="noreferrer">Federalism and the Constitution · Congress.gov</a><p>用于联邦与州之间分权、共享权力与州自治领域的说明。</p></div>
+      <div class="source-item"><a href="https://www.gov.uk/government/how-government-works" target="_blank" rel="noreferrer">How government works · GOV.UK</a><p>用于英国中央政府、议会、权力下放政府和地方政府的结构。</p></div>
+      <div class="source-item"><a href="https://www.bundestag.de/en/parliament/function/legislation/competencies-245700" target="_blank" rel="noreferrer">Federation and Länder competencies · German Bundestag</a><p>用于德国联邦、16州与市镇之间的联邦制关系。</p></div>
+      <div class="source-item"><a href="https://www.gov.br/sri/pt-br/backup-secretaria-de-governo/portalfederativo/guiainicio/prefeito/conteudos-importantes/a-organizacao-governamental-brasileira-e-a-competencia-municipal/" target="_blank" rel="noreferrer">Organização Governamental Brasileira · Governo Federal</a><p>用于巴西联邦、州、联邦区与市镇自治层级。</p></div>
+      <div class="source-item"><a href="https://www.mod.gov.cn/gfbw/qwfb/yw_214049/4905887.html" target="_blank" rel="noreferrer">中国人民解放军现役士兵衔级制度 · 国防部</a><p>用于军士三等七衔、义务兵军衔及军衔与职务关系。</p></div>
+      <div class="source-item"><a href="https://www.gov.cn/xinwen/2019-03/27/content_5377422.htm" target="_blank" rel="noreferrer">《公务员职务与职级并行规定》· 中国政府网</a><p>用于公务员领导职务层次和综合管理类职级序列。</p></div>
+      <div class="source-item"><a href="https://www.sz.gov.cn/cn/xxgk/zfxxgj/zcfg/content/post_8979605.html" target="_blank" rel="noreferrer">事业单位岗位设置管理试行办法实施意见 · 深圳市政府</a><p>用于事业单位管理、专业技术和工勤技能三类岗位及等级口径。</p></div>
+      <div class="source-item"><a href="https://www.defense.gov/Resources/Insignia/Military-Ranks/" target="_blank" rel="noreferrer">U.S. Military Rank Insignia · Department of Defense</a><p>用于美军 E、W、O 三类薪级和各军种军衔差异。</p></div>
+      <div class="source-item"><a href="https://www.opm.gov/policy-data-oversight/pay-leave/pay-systems/general-schedule/" target="_blank" rel="noreferrer">General Schedule · U.S. Office of Personnel Management</a><p>用于美国联邦文职人员 GS-1 至 GS-15 分类与薪酬体系。</p></div>
+      <div class="source-item"><a href="https://www.opm.gov/policy-data-oversight/hiring-information/types-of-hires/" target="_blank" rel="noreferrer">Types of Federal Service · U.S. Office of Personnel Management</a><p>用于竞争性任用、例外任用与高级行政人员序列。</p></div>
+      <div class="source-item"><p><strong>时间口径：</strong>截至 2026-09-03。图中强调制度骨架，省略机构数量、人名与易变的部门清单；“政府”在标题中采用广义口径，图内会区分政府（行政机关）与完整国家机构。</p></div>
+    </div>
+  </dialog>
+
+  <script type="text/plain" id="map-world">
+# 世界主要国家 · 两轴结构
+
+## 读图框架
+- 横向：国家权力怎样分工
+  - 权力融合/议会负责制：行政通常来自议会多数
+  - 权力分立/总统制：行政与立法各自取得授权
+  - 人民代表大会制度：国家机关由人大产生、对人大负责、受人大监督
+- 纵向：中央与地方怎样配置权力
+  - 单一制：地方权力来自中央法律安排
+  - 联邦制：联邦与成员单位各有宪法性权力来源
+  - 权力下放不等于联邦制
+
+## 中国 · 单一制 + 人民代表大会制度
+- 横向国家机构
+  - 国家权力机关：全国人大及其常委会
+  - 国家主席
+  - 行政机关：国务院（中央人民政府）
+  - 国家监察机关：国家监察委员会
+  - 审判机关：最高人民法院
+  - 检察机关：最高人民检察院
+  - 中央军事委员会
+- 纵向行政层级
+  - 中央
+  - 省级：省 / 自治区 / 直辖市 / 特别行政区
+  - 地级：设区的市 / 自治州 / 地区等
+  - 县级：县 / 自治县 / 县级市 / 市辖区等
+  - 乡级：乡 / 民族乡 / 镇 / 街道办事处等
+  - 村委会 / 居委会：基层群众性自治组织，不是一级政府
+- 关键特征
+  - 中国共产党领导是中国特色社会主义最本质特征
+  - 国家机构实行民主集中制
+  - 地方国家机关在中央统一领导下依法履职
+  - 人员体系：军人军衔 / 公务员职务职级 / 事业单位岗位等级
+
+## 美国 · 联邦制 + 总统制
+- 联邦横向三分支
+  - 立法：国会
+    - 参议院
+    - 众议院
+  - 行政：总统
+    - 副总统 / 内阁
+    - 行政部门与独立机构
+  - 司法：联邦法院
+    - 最高法院
+    - 上诉法院 / 地区法院等
+- 纵向多中心治理
+  - 联邦政府：宪法列举与默示权力
+  - 50州：各有宪法、立法/行政/司法体系
+  - 地方政府：县 / 市镇 / 特区等，由州法创设
+  - 哥伦比亚特区与领地：地位另有法律安排
+  - 部落政府：具有固有主权，与联邦/州并非普通上下级
+- 关键特征
+  - 三权分立 + 相互制衡
+  - 联邦与州分权并有共享领域
+  - 人员体系：军队 E/W/O 薪级 / 联邦文职 GS 与 SES
+
+## 英国 · 单一制 + 议会制君主立宪
+- 国家层面
+  - 君主：国家元首
+  - 议会：下议院 + 上议院
+  - 首相与内阁：由议会政治产生并负责
+  - 法院：司法独立；最高法院为最高上诉法院
+- 权力下放
+  - 苏格兰：议会 + 政府
+  - 威尔士：议会 + 政府
+  - 北爱尔兰：议会 + 行政院
+  - 英格兰：无单一对应的权力下放议会
+- 地方政府
+  - 单层制或郡—区两层制等多种形态
+
+## 法国 · 单一制 + 半总统制
+- 中央
+  - 总统：国家元首
+  - 总理与政府：负责行政；对议会负责
+  - 议会：国民议会 + 参议院
+  - 司法与行政法院体系
+- 地方与属地
+  - 大区 Région
+  - 省 Département
+  - 市镇 Commune
+  - 跨市镇合作组织
+  - 海外领土：多种特殊地位
+- 关键特征：地方分权自治 + 中央派驻行政体系并存
+
+## 德国 · 联邦制 + 议会制
+- 联邦
+  - 联邦议院：公民选举
+  - 联邦参议院：各州政府参与联邦立法
+  - 联邦总统：国家元首
+  - 联邦总理与联邦政府
+  - 联邦宪法法院 / 联邦法院体系
+- 16个州 Länder
+  - 各有宪法、议会、政府与法院
+  - 广泛负责教育、警务、文化及多数行政执行
+- 地方
+  - 县 Kreis
+  - 市镇 Gemeinde
+  - 地方自治受基本法保障
+
+## 日本 · 单一制 + 议会制君主立宪
+- 国家
+  - 天皇：日本国与国民统一的象征
+  - 国会：众议院 + 参议院
+  - 内阁：首相领导，对国会负责
+  - 最高法院及下级法院
+- 地方自治
+  - 47都道府县
+  - 市町村
+  - 首长与议会分别直选
+
+## 印度 · 联邦制 + 议会制
+- 联邦 Union
+  - 总统：宪法上的国家元首
+  - 总理与部长会议：实际行政核心，对人民院负责
+  - 议会：人民院 + 联邦院
+  - 最高法院
+- 28邦 + 8中央直辖区
+  - 邦：议会、部长会议、高等法院
+  - 直辖区：治理安排不完全相同
+- 地方自治
+  - 农村：潘查亚特体系
+  - 城市：市政机构
+
+## 俄罗斯 · 联邦制 + 总统权力突出的半总统制
+- 联邦
+  - 总统
+  - 联邦政府：总理领导
+  - 联邦会议：国家杜马 + 联邦委员会
+  - 法院体系
+- 联邦主体
+  - 共和国 / 边疆区 / 州 / 联邦直辖市 / 自治州 / 自治区
+- 地方自治：法律上与国家权力机关体系区分
+
+## 巴西 · 联邦制 + 总统制
+- 联邦 União
+  - 总统与联邦行政机关
+  - 国民议会：众议院 + 联邦参议院
+  - 联邦司法体系
+- 26州 + 联邦区
+  - 州长 + 州议会 + 州司法
+  - 联邦区兼具州与市镇职能
+- 市镇 Municípios
+  - 市长 + 市议会
+  - 宪法承认的联邦组成单位，享有自治权
+  </script>
+
+  <script type="text/plain" id="map-china">
+# 中国国家治理结构 · 详图
+
+## 领导体系：党的领导
+- 中国共产党是中国特色社会主义事业的领导核心
+- 党的全国代表大会 / 中央委员会
+  - 中央政治局 / 中央政治局常务委员会
+  - 中央委员会总书记
+  - 中央书记处
+  - 中央军事委员会
+  - 中央纪律检查委员会
+- 地方党委：省级 → 地市级 → 县级 → 基层党组织
+- 说明：党组织体系与国家机构体系相互联系，但不能把两者画成同一条行政隶属链
+
+## 国家权力机关：人民代表大会体系
+- 全国人民代表大会
+  - 最高国家权力机关
+  - 常设机关：全国人大常委会
+  - 行使国家立法权，决定国家重大事项
+  - 选举/决定国家机构重要组成人员
+- 地方各级人民代表大会
+  - 省级人大及常委会
+  - 设区的市/自治州人大及常委会
+  - 县级人大及常委会
+  - 乡级人大（不设常委会）
+- 产生与监督关系
+  - 行政机关：人民政府
+  - 监察机关：监察委员会
+  - 审判机关：人民法院
+  - 检察机关：人民检察院
+
+## 中央国家机构
+- 全国人大及其常委会：最高国家权力机关 / 常设机关
+- 国家主席：根据全国人大及其常委会决定行使宪法职权
+- 国务院：中央人民政府
+  - 最高国家权力机关的执行机关
+  - 最高国家行政机关
+  - 总理负责制
+  - 国务院办公厅
+  - 组成部门：部 / 委员会 / 中国人民银行 / 审计署等
+  - 直属机构 / 办事机构 / 直属事业单位等
+- 国家监察委员会：最高监察机关
+- 最高人民法院：最高审判机关
+- 最高人民检察院：最高检察机关
+- 中华人民共和国中央军事委员会：领导全国武装力量
+- 全国政协
+  - 中国人民爱国统一战线组织
+  - 中国共产党领导的多党合作和政治协商的重要机构
+  - 不是国家权力机关，也不是行政机关
+
+## 纵向行政治理
+- 中央
+  - 国务院统一领导全国地方各级国家行政机关
+- 省级
+  - 省
+  - 自治区：民族区域自治地方
+  - 直辖市
+  - 特别行政区：依基本法实行高度自治
+- 地级（实际治理中普遍存在）
+  - 设区的市 / 自治州
+  - 地区 / 盟等派出或特殊形态
+- 县级
+  - 县 / 自治县
+  - 县级市 / 市辖区
+  - 旗 / 自治旗 / 特区 / 林区等
+- 乡级
+  - 乡 / 民族乡 / 镇
+  - 街道办事处：市辖区或市政府的派出机关，不是一级人民政府
+- 基层自治
+  - 村民委员会
+  - 居民委员会
+  - 性质：基层群众性自治组织，不是一级政府
+
+## 地方国家机构：同级成套 + 上下贯通
+- 同级关系
+  - 本级人大：地方国家权力机关
+  - 本级政府：本级人大的执行机关
+  - 本级监察委员会
+  - 本级人民法院 / 人民检察院
+- 纵向关系并不完全相同
+  - 地方政府：对本级人大负责，也对上一级行政机关负责
+  - 监察机关：上级监察委员会领导下级监察委员会
+  - 法院：依法独立行使审判权；上下级是审级/监督关系，不是普通行政隶属
+  - 检察院：上级检察院领导下级检察院
+
+## 军队军衔体系
+- 先区分：军衔 ≠ 军队职务
+  - 军衔表明身份和等级
+  - 指挥关系还要看所任职务；职务隶属可优先于军衔高低
+- 军官军衔：三等十级（由高至低）
+  - 将官
+    - 上将
+    - 中将
+    - 少将
+  - 校官
+    - 大校
+    - 上校
+    - 中校
+    - 少校
+  - 尉官
+    - 上尉
+    - 中尉
+    - 少尉
+- 士兵军衔
+  - 军士：三等七衔
+    - 高级军士：一级军士长 / 二级军士长 / 三级军士长
+    - 中级军士：一级上士 / 二级上士
+    - 初级军士：中士 / 下士
+  - 义务兵
+    - 上等兵
+    - 列兵
+- 军种标识：军衔前冠以相应军种名称
+- 武警现役警官、警士和义务兵适用相应衔级制度
+
+## 公务员体系
+- 适用范围
+  - 依法履行公职
+  - 纳入国家行政编制
+  - 工资福利由国家财政负担
+  - 不是所有公共部门工作人员都属于公务员
+- 职位类别
+  - 综合管理类
+  - 专业技术类
+  - 行政执法类
+  - 其他依法设置的类别
+- 领导职务层次（由高至低）
+  - 国家级正职 / 国家级副职
+  - 省部级正职 / 省部级副职
+  - 厅局级正职 / 厅局级副职
+  - 县处级正职 / 县处级副职
+  - 乡科级正职 / 乡科级副职
+- 综合管理类职级（并行晋升通道）
+  - 一级巡视员 / 二级巡视员
+  - 一级至四级调研员
+  - 一级至四级主任科员
+  - 一级科员 / 二级科员
+- 职务、职级、级别三者不同
+  - 领导职务：承担领导职责
+  - 职级：与领导职务并行，不具有领导职责
+  - 级别：与工资待遇及管理相关，并同职务/职级形成对应区间
+
+## 事业单位体系
+- 与公务员的边界
+  - 事业单位主要提供教育、科技、文化、卫生等公益服务
+  - 一般实行岗位聘用与合同管理，不属于普通公务员序列
+  - 经批准参照公务员法管理的单位另按“参公”制度执行
+- 岗位分三类
+  - 管理岗位：承担领导职责或管理任务
+    - 一至十级职员岗位
+  - 专业技术岗位：从事专业技术工作
+    - 高级：一至七级（正高级一至四级 / 副高级五至七级）
+    - 中级：八至十级
+    - 初级：十一至十三级
+  - 工勤技能岗位：承担技能操作、维护和服务保障
+    - 技术工一至五级
+    - 普通工岗位
+- 核心原则
+  - 按需设岗
+  - 竞聘上岗
+  - 按岗聘用
+  - 合同管理
+
+## 三个容易混淆的点
+- “国家机构”大于“政府”
+  - 狭义政府通常指行政机关：国务院和地方人民政府
+  - 人大、监委、法院、检察院不是政府部门
+- “行政区划层级”不等于每处都设同名政府
+  - 地区、街道等可属于派出机关形态
+- “基层治理组织”不等于“基层政权”
+  - 村委会、居委会协助基层政府开展工作，但不是一级政府
+  </script>
+
+  <script type="text/plain" id="map-usa">
+# 美国政府结构 · 详图
+
+## 联邦政府：三权分立与制衡
+- 立法分支 Legislative
+  - 国会 Congress
+    - 众议院 House：按人口分配席位
+    - 参议院 Senate：每州2席
+  - 核心权力
+    - 制定联邦法律 / 掌握拨款
+    - 征税、监管州际与对外商业等列举权力
+    - 参议院批准重要任命与条约
+    - 弹劾：众议院提出，参议院审理
+- 行政分支 Executive
+  - 总统：国家元首 + 政府首脑 + 武装力量总司令
+  - 副总统：兼任参议院议长，可在票数相等时投决定票
+  - 总统行政办公室 / 内阁
+  - 15个行政部 + 独立机构 + 委员会等
+  - 核心权力
+    - 执行联邦法律
+    - 否决法案（国会可用特别多数推翻）
+    - 提名法官和高级官员（通常需参议院同意）
+- 司法分支 Judicial
+  - 最高法院 Supreme Court
+  - 联邦上诉法院
+  - 联邦地区法院
+  - 其他专门法院
+  - 核心权力：解释并适用法律，审理联邦案件与宪法争议
+
+## 联邦主义：双重权力来源
+- 联邦政府
+  - 权力来自联邦宪法
+  - 列举权力 + 必要与适当条款衍生的默示权力
+  - 联邦法在合宪范围内具有最高性
+- 州政府
+  - 保留未授予联邦、也未被宪法禁止的权力
+  - 每州有自己的宪法
+  - 典型三分支
+    - 州议会：除内布拉斯加州外均为两院制
+    - 州长及州行政机关
+    - 州法院体系
+  - 警察权：健康、安全、福利等广泛领域
+- 共享/交叠领域
+  - 税收
+  - 执法
+  - 交通与基础设施
+  - 教育、医疗、环境等常由多级共同参与
+  - 冲突时需分析宪法、国会立法与先占原则
+
+## 地方政府：州以下但形态多样
+- 一般原则：地方政府由州宪法与州法创设、授权和约束
+- 县 County / Parish / Borough
+  - 州的区域性行政与服务单位
+- 市 Municipality
+  - City / Town / Village 等名称因州而异
+  - 市长—议会制 / 议会—经理制等
+- Township / Town
+  - 在部分州承担基层一般政府职能
+- 特别区 Special District
+  - 学区 / 消防区 / 水务区 / 交通区等
+  - 只承担特定公共职能
+- Home Rule
+  - 部分地方依据州法享有较强自治
+  - 仍不等同于州的宪法性主权地位
+
+## 不应塞进普通“三级政府”的部分
+- 哥伦比亚特区 District of Columbia
+  - 由国会享有特别宪法权限
+  - 有地方民选政府，但国会保留重要权力
+- 美国领地 Territories
+  - 波多黎各 / 关岛 / 美属维尔京群岛 / 北马里亚纳群岛 / 美属萨摩亚
+  - 自治安排、公民身份与国会代表权并不完全相同
+- 部落政府 Tribal Governments
+  - 联邦承认部落具有固有主权
+  - 与联邦政府保持政府对政府关系
+  - 权限受条约、联邦法律及判例共同塑造
+
+## 制衡如何运作：几个典型回路
+- 法律
+  - 国会通过法案 → 总统签署或否决
+  - 国会可用两院三分之二多数推翻否决
+  - 法院可在具体案件中审查法律是否违宪
+- 任命
+  - 总统提名 → 参议院提供建议与同意
+  - 获任联邦法官通常享有终身任期（品行良好期间）
+- 预算
+  - 国会授权与拨款
+  - 行政部门执行
+  - 法院可处理由此产生的法律争议
+- 弹劾
+  - 众议院以简单多数提出弹劾条款
+  - 参议院审判，定罪通常需出席议员三分之二
+
+## 军队军衔与薪级体系
+- 先区分：Rank 军衔 ≠ Pay Grade 薪级
+  - 薪级用于跨军种统一行政与薪酬尺度
+  - 同一薪级可能对应不同军衔，称谓随军种而变
+- 军官 Commissioned Officers
+  - O-1 至 O-3：初级军官 / company grade
+  - O-4 至 O-6：中级军官 / field grade
+  - O-7 至 O-10：将官或海军旗官
+  - 陆军/海军陆战队/空军/太空军多用 General 系称谓
+  - 海军/海岸警卫队多用 Admiral 系称谓
+- 准尉 Warrant Officers
+  - W-1 至 W-5
+  - 通常是特定技术与专业领域专家
+  - 各军种是否设置及实际使用范围不同
+- 士兵 Enlisted
+  - E-1 至 E-3：通常处于训练或初任阶段
+  - E-4 至 E-6：骨干与基层领导岗位为主
+  - E-7 至 E-9：高级士兵领导层
+  - 同一 E 级可因军种、岗位产生不同军衔名称
+- 不直接与中国军衔逐级硬对应
+  - O/W/E 是美国薪级分类，不是全球通用军衔翻译表
+
+## 联邦公务员体系
+- 适用边界
+  - 以下主要描述联邦文职体系
+  - 州与地方政府各有独立的人事、分类和薪酬制度
+- 三类联邦服务
+  - Competitive Service：竞争性任用体系
+  - Excepted Service：依法或依规定排除在竞争性任用之外
+  - Senior Executive Service（SES）：高级行政人员序列
+- General Schedule（GS）
+  - 覆盖多数联邦白领专业、技术、行政和文书岗位
+  - GS-1 至 GS-15，共15个等级
+  - 每一等级通常设多个级内档 Step，用于薪酬进阶
+  - 岗位按难度、责任和资格要求定级
+- 高级与特殊体系
+  - SES：通常位于 GS-15 以上的高级管理/行政职位
+  - Senior Level（SL）/ Scientific or Professional（ST）：高级非行政或科研专业职位
+  - Executive Schedule（EX）：部分高级政治任命及法定高官薪级
+  - Foreign Service / Federal Wage System 等另有独立体系
+- 两个容易混淆的点
+  - GS 等级首先是职位分类与薪酬尺度，不等于机关指挥层级
+  - 政治任命人员、职业公务员与军职人员属于不同制度轨道
+
+## 三个容易混淆的点
+- 总统不是国会的“上级”，国会也不是总统的“上级”
+- 州不是联邦政府的普通下级行政区
+- 地方政府通常是州的法定创设；部落政府则不是普通地方政府
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const {Transformer,Markmap}=window.markmap;
+    const transformer=new Transformer();
+    const texts={world:document.querySelector('#map-world').textContent.trim(),china:document.querySelector('#map-china').textContent.trim(),usa:document.querySelector('#map-usa').textContent.trim()};
+    // 与参考页面一致：Markmap 默认采用 D3 Category10 完整十色分类色板。
+    const nodeColors=d3.schemeCategory10;
+    const palettes={world:nodeColors,china:nodeColors,usa:nodeColors};
+    let active='world',level=2,root;
+    function prepareTree(tree){
+      const levelCounters=[];
+      const visit=(node,depth=0)=>{
+        const index=levelCounters[depth]||0;
+        levelCounters[depth]=index+1;
+        node.payload={...(node.payload||{}),paletteIndex:index};
+        (node.children||[]).forEach(child=>visit(child,depth+1));
+      };
+      visit(tree);
+      return tree;
+    }
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:275,spacingHorizontal:96,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:2},prepareTree(transformer.transform(texts.world).root));
+    function colorFor(node){
+      if((node.state?.depth||0)===0)return '#164f78';
+      const colors=palettes[active];
+      const index=node.payload?.paletteIndex??node.state?.id??0;
+      return colors[index%colors.length];
+    }
+    mm.options.color=colorFor;
+    function render(map=active,nextLevel=level){active=map;level=nextLevel;root=prepareTree(transformer.transform(texts[active]).root);mm.options.color=colorFor;mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('.tab').forEach(button=>button.classList.toggle('active',button.dataset.map===active));document.querySelector('#search').value='';document.querySelector('#count').textContent='';document.querySelector('#status').textContent=`${document.querySelector('.tab.active').textContent}已加载`;setTimeout(()=>mm.fit(),380)}
+    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,2)));
+    document.querySelector('#overview').addEventListener('click',()=>render(active,2));
+    document.querySelector('#expand').addEventListener('click',()=>render(active,99));
+    document.querySelector('#fit').addEventListener('click',()=>mm.fit());
+    document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};
+    function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}
+    const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;
+    search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){render(active,level);return}const matches=[];walk(transformer.transform(texts[active]).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepareTree(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});
+    const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+    render('world',2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
+  </script>
+</body>
+</html>
