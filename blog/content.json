@@ -12,6 +12,17 @@
   },
   {
     "type": "lab",
+    "slug": "world-tax-systems-markmap",
+    "source": "labs/world-tax-systems-markmap.html",
+    "url": "labs/world-tax-systems-markmap.html",
+    "title": "世界主要国家税收体系图谱",
+    "category": "经济与税收",
+    "summary": "用交互式 Markmap 对照主要国家的税基、税种与征管层级，重点展开中国和美国税制。",
+    "date": "2026-09-03",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "world-government-structures-markmap",
     "source": "labs/world-government-structures-markmap.html",
     "url": "labs/world-government-structures-markmap.html",

@@ -1,0 +1,577 @@
+<!doctype html>
+<!--
+blog-title: 世界主要国家税收体系图谱
+blog-category: 经济与税收
+blog-summary: 用交互式 Markmap 对照主要国家的税基、税种与征管层级，重点展开中国和美国税制。
+blog-date: 2026-09-03
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用交互式 Markmap 梳理中国、美国及世界主要国家的税收体系" />
+  <title>世界主要国家税收体系图谱 · Markmap</title>
+  <style>
+    :root{--ink:#164f78;--muted:#4f7e9c;--paper:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--cyan:#44ACFF;--pink:#FE9EC7;--pale-blue:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;color:var(--ink);font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;background:var(--paper)}button,input{font:inherit}
+    .stage{position:relative;width:100%;height:calc(100vh - 68px);min-height:620px}.map-title{position:absolute;z-index:6;left:20px;top:20px;max-width:360px;margin:0;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}.topbar{position:absolute;z-index:6;left:400px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start;pointer-events:none}.actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;pointer-events:auto}
+    .tab,.tool{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);height:38px;padding:0 12px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:.2s ease}.tab:hover,.tool:hover,.tab.active{transform:translateY(-1px);border-color:var(--cyan);background:var(--pale-blue)}.search{display:flex;align-items:center;gap:7px;height:38px;padding:0 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.search input{width:155px;border:0;outline:0;background:transparent;color:var(--ink)}.search input::placeholder{color:#6392ad}.count{min-width:18px;padding:1px 5px;border-radius:10px;background:var(--cyan);color:#fff;font-size:10px;text-align:center}.count:empty{display:none}
+    #mindmap{width:100%;height:100%;display:block;--markmap-text-color:var(--ink);--markmap-circle-open-bg:#fff}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:var(--ink)}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-link{stroke-opacity:.68}.markmap-node-circle{fill:#F9F6C4;stroke-width:1.8px}
+    dialog{width:min(780px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;background:#fff2c2;color:var(--ink);box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.dialog-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:24px;color:#7a6c43;cursor:pointer}.dialog-body{padding:8px 20px 22px}.source-item{padding:13px 0;border-bottom:1px solid var(--line)}.source-item:last-child{border-bottom:0}.source-item a{color:#287594;font-weight:700;text-decoration:none}.source-item a:hover{text-decoration:underline}.source-item p{margin:5px 0 0;color:#5f643f;font-size:12px;line-height:1.6}
+    .loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.seal{width:38px;height:38px;border:2px solid rgba(68,172,255,.18);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:1080px){.topbar{left:330px}.map-title{max-width:300px}.search input{width:120px}.tool.hide-mobile{display:none}}@media(max-width:760px){.stage{height:calc(100vh - 112px);min-height:700px}.map-title{left:14px;top:14px;font-size:18px}.topbar{left:10px;right:10px;top:50px;justify-content:flex-start}.actions{justify-content:flex-start}.tab,.tool,.search{height:33px;padding:0 10px;font-size:12px}.search{order:9}.search input{width:125px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading" aria-hidden="true"><div class="seal"></div></div>
+  <div data-site-header data-active="blog"></div><script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">世界主要国家税收体系图谱</h1>
+    <header class="topbar"><nav class="actions" aria-label="图谱工具">
+      <button class="tab active" data-map="world">全球总览</button><button class="tab" data-map="china">中国详图</button><button class="tab" data-map="usa">美国详图</button>
+      <label class="search" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索税种或概念…" /><span class="count" id="count"></span></label>
+      <button class="tool hide-mobile" id="overview">收至二级</button><button class="tool" id="expand">全部展开</button><button class="tool" id="fit">适应画布</button><button class="tool" id="openSources">资料</button>
+    </nav></header>
+    <svg id="mindmap" role="img" aria-label="世界主要国家税收体系交互式思维导图"></svg><div id="status" class="sr-only" aria-live="polite">全球总览已加载</div>
+  </main>
+  <div data-site-reward></div><script src="../../common/js/site-reward.js"></script>
+
+  <dialog id="sources"><div class="dialog-head"><h2>资料来源、时间与阅读口径</h2><button class="close" id="closeSources" aria-label="关闭">×</button></div><div class="dialog-body">
+    <div class="source-item"><a href="https://www.chinatax.gov.cn/eng/c101270/c101272/c5157954/content.html" target="_blank" rel="noreferrer">China's Tax System · 国家税务总局</a><p>中国现行18个税种及按流转、所得、财产和行为分类的官方口径。</p></div>
+    <div class="source-item"><a href="https://www.npc.gov.cn/npc/c2/c30834/202412/t20241225_442038.html" target="_blank" rel="noreferrer">《中华人民共和国增值税法》· 中国人大网</a><p>2026年1月1日起施行；用于13%、9%、6%、零税率、一般计税与小规模纳税人等口径。</p></div>
+    <div class="source-item"><a href="https://www.chinatax.gov.cn/n810219/n810744/n3752930/n3752974/c3970366/content.html" target="_blank" rel="noreferrer">《中华人民共和国个人所得税法》· 国家税务总局</a><p>用于综合所得3%—45%、经营所得5%—35%及分类所得等口径。</p></div>
+    <div class="source-item"><a href="https://12366.chinatax.gov.cn/bzds/059/059-5-1.html" target="_blank" rel="noreferrer">《中华人民共和国企业所得税法》· 12366</a><p>用于企业所得税25%法定税率、居民企业和非居民企业纳税范围。</p></div>
+    <div class="source-item"><a href="https://www.irs.gov/filing/federal-income-tax-rates-and-brackets" target="_blank" rel="noreferrer">Federal income tax rates and brackets · IRS</a><p>用于美国联邦个人所得税的边际税率、税档与申报身份概念。</p></div>
+    <div class="source-item"><a href="https://www.irs.gov/taxtopics/tc751" target="_blank" rel="noreferrer">Social Security and Medicare withholding rates · IRS</a><p>用于2026年社会保障税、医疗保险税及附加医疗保险税口径。</p></div>
+    <div class="source-item"><a href="https://www.irs.gov/businesses/business-taxes" target="_blank" rel="noreferrer">Business taxes · IRS</a><p>用于美国企业所得、预估、自雇、就业和消费税五类联邦企业税务。</p></div>
+    <div class="source-item"><a href="https://www.irs.gov/publications/p542" target="_blank" rel="noreferrer">Publication 542: Corporations · IRS</a><p>用于美国C公司应纳税所得额按21%计算的联邦公司所得税口径。</p></div>
+    <div class="source-item"><a href="https://www.gov.uk/government/publications/corporation-tax-charge-and-rates-from-1-april-2022-and-small-profits-rate-and-marginal-relief-from-1-april-2023" target="_blank" rel="noreferrer">Corporation Tax rates · GOV.UK</a><p>用于英国公司税主税率25%、小利润税率19%及边际减免。</p></div>
+    <div class="source-item"><a href="https://www.nta.go.jp/english/taxes/consumption_tax/01.htm" target="_blank" rel="noreferrer">Consumption Tax · 日本国税厅</a><p>用于日本消费税标准10%、减免8%及国税与地方消费税组成。</p></div>
+    <div class="source-item"><a href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses/charge-collect-which-rate.html" target="_blank" rel="noreferrer">GST/HST rates · Canada Revenue Agency</a><p>用于加拿大联邦GST与各省HST/PST/QST并存的结构。</p></div>
+    <div class="source-item"><a href="https://www.ato.gov.au/tax-rates-and-codes/company-tax-rates" target="_blank" rel="noreferrer">Company tax rates · Australian Taxation Office</a><p>用于澳大利亚公司税；GST与州级税种另据ATO制度说明概括。</p></div>
+    <div class="source-item"><a href="https://www.iras.gov.sg/who-we-are/what-we-do/taxes-in-singapore/the-singapore-tax-system/" target="_blank" rel="noreferrer">The Singapore tax system · IRAS</a><p>用于新加坡所得税、GST、房产税、印花税及全球最低税等结构。</p></div>
+    <div class="source-item"><a href="https://tax.gov.ae/en/taxes/corporate.tax/faqs.aspx" target="_blank" rel="noreferrer">Corporate Tax FAQ · UAE Federal Tax Authority</a><p>用于阿联酋公司税与VAT并行、联邦与酋长国层级的基本口径。</p></div>
+    <div class="source-item"><a href="https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/reforma-tributaria-do-consumo/legislacao/legislacao-da-reforma-tributaria-do-consumo" target="_blank" rel="noreferrer">Reforma Tributária do Consumo · Receita Federal do Brasil</a><p>用于巴西2026年消费税改革过渡期的CBS、IBS与选择税。</p></div>
+    <div class="source-item"><p><strong>时间口径：</strong>截至 2026-09-03。税率以标准或法定税率为主，具体税额还受年度、地区、身份、扣除、抵免、税收协定与优惠影响。本文用于制度学习，不构成报税、法律或投资建议。</p></div>
+  </div></dialog>
+
+  <script type="text/plain" id="map-world">
+# 世界主要国家税收体系 · 总览
+
+## 先建立一张“税制坐标系”
+- 税收是什么
+  - 国家依法强制取得财政收入
+  - 一般不对应某一项即时、等价的个人回报
+  - 税与行政收费、罚款、社会缴费、政府基金不是同一个概念
+- 按税基看
+  - 所得：个人所得 / 企业利润 / 资本收益
+  - 消费：增值税 VAT/GST / 销售税 / 特种消费税
+  - 财产：持有 / 交易 / 继承与赠与
+  - 劳动与社保：工资税 / 薪酬税 / 社会保险缴费
+  - 资源、环境与贸易：资源税 / 碳税 / 关税
+- 按征税方式看
+  - 直接税：法律纳税人与通常负担者较接近
+  - 间接税：企业申报，税负常通过价格向后转移
+  - 从价税：税基金额 × 税率
+  - 从量税：数量 × 单位税额
+- 看税率不能只看一个数字
+  - 边际税率：下一单位所得适用的税率
+  - 平均/有效税率：实际税额 ÷ 总体税基
+  - 累进 / 比例 / 累退效果
+  - 应纳税额 ≈ 税基 × 税率 − 抵免；扣除先减少税基
+
+## 中国 · 统一税法框架 + 分税财政
+- 征管层级：税务机关为主，海关征收关税及进口环节税
+- 18个现行税种
+  - 流转类：增值税 / 消费税 / 车辆购置税 / 关税
+  - 所得类：企业所得税 / 个人所得税
+  - 财产和行为类：房产、土地、契税、印花、资源、环保等12税
+- 核心税
+  - 增值税：13% / 9% / 6%，特定项目零税率
+  - 企业所得税：法定25%
+  - 个人所得税：综合所得3%—45%，经营所得5%—35%
+- 中央—地方
+  - 税务征管与收入归属是两件事
+  - 中央税、地方税、中央地方共享税并存
+  - 转移支付进一步调节地区财力
+
+## 美国 · 联邦 + 州 + 地方多中心征税
+- 联邦层面
+  - 个人所得税：10%—37%边际税率，按申报身份分税档
+  - 公司所得税：联邦C公司比例税率
+  - 工资税：Social Security + Medicare
+  - 遗产与赠与税 / 消费税 / 关税
+- 州层面
+  - 州个人/公司所得税：是否征、税率和税基差异很大
+  - 零售销售税与使用税：没有全国统一联邦VAT
+  - 特种消费税 / 资源开采税等
+- 地方层面
+  - 不动产税是地方政府重要来源
+  - 部分城市或县另征销售税、所得税或工资税
+- 关键特征
+  - 同一收入或交易可能同时落入多级税辖区
+  - 州不是联邦税务机关的下级分局
+  - 扣除、抵免、申报身份决定实际负担
+
+## 英国 · 中央税为主 + 地方税较集中
+- HMRC管理：个人所得税、国民保险缴费、公司税、VAT、资本利得、遗产税等
+- VAT：标准税率20%，另有低税率和零税率项目
+- 公司税：主税率25%，小利润税率19%，中间有边际减免
+- 地方：Council Tax + Business Rates
+- 制度印象：中央统一度高，苏格兰等在部分税目上有差异化权力
+
+## 法国 · 税收与社会缴费并重
+- 国家：累进个人所得税、公司税、VAT、消费税
+- VAT：标准税率20%，另有多档低税率
+- 社会体系：雇主和雇员社会缴费、CSG等占重要位置
+- 地方：不动产持有税等，税目经历持续调整
+- 制度印象：家庭构成影响个人所得税计算；名义税率不等于总楔子
+
+## 德国 · 联邦、州、市镇共享税源
+- 共享大税：个人所得税、公司税、VAT在多级政府间分配
+- 企业：公司税 + 团结附加税 + 市镇营业税
+- 个人：累进所得税；部分宗教成员涉及教会税
+- 消费：VAT标准19%，低税率7%
+- 制度印象：收入分享和财政均衡比“哪一级单独征哪一种税”更重要
+
+## 日本 · 国税 + 地方税双层
+- 国税：个人所得、法人所得、消费税、继承赠与、酒税等
+- 地方税：居民税、事业税、固定资产税、汽车相关税等
+- 消费税：合计标准10%，减免8%，其中含地方消费税份额
+- 制度印象：雇员多由源泉扣缴与年末调整完成主要结算
+
+## 印度 · 联邦税 + 邦税 + 双轨GST
+- 所得和关税主要在联邦层面
+- GST
+  - 邦内交易：CGST + SGST
+  - 跨邦交易：IGST
+  - GST Council协调联邦与邦
+- 地方：城市不动产税等
+- 制度印象：GST把原来多项间接税纳入共同框架，但税率档次和合规仍较复杂
+
+## 巴西 · 三级税权 + 消费税改革过渡
+- 联邦：所得税、工资相关税、IPI/PIS/COFINS等传统税费
+- 州：ICMS为代表
+- 市：ISS与不动产相关税
+- 2026—2033改革路径
+  - CBS：联邦货物与服务贡献
+  - IBS：州与市共享的货物与服务税
+  - IS：选择税
+  - 新旧制度渐进切换，不宜把改革后结构当作已一步完成
+
+## 加拿大 · 联邦—省并行 + 市政房产税
+- 所得税：联邦与省/地区分别计算，通常由CRA协同征管多数省份
+- 消费税
+  - GST：联邦货劳税
+  - HST：部分省份合并联邦与省份份额
+  - PST / QST：部分省份保留单独销售税体系
+- 地方：不动产税支撑市政服务
+- 制度印象：交易地点决定GST/HST适用税率
+
+## 澳大利亚 · 联邦主征所得与GST，州重交易和土地
+- 联邦：个人所得税 / 公司税 / GST 10% / 消费税
+- 州与领地：工资税 / 印花税 / 土地税 / 机动车税费
+- 地方：Council rates
+- GST收入由联邦征收后在州与领地间分配
+
+## 新加坡 · 低税率、属地色彩与消费税组合
+- 个人所得税：居民累进，最高边际24%
+- 公司所得税：标准17%，实际负担受减免与优惠影响
+- GST：9%
+- 房产税 / 印花税 / 博彩税 / 车辆相关税费
+- 一般没有独立资本利得税，但交易性收益可能按所得征税
+
+## 阿联酋 · 联邦新税制 + 酋长国收费体系
+- VAT：标准5%
+- 联邦公司税：一般应税所得超过门槛部分适用9%
+- 特定大型跨国企业适用全球最低税相关规则
+- 消费税 / 关税 + 各酋长国房地产、旅游等收费
+- 一般不对个人工资征联邦个人所得税
+
+## 横向比较时的五个问题
+- 谁立法、谁征管、收入最终归谁？
+- 税基是所得、消费、财产还是工资？
+- 是中央统一税，还是多级政府叠加？
+- 抵扣、扣除、抵免和退税怎样改变实际负担？
+- 标准税率之外，是否存在地区差异、减免和年度调整？
+  </script>
+
+  <script type="text/plain" id="map-china">
+# 中国税收体系 · 详图
+
+## 一眼看懂：四个层次
+- 法律与政策
+  - 全国人大及其常委会制定税收法律
+  - 国务院制定行政法规并组织实施
+  - 财政部、税务总局、海关总署等发布配套规则
+- 征管
+  - 国家税务总局及省、市、县税务机关
+  - 海关：关税、进口环节增值税和消费税
+  - 扣缴义务人：工资、劳务、跨境支付等环节代扣代缴
+- 收入归属
+  - 中央税 / 地方税 / 中央地方共享税
+  - “由税务局征”不等于“全部归中央”
+- 财政再分配
+  - 一般公共预算收入
+  - 中央对地方转移支付
+  - 税收之外还有政府性基金、国有资本经营等预算
+
+## 18个现行税种 · 完整清单
+- 货物和劳务税
+  - 增值税
+  - 消费税
+  - 车辆购置税
+  - 关税
+- 所得税
+  - 企业所得税
+  - 个人所得税
+- 财产与行为税
+  - 土地增值税
+  - 房产税
+  - 城镇土地使用税
+  - 耕地占用税
+  - 契税
+  - 资源税
+  - 车船税
+  - 印花税
+  - 城市维护建设税
+  - 烟叶税
+  - 船舶吨税
+  - 环境保护税
+
+## 增值税 VAT · 最大流转税
+- 2026年起的法定结构
+  - 13%：多数货物、加工修理修配、有形动产租赁、进口货物等
+  - 9%：交通、邮政、基础电信、建筑、不动产租售及特定货物等
+  - 6%：其他服务和无形资产等
+  - 0%：特定出口及跨境应税交易；免税与零税率不是一回事
+- 一般计税
+  - 销项税额 = 销售额 × 税率
+  - 应纳税额 = 当期销项税额 − 当期进项税额
+  - 发票与凭证支撑进项抵扣链
+- 简易计税
+  - 应纳税额 = 销售额 × 征收率
+  - 通常不得抵扣进项税额
+- 纳税人边界
+  - 年应征增值税销售额不超过500万元通常属于小规模纳税人
+  - 小规模身份不等于所有交易永久免税
+- 三组易混概念
+  - 含税价 vs 不含税价
+  - 零税率 vs 免税
+  - 进项抵扣 vs 企业成本费用扣除
+
+## 企业所得税 CIT
+- 谁纳税
+  - 居民企业：原则上就境内外所得纳税
+  - 非居民企业：按机构场所及所得来源规则确定范围
+- 怎样算
+  - 会计利润只是起点
+  - 应纳税所得额 = 收入总额 − 不征税收入 − 免税收入 − 各项扣除 − 允许弥补亏损
+  - 应纳税额 = 应纳税所得额 × 税率 − 减免税额 − 抵免税额
+- 税率
+  - 法定标准税率25%
+  - 高新技术、小型微利、特定地区和行业优惠需按当期资格判断
+- 管理重点
+  - 季度预缴 + 年度汇算清缴
+  - 关联交易与转让定价
+  - 跨境税收抵免 / 税收协定 / 反避税
+
+## 个人所得税 IIT
+- 居民与非居民
+  - 居民个人：通常就境内外所得承担综合规则下义务
+  - 非居民个人：主要按中国境内所得及停留天数等规则判断
+- 综合所得：按年合并
+  - 工资、薪金
+  - 劳务报酬
+  - 稿酬
+  - 特许权使用费
+  - 3%—45%七级超额累进税率
+- 经营所得
+  - 5%—35%五级超额累进税率
+- 分类所得：通常20%比例税率
+  - 利息、股息、红利
+  - 财产租赁
+  - 财产转让
+  - 偶然所得
+- 扣除体系
+  - 基本减除费用
+  - 专项扣除：基本养老、医疗、失业、住房公积金等
+  - 专项附加扣除：子女教育、住房、赡养老人等
+  - 依法确定的其他扣除与公益捐赠
+- 征管链路
+  - 单位按月预扣预缴
+  - 次年办理综合所得年度汇算，多退少补
+  - 多处收入、境外所得等情形需特别核对
+
+## 消费税与关税
+- 消费税
+  - 对特定消费品在生产、委托加工、进口或特定零售环节征收
+  - 从价、从量或复合计税
+  - 政策目标兼有筹集收入、调节消费与环境健康导向
+- 关税
+  - 以进出境货物、物品为对象
+  - 税率受税则、原产地和贸易协定影响
+- 进口环节
+  - 可能同时涉及关税、进口消费税和进口增值税
+  - 三者税基和计算顺序不同
+
+## 财产、土地、资源与行为税
+- 房地产取得与持有
+  - 契税：承受土地、房屋权属
+  - 房产税：特定房产持有或出租
+  - 城镇土地使用税：城镇范围内土地使用
+  - 耕地占用税：占用耕地建设
+- 房地产开发与转让
+  - 土地增值税：转让房地产增值额
+  - 增值税 / 企业或个人所得税可能同时出现
+- 交易和凭证
+  - 印花税：特定应税凭证和证券交易
+  - 车船税 / 车辆购置税：持有与取得环节不同
+- 资源与环境
+  - 资源税：开采应税资源
+  - 环境保护税：直接排放特定污染物
+  - 烟叶税 / 船舶吨税：对象高度特定
+- 附加型税种
+  - 城市维护建设税以实际缴纳的增值税、消费税等为计税依据
+
+## 中央与地方怎样分
+- 中央税示例
+  - 关税
+  - 海关代征的进口环节增值税和消费税
+  - 船舶吨税等
+- 地方税示例
+  - 房产税 / 城镇土地使用税 / 契税 / 耕地占用税
+  - 土地增值税 / 车船税等
+- 共享税示例
+  - 国内增值税
+  - 企业所得税
+  - 个人所得税
+- 共享比例不是税率
+  - 税率决定纳税人缴多少
+  - 分享比例决定各级财政如何分收入
+  - 具体分享与属地办法以现行财政制度为准
+
+## 三个场景串起税链
+- 工薪个人
+  - 获得工资 → 单位预扣个税与社保缴费
+  - 日常消费 → 商品价格中通常含增值税，特定商品含消费税
+  - 买房/持房/卖房 → 契税、相关财产税费和所得税规则分别判断
+- 一般企业
+  - 购进取得合规凭证 → 形成可抵扣进项
+  - 销售产生销项 → 计算增值税
+  - 利润经纳税调整 → 企业所得税
+  - 发工资、分红、跨境付款 → 可能承担扣缴义务
+- 进口货物
+  - 完税价格 → 关税
+  - 特定货物 → 进口消费税
+  - 组成计税价格 → 进口增值税
+
+## 合规时间线
+- 发生经营活动：合同、业务、资金、发票要相互印证
+- 按期申报：月度或季度申报视税种和纳税人而定
+- 预扣代缴：扣缴人申报不替代纳税人核对义务
+- 年度结算：企业所得税汇算、个人综合所得汇算
+- 留存资料：账簿、凭证、申报表和交易依据
+- 风险处理：更正申报、补税退税、行政复议与诉讼
+
+## 常见误区
+- “18个税种”不等于每个人都要交18种税
+- 税务机关代征社保费，不会把社保费变成税
+- 发票税率不等于企业实际税负
+- 公司交了企业所得税，股东分红仍可能进入个人所得税环节
+- 地方财政拿到收入，不代表地方可自行改变国家统一税法
+  </script>
+
+  <script type="text/plain" id="map-usa">
+# 美国税收体系 · 详图
+
+## 三层税权：不是一条上下级税务链
+- 联邦 Federal
+  - 国会依据宪法制定联邦税法
+  - 财政部 Treasury 制定管理规则
+  - IRS负责大多数国内联邦税征管
+  - 海关与边境保护局负责关税等
+- 州 State
+  - 各州立法决定本州所得税、销售税等
+  - 州税务部门独立管理
+  - 有的州不征一般个人所得税，有的州不征州级销售税
+- 地方 Local
+  - 县、市、学区、特别区等权力来自州法
+  - 常见不动产税，也可能叠加销售税、工资税或所得税
+- 同一事项可被多级同时课税
+  - 个人：联邦所得税 + 州所得税 + 地方所得税（视地区）
+  - 消费：州基础销售税 + 地方附加税
+  - 企业：联邦 + 州公司税，并考虑跨州分摊
+
+## 联邦个人所得税
+- 先确定纳税身份
+  - 美国公民 / 居民外国人通常适用全球所得申报框架
+  - 非居民外国人按来源、连接所得与协定规则判断
+- 申报身份 Filing Status
+  - 单身
+  - 夫妻合报 / 分报
+  - 户主
+  - 符合条件的尚存配偶
+- 计算骨架
+  - 总收入 Gross Income
+  - 减调整项目 → 调整后总收入 AGI
+  - 减标准扣除或分项扣除 → Taxable Income
+  - 分税档计算暂定税额
+  - 减税收抵免 Credits，加其他税 → 最终税额
+- 2026边际税率
+  - 10% / 12% / 22% / 24% / 32% / 35% / 37%
+  - 税档门槛随申报身份并按年度调整
+  - “进入37%税档”不代表全部收入按37%计税
+- 收入类型会改变算法
+  - 工资与普通所得
+  - 长期资本利得与合格股息可能有不同税率表
+  - 利息、租金、自雇、退休账户分配各有规则
+
+## 工资税 Payroll Taxes
+- FICA由雇员与雇主共同承担
+  - Social Security：雇员6.2% + 雇主6.2%
+  - 2026工资基数上限：184,500美元
+  - Medicare：雇员1.45% + 雇主1.45%，无一般工资上限
+  - Additional Medicare：个人超过适用门槛部分另0.9%，由雇员承担
+- 自雇税 Self-Employment Tax
+  - 自雇者在一套计算中承担相当于雇员与雇主两部分
+  - 可有部分所得税调整扣除
+- 失业税
+  - FUTA联邦失业税通常由雇主承担
+  - 州失业保险税规则另行适用
+- 不要混淆
+  - 联邦所得税预扣 ≠ FICA
+  - 工资单净额还可能含州税、地方税、福利扣款
+
+## 企业与经营者的联邦税
+- 五类常见联邦企业税务
+  - Income Tax 所得税
+  - Estimated Tax 预估税
+  - Self-Employment Tax 自雇税
+  - Employment Taxes 就业税
+  - Excise Tax 消费税
+- 实体选择决定税如何落点
+  - C Corporation：公司层面缴税，分红可能再到股东层面
+  - S Corporation：通常穿透到股东，但资格和工资规则严格
+  - Partnership：实体申报信息，所得通常穿透给合伙人
+  - Sole Proprietorship：经营所得进入个人申报
+  - LLC是州法实体标签，联邦税务分类可不同
+- C公司
+  - 联邦公司所得税率21%
+  - 州公司税或特许经营税可能另加
+  - 折旧、亏损、抵免、利息限制影响有效税率
+- 跨州经营
+  - Nexus：是否与某州形成足够税收联系
+  - Apportionment：企业所得如何在各州间分摊
+  - 销售税代收义务可能因经济联系触发
+
+## 州个人所得税
+- 差异维度
+  - 是否征收一般工资所得税
+  - 比例税率还是多档累进
+  - 是否以联邦AGI或Taxable Income为起点
+  - 资本利得、退休收入、抵免与扣除处理
+- 居民与非居民
+  - 居民州通常关注全部收入并给予他州税抵免
+  - 工作州可对来源于本州的工资征税
+  - 相邻州可能签有互惠协议
+- 远程工作问题
+  - 雇主所在地、实际工作地和居住地可能不同
+  - 各州来源规则并不一致
+
+## 销售税与使用税
+- 美国没有全国统一的联邦VAT
+- 销售税 Sales Tax
+  - 通常在最终零售环节征收
+  - 州税率 + 县市等地方附加税形成合计税率
+  - 商品和服务是否应税因州而异
+- 使用税 Use Tax
+  - 对本应缴销售税但购买时未足额征收的使用、储存或消费补征
+  - 与销售税互补，避免跨州购买规避
+- 企业角色
+  - 卖方常是代收代缴人，法律负担与经济负担需区分
+  - 市场平台可能依法承担代收义务
+  - Resale Certificate避免批发环节重复征收
+- 与VAT的区别
+  - 销售税重在终端零售环节
+  - VAT在各生产流通环节征收并抵扣进项
+
+## 地方不动产税
+- 谁征
+  - 县、市、学区和特别区等，依州法授权
+- 怎样算
+  - Assessed Value 评估价值
+  - × Millage / Tax Rate 税率
+  - − Exemptions 减免
+- 用途
+  - 公立学校
+  - 警察、消防、道路和市政服务
+- 关键差异
+  - 重估周期、评估比例、税率和自住房减免高度本地化
+  - 房产税账单可能汇集多个重叠辖区
+  - 按揭托管代缴不改变房主是纳税人的事实
+
+## 其他联邦税
+- Estate and Gift Taxes
+  - 遗产税通常由遗产承担，赠与税通常由赠与人承担
+  - 终身免税额、年度排除额和规则会调整
+- Excise Taxes
+  - 燃油、酒、烟草、航空、特定制造与服务等
+  - 可按数量或价格计税
+- Customs Duties
+  - 进口商品按税则归类、原产地和估价规则确定
+- Net Investment Income Tax 等附加税
+  - 只在满足特定收入和身份条件时适用
+
+## Pay-as-you-go 征管链路
+- 雇员
+  - 填写W-4 → 雇主每期代扣联邦所得税
+  - 工资单同时扣FICA及适用的州/地方税
+  - 次年收到W-2并提交年度申报表
+- 自雇者与投资者
+  - 没有足额预扣时通常按季度缴Estimated Tax
+  - 次年通过年度申报结算
+- 企业
+  - 取得EIN并确定实体税务分类
+  - 工资、销售税、信息申报各有不同周期
+  - 联邦与州申报表并非一张表自动覆盖
+- 结算结果
+  - 预扣/预缴大于最终税额 → 退款
+  - 小于最终税额 → 补税，可能有少缴罚金和利息
+
+## 三个场景串起税链
+- 普通雇员
+  - 工资 → 联邦/州所得税预扣 + FICA
+  - 消费 → 州和地方销售税
+  - 住房 → 房主直接或通过Escrow支付房产税
+- 自雇者
+  - 净经营所得 → 联邦个人所得税 + 自雇税
+  - 多州客户 → 关注州所得来源与销售税Nexus
+  - 按季度预缴，年底结算
+- C公司与股东
+  - 公司利润 → 联邦21% + 适用州税
+  - 税后分红 → 股东层面股息税
+  - 工资 → 公司代扣就业税，个人申报工资所得
+
+## 常见误区
+- “退税”通常是预缴多了，不是政府额外奖励全部纳税人
+- 最高边际税率不等于平均税率
+- 没有州个人所得税，不等于该州整体税负为零
+- LLC不是自动免税或固定一种联邦税务身份
+- 销售税由商家收取，不代表商家一定是最终经济负担者
+- 联邦、州、地方税表彼此关联，但不是同一个税务机关统一结算
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script><script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const texts={world:document.querySelector('#map-world').textContent.trim(),china:document.querySelector('#map-china').textContent.trim(),usa:document.querySelector('#map-usa').textContent.trim()};const nodeColors=d3.schemeCategory10;let active='world',level=2,root;
+    function prepareTree(tree){const counters=[];const visit=(node,depth=0)=>{const index=counters[depth]||0;counters[depth]=index+1;node.payload={...(node.payload||{}),paletteIndex:index};(node.children||[]).forEach(child=>visit(child,depth+1))};visit(tree);return tree}
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:290,spacingHorizontal:98,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:2},prepareTree(transformer.transform(texts.world).root));
+    function colorFor(node){if((node.state?.depth||0)===0)return '#164f78';return nodeColors[(node.payload?.paletteIndex??node.state?.id??0)%nodeColors.length]}mm.options.color=colorFor;
+    function render(map=active,nextLevel=level){active=map;level=nextLevel;root=prepareTree(transformer.transform(texts[active]).root);mm.options.color=colorFor;mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('.tab').forEach(button=>button.classList.toggle('active',button.dataset.map===active));document.querySelector('#search').value='';document.querySelector('#count').textContent='';document.querySelector('#status').textContent=`${document.querySelector('.tab.active').textContent}已加载`;setTimeout(()=>mm.fit(),380)}
+    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,2)));document.querySelector('#overview').addEventListener('click',()=>render(active,2));document.querySelector('#expand').addEventListener('click',()=>render(active,99));document.querySelector('#fit').addEventListener('click',()=>mm.fit());document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){render(active,level);return}const matches=[];walk(transformer.transform(texts[active]).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepareTree(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});render('world',2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
+  </script>
+</body>
+</html>
