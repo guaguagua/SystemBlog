@@ -51,6 +51,23 @@ blog-published: 2026-09-03T23:19:07+08:00
   <script type="text/plain" id="map-overview">
 # 未解数学猜想 · 全景总览
 
+## 打开就能看到的代表性名题
+- Riemann 假设：ζ函数非平凡零点是否都在 `Re(s)=1/2`
+- P vs NP：容易验证是否意味着容易求解
+- 强哥德巴赫猜想：每个大于2的偶数是否都是两个素数之和
+- 孪生素数猜想：相差2的素数对是否有无穷多
+- Collatz 猜想：`3n+1` 迭代是否总会回到1
+- Birch–Swinnerton-Dyer：椭圆曲线的秩是否等于L函数零点阶数
+- Hodge 猜想：有理Hodge类是否来自代数循环
+- Navier–Stokes：三维光滑流体是否会有限时产生奇点
+- Yang–Mills 质量间隙：四维量子规范场论能否严格构造并证明谱隙
+- abc 猜想：加法关系是否约束整数的素因子复杂度
+- 光滑四维 Poincaré：拓扑四维球面是否必与标准球面光滑等价
+- Hadwiger 猜想：高色数是否强迫出现大完全图子式
+- Kakeya 猜想：包含所有方向线段的集合是否必有满维数
+- Jacobian 猜想：常数非零Jacobian的多项式映射是否必有多项式逆
+- Schanuel 猜想：复指数函数中的代数独立性是否达到预期下界
+
 ## 先读懂“未解”的四种状态
 - 🟠 公开未解决
   - 没有被数学共同体接受的完整证明或反例
@@ -113,6 +130,14 @@ blog-published: 2026-09-03T23:19:07+08:00
   - 计算验证再大也不能覆盖全部正整数
 - Erdős–Straus 猜想
   - 对每个 `n≥2`，`4/n` 能否写成三个正单位分数之和？
+- Mersenne 素数是否无穷多
+  - 形如 `2ᵖ−1` 的素数是否有无穷多个？
+- Landau 四个问题
+  - 哥德巴赫、孪生素数、Legendre，以及 `n²+1` 是否取无穷多素数
+- Leopoldt 猜想
+  - 预测数域单位在 p-adic 对数下的秩不会异常下降
+- Brocard 猜想
+  - 相邻素数平方之间是否至少有四个素数（小范围例外另计）
 
 ## 几何与拓扑：形状背后的结构
 - 光滑四维 Poincaré 猜想
@@ -133,6 +158,10 @@ blog-published: 2026-09-03T23:19:07+08:00
   - 对许多群已证明，完整形式仍开放
 - Borel 猜想
   - 闭 aspherical 流形的拓扑类型是否由基本群决定？
+- Cannon 猜想
+  - 具有二维球面边界的双曲群是否几何作用于三维双曲空间？
+- 结同伦与切片问题
+  - Slice–Ribbon、光滑切片属及结协和群仍有大量核心开放问题
 
 ## 分析与偏微分方程：解会不会爆炸？
 - Navier–Stokes 三维正则性
@@ -148,6 +177,10 @@ blog-published: 2026-09-03T23:19:07+08:00
 - Jacobian 猜想
   - 复多项式映射若 Jacobian 行列式为非零常数，是否必有多项式逆？
   - 连接代数、几何与分析思想
+- 全局正则性猜想群
+  - 临界非线性色散方程、等离子体方程与自由边界问题仍有大量开放情形
+- 湍流标度严格化
+  - Kolmogorov 型幂律和能量级联在一般模型下仍缺完整证明
 
 ## 离散数学与组合
 - Hadwiger 猜想
@@ -165,6 +198,14 @@ blog-published: 2026-09-03T23:19:07+08:00
   - 不同速度绕圆奔跑时，每个跑者是否都曾与其他人充分分离？
 - Erdős–Hajnal 猜想
   - 禁止固定诱导子图是否强迫大团或大独立集？
+- Frankl 并集封闭集族猜想
+  - 非空并集封闭有限集合族中，是否总有某个元素出现在至少一半集合里？
+- Sidorenko 猜想
+  - 二部图同态密度是否至少达到随机图给出的基准？
+- Ryser 猜想
+  - r部超图的覆盖数与匹配数之间是否满足 `τ≤(r−1)ν`？
+- Conway Thrackle 猜想
+  - 平面中任意两条边恰相交一次的画法，边数是否不超过顶点数？
 
 ## 计算复杂性与算法
 - P vs NP
@@ -184,6 +225,43 @@ blog-published: 2026-09-03T23:19:07+08:00
 - Hilbert 第十问题 over ℚ
   - 是否存在算法判定任意有理系数丢番图方程有无有理解？
   - 整数版本已证明不可判定，有理数版本仍开放
+- BPP vs P
+  - 随机化多项式算法是否都能被确定性多项式算法模拟？
+- L vs P
+  - 对数空间是否足以完成所有确定性多项式时间计算？
+- NC vs P
+  - 所有多项式时间问题是否都能高效并行化？主流判断是否定的
+- 图同构是否属于P
+  - 已有拟多项式时间算法，但一般多项式时间算法或相应下界仍未知
+
+## 代数与表示论
+- 逆 Galois 问题
+  - 每个有限群是否都能作为某个有理数域有限扩张的Galois群？
+- Kaplansky 零因子猜想
+  - 无挠群的群代数是否没有非平凡零因子？
+- Dixmier 猜想
+  - Weyl 代数的每个自同态是否都是自同构？
+  - 与 Jacobian 猜想存在深刻联系
+- Broué 阿贝尔亏群猜想
+  - 特定有限群块是否与其局部结构导出等价？
+- Deligne–Lusztig 与表示分类开放部分
+  - 有限群和代数群表示中的几何构造仍留下大量精细猜想
+
+## 逻辑、集合论与“不可判定”
+- 连续统假设 CH
+  - 问实数基数是否紧接在自然数基数之后
+  - 若ZFC一致，则 CH 与其否定都不能从ZFC证明
+  - 它不是普通意义上“大家还没找到证明”，而是相对ZFC独立
+- 大基数公理
+  - 用更强无穷公理刻画集合论宇宙
+  - 核心问题常是相对一致性强度，而非单一真假猜想
+- Vaught 猜想
+  - 可数一阶理论的可数模型数目是否只能是可数或连续统大小？
+- 内模型计划
+  - 能否为更强大基数建立规范内模型
+- P vs NP 的逻辑侧面
+  - 证明复杂度研究命题证明的最短长度
+  - 某些独立性结果提醒我们：所选公理体系本身也是边界
 
 ## 概率、动力系统与数学物理
 - Yang–Mills 质量间隙
@@ -201,6 +279,10 @@ blog-published: 2026-09-03T23:19:07+08:00
   - 弱形式和强形式都有多种精确定义
 - 量子引力严格化
   - 不是单一猜想，而是一组寻求统一量子理论与时空几何的开放计划
+- 黑洞稳定性
+  - Kerr 黑洞在一般非线性扰动下是否保持稳定
+- 相变与普适性
+  - 不同微观模型为何出现相同临界指数，仍缺统一严格理论
 
 ## 怎样判断“一个猜想被解决了”
 - 必须有完整证明或明确反例
@@ -356,6 +438,8 @@ blog-published: 2026-09-03T23:19:07+08:00
 # 未解猜想 · 按领域详图
 
 ## 初等表述型：小学生能听懂，专家也解不开
+- Riemann 假设（概念门槛高但地位最核心）
+  - ζ函数零点控制素数分布误差；详见“千禧年难题”视图
 - Collatz
   - 规则：偶数 `/2`，奇数 `3n+1`
   - 问题：所有正整数轨道是否最终到1？
@@ -373,6 +457,10 @@ blog-published: 2026-09-03T23:19:07+08:00
   - `4/n = 1/x + 1/y + 1/z` 对所有 `n≥2` 是否可解？
 - 完美长方体
   - 是否存在边长、三个面对角线和体对角线全为整数的长方体？
+- Mersenne 素数
+  - `2ᵖ−1` 型素数是否无穷多？它们与偶完美数一一对应
+- 费马素数
+  - 是否还存在 `Fₙ=2^(2ⁿ)+1` 的新素数？目前只知最初五个为素数
 
 ## 素数分布与解析数论
 - Riemann 假设
@@ -496,6 +584,18 @@ blog-published: 2026-09-03T23:19:07+08:00
 - Games Complexity
   - `PPAD` 中的完全问题能否高效求解，如一般 Nash 均衡计算
 
+## 代数、群与表示
+- 逆 Galois 问题
+  - 每个有限群能否在有理数域上实现为Galois群
+- Kaplansky 猜想族
+  - 群环中的零因子、幂等元和单位结构
+- Jacobian / Dixmier 对应
+  - 多项式映射可逆性与Weyl代数自同态问题相互牵连
+- Whitehead 猜想
+  - 二维 aspherical CW 复形的每个连通子复形是否仍然 aspherical？
+- Burnside 型问题余波
+  - 经典一般Burnside问题已有反例，但有限指数、增长与几何群论仍有开放分支
+
 ## PDE与动力系统
 - Navier–Stokes
   - 三维全局光滑性或有限时奇点
@@ -548,14 +648,14 @@ blog-published: 2026-09-03T23:19:07+08:00
 
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script><script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
   <script>
-    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const texts={overview:document.querySelector('#map-overview').textContent.trim(),millennium:document.querySelector('#map-millennium').textContent.trim(),fields:document.querySelector('#map-fields').textContent.trim()};const nodeColors=d3.schemeCategory10;let active='overview',level=2,root;
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const texts={overview:document.querySelector('#map-overview').textContent.trim(),millennium:document.querySelector('#map-millennium').textContent.trim(),fields:document.querySelector('#map-fields').textContent.trim()};const nodeColors=d3.schemeCategory10;const defaultLevels={overview:3,millennium:3,fields:3};let active='overview',level=defaultLevels.overview,root;
     function prepareTree(tree){const counters=[];const visit=(node,depth=0)=>{const index=counters[depth]||0;counters[depth]=index+1;node.payload={...(node.payload||{}),paletteIndex:index};(node.children||[]).forEach(child=>visit(child,depth+1))};visit(tree);return tree}
-    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:292,spacingHorizontal:98,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:2},prepareTree(transformer.transform(texts.overview).root));
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:292,spacingHorizontal:98,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:defaultLevels.overview},prepareTree(transformer.transform(texts.overview).root));
     function colorFor(node){if((node.state?.depth||0)===0)return '#164f78';return nodeColors[(node.payload?.paletteIndex??node.state?.id??0)%nodeColors.length]}mm.options.color=colorFor;
     function render(map=active,nextLevel=level){active=map;level=nextLevel;root=prepareTree(transformer.transform(texts[active]).root);mm.options.color=colorFor;mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('.tab').forEach(button=>button.classList.toggle('active',button.dataset.map===active));document.querySelector('#search').value='';document.querySelector('#count').textContent='';document.querySelector('#status').textContent=`${document.querySelector('.tab.active').textContent}已加载`;setTimeout(()=>mm.fit(),380)}
-    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,2)));document.querySelector('#overviewBtn').addEventListener('click',()=>render(active,2));document.querySelector('#expand').addEventListener('click',()=>render(active,99));document.querySelector('#fit').addEventListener('click',()=>mm.fit());document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,defaultLevels[button.dataset.map])));document.querySelector('#overviewBtn').addEventListener('click',()=>render(active,2));document.querySelector('#expand').addEventListener('click',()=>render(active,99));document.querySelector('#fit').addEventListener('click',()=>mm.fit());document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
     const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){render(active,level);return}const matches=[];walk(transformer.transform(texts[active]).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepareTree(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
-    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});render('overview',2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});render('overview',defaultLevels.overview);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
   </script>
 </body>
 </html>
