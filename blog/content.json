@@ -1,6 +1,18 @@
 [
   {
     "type": "lab",
+    "slug": "information-theory-markmap",
+    "source": "labs/information-theory-markmap.html",
+    "url": "labs/information-theory-markmap.html",
+    "title": "信息论全景思维导图",
+    "category": "数学与通信",
+    "summary": "从信息量、熵与互信息出发，串起无损压缩、信道容量、纠错编码、率失真、统计推断与机器学习。",
+    "date": "2026-09-03",
+    "published": "2026-09-03T22:26:46+08:00",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "chinese-pinyin-markmap",
     "source": "labs/chinese-pinyin-markmap.html",
     "url": "labs/chinese-pinyin-markmap.html",
@@ -29,17 +41,6 @@
     "title": "世界主要国家政府层级图谱",
     "category": "政治与制度",
     "summary": "用交互式 Markmap 对照中国、美国及主要国家的横向权力结构与纵向中央—地方层级。",
-    "date": "2026-09-03",
-    "draft": false
-  },
-  {
-    "type": "lab",
-    "slug": "information-theory-markmap",
-    "source": "labs/information-theory-markmap.html",
-    "url": "labs/information-theory-markmap.html",
-    "title": "信息论全景思维导图",
-    "category": "数学与通信",
-    "summary": "从信息量、熵与互信息出发，串起无损压缩、信道容量、纠错编码、率失真、统计推断与机器学习。",
     "date": "2026-09-03",
     "draft": false
   },

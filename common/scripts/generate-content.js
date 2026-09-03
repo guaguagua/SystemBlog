@@ -101,6 +101,7 @@ const parseMarkdownPost = (filePath) => {
         category: data.category || "posts",
         summary: cleanSummary(data.summary || firstParagraph || "Markdown 技术笔记。"),
         date: data.date || "",
+        ...(data.published ? { published: data.published } : {}),
         draft: data.draft === "true"
     };
 };
@@ -124,11 +125,19 @@ const parseLabPage = (filePath) => {
         category: data.category || "labs",
         summary: cleanSummary(data.summary || (description && description[1]) || stripHtml(firstParagraph && firstParagraph[1]) || "可交互 HTML 实验。"),
         date: data.date || "",
+        ...(data.published ? { published: data.published } : {}),
         draft: data.draft === "true"
     };
 };
 
 const sortItems = (a, b) => {
+    const aPublished = a.published || a.date;
+    const bPublished = b.published || b.date;
+    if (aPublished !== bPublished) {
+        if (!aPublished) return 1;
+        if (!bPublished) return -1;
+        return bPublished.localeCompare(aPublished);
+    }
     if (a.date !== b.date) {
         if (!a.date) return 1;
         if (!b.date) return -1;
