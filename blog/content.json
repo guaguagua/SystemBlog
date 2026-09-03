@@ -1,6 +1,17 @@
 [
   {
     "type": "lab",
+    "slug": "chinese-pinyin-markmap",
+    "source": "labs/chinese-pinyin-markmap.html",
+    "url": "labs/chinese-pinyin-markmap.html",
+    "title": "汉语拼音全景思维导图",
+    "category": "语言学习",
+    "summary": "从声母、韵母、声调和整体认读音节，到拼写规则、变调、正词法与常见易错点的交互式汉语拼音图谱。",
+    "date": "2026-09-03",
+    "draft": false
+  },
+  {
+    "type": "lab",
     "slug": "world-government-structures-markmap",
     "source": "labs/world-government-structures-markmap.html",
     "url": "labs/world-government-structures-markmap.html",

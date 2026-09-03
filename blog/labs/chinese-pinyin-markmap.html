@@ -1,0 +1,361 @@
+<!doctype html>
+<!--
+blog-title: 汉语拼音全景思维导图
+blog-category: 语言学习
+blog-summary: 从声母、韵母、声调和整体认读音节，到拼写规则、变调、正词法与常见易错点的交互式汉语拼音图谱。
+blog-date: 2026-09-03
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="汉语拼音声母、韵母、声调、音节、拼写规则、正词法与易错点交互式思维导图" />
+  <title>汉语拼音全景思维导图 · Markmap</title>
+  <style>
+    :root{--bg:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--text:#164f78;--muted:#4f7e9c;--cyan:#44ACFF;--pink:#FE9EC7;--pale:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;color:var(--text);font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;background:var(--bg)}button,input{font:inherit}
+    .stage{position:relative;width:100%;height:calc(100vh - 68px);min-height:620px}.map-title{position:absolute;z-index:6;left:20px;top:20px;max-width:340px;margin:0;color:var(--text);font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}.topbar{position:absolute;z-index:6;left:370px;right:18px;top:16px;display:flex;justify-content:flex-end;pointer-events:none}.actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;pointer-events:auto}.tool,.search{height:38px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.tool{padding:0 12px;cursor:pointer;white-space:nowrap;transition:.2s}.tool:hover,.tool.active{transform:translateY(-1px);border-color:var(--cyan);background:var(--pale)}.tool:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}.search{display:flex;align-items:center;gap:7px;padding:0 11px}.search input{width:180px;border:0;outline:0;background:transparent;color:var(--text)}.search input::placeholder{color:#6392ad}.count{min-width:18px;padding:1px 5px;border-radius:10px;background:var(--cyan);color:#fff;font-size:10px;text-align:center}.count:empty{display:none}
+    #mindmap{width:100%;height:100%;display:block;--markmap-text-color:var(--text);--markmap-circle-open-bg:#F9F6C4}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:var(--text)}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-link{stroke-opacity:.68}.markmap-node-circle{fill:#F9F6C4;stroke-width:1.8px}.match-node foreignObject>div{color:var(--text)!important;background:var(--pink)!important;border-radius:5px;padding:2px 6px!important;box-shadow:0 0 0 3px rgba(254,158,199,.25)}
+    dialog{width:min(760px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;background:#fff2c2;color:var(--text);box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.dialog-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;color:#7a6c43;font-size:24px;cursor:pointer}.dialog-body{padding:8px 20px 22px}.source{padding:13px 0;border-bottom:1px solid var(--line)}.source:last-child{border-bottom:0}.source a{color:#287594;font-weight:700;text-decoration:none}.source a:hover{text-decoration:underline}.source p{margin:5px 0 0;color:#5f643f;font-size:12px;line-height:1.65}
+    .loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--bg);transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.ring{width:38px;height:38px;border:2px solid rgba(68,172,255,.18);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:980px){.topbar{left:300px}.map-title{max-width:270px}.search input{width:130px}.hide-tablet{display:none}}
+    @media(max-width:700px){.stage{height:calc(100vh - 112px);min-height:700px}.map-title{left:14px;top:14px;font-size:18px}.topbar{left:10px;right:10px;top:50px;justify-content:flex-start}.actions{justify-content:flex-start}.tool,.search{height:33px;padding:0 10px;font-size:12px}.search{order:9}.search input{width:128px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading" aria-hidden="true"><div class="ring"></div></div>
+  <div data-site-header data-active="blog"></div>
+  <script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">汉语拼音全景思维导图</h1>
+    <header class="topbar">
+      <nav class="actions" aria-label="图谱工具">
+        <label class="search" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索：声母、ü、变调…" /><span class="count" id="count"></span></label>
+        <button class="tool active" data-level="2">概览</button>
+        <button class="tool" data-level="99">全部展开</button>
+        <button class="tool" id="fit">适应画布</button>
+        <button class="tool hide-tablet" id="reset">重置</button>
+        <button class="tool hide-tablet" id="fullscreen">全屏</button>
+        <button class="tool" id="openSources">资料</button>
+      </nav>
+    </header>
+    <svg id="mindmap" role="img" aria-label="汉语拼音交互式思维导图"></svg>
+    <div id="status" class="sr-only" aria-live="polite">概览模式</div>
+  </main>
+  <div data-site-reward></div>
+  <script src="../../common/js/site-reward.js"></script>
+
+  <dialog id="sources">
+    <div class="dialog-head"><h2>资料来源与口径</h2><button class="close" id="closeSources" aria-label="关闭">×</button></div>
+    <div class="dialog-body">
+      <div class="source"><a href="https://www.edu.cn/zheng_ce_fa_gui_472/20060323/t20060323_19127.shtml" target="_blank" rel="noreferrer">《关于汉语拼音方案的决议》</a><p>1958年第一届全国人民代表大会第五次会议批准《汉语拼音方案》；本图的字母、声母、韵母、声调和隔音规则以该方案为基础。</p></div>
+      <div class="source"><a href="https://www.moe.gov.cn/ewebeditor/uploadfile/2015/01/13/20150113091717604.pdf" target="_blank" rel="noreferrer">GB/T 16159—2012《汉语拼音正词法基本规则》· 教育部</a><p>用于分词连写、人名地名、大写、标调、移行和标点等正式拼写规则。</p></div>
+      <div class="source"><a href="https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=5645BD8DB9D8D73053AD3A2397E15E74" target="_blank" rel="noreferrer">国家标准信息 · 国家市场监督管理总局</a><p>GB/T 16159—2012 当前状态为现行，2025年复审结论为继续有效。</p></div>
+      <div class="source"><p><strong>口径提示：</strong>“23个声母、24个韵母、16个整体认读音节”是基础教育中常用的教学分组；语言学分析还会区分零声母、介音、韵头/韵腹/韵尾等。图中将两种视角并列，避免相互替代。</p></div>
+    </div>
+  </dialog>
+
+  <script type="text/plain" id="markdown">
+# 汉语拼音 · 从发音到规范书写
+
+## ① 拼音系统总览
+- 作用
+  - 给汉字注音
+  - 拼写普通话
+  - 帮助识字与推广普通话
+  - 用于人名、地名、文献及信息处理
+- 一个音节通常包含
+  - 声母：音节开头的辅音
+  - 韵母：声母之后的部分
+  - 声调：音高变化
+- 也可能没有声母
+  - 例：ā（啊）/ ǒu（藕）/ è（饿）
+  - 称为零声母音节
+- 两套观察方式
+  - 教学分组：声母 / 韵母 / 整体认读音节
+  - 语音结构：声母 + 韵头 + 韵腹 + 韵尾 + 声调
+
+## ② 声母 · 23个教学声母
+- 双唇音
+  - b：不送气清塞音｜玻 bō
+  - p：送气清塞音｜坡 pō
+  - m：鼻音｜摸 mō
+- 唇齿音
+  - f：清擦音｜佛 fó
+- 舌尖中音
+  - d：不送气清塞音｜得 dé
+  - t：送气清塞音｜特 tè
+  - n：鼻音｜讷 nè
+  - l：边音｜勒 lè
+- 舌根音
+  - g：不送气清塞音｜哥 gē
+  - k：送气清塞音｜科 kē
+  - h：清擦音｜喝 hē
+- 舌面音
+  - j：不送气清塞擦音｜鸡 jī
+  - q：送气清塞擦音｜七 qī
+  - x：清擦音｜西 xī
+- 舌尖后音（翘舌音）
+  - zh：不送气清塞擦音｜知 zhī
+  - ch：送气清塞擦音｜吃 chī
+  - sh：清擦音｜诗 shī
+  - r：浊擦音/近音｜日 rì
+- 舌尖前音（平舌音）
+  - z：不送气清塞擦音｜资 zī
+  - c：送气清塞擦音｜雌 cí
+  - s：清擦音｜思 sī
+- 教学中的 y、w
+  - y：用于 i / ü 系零声母音节的拼写
+  - w：用于 u 系零声母音节的拼写
+  - 语言学上常视为隔音字母，不与21个辅音声母完全同类
+- 易混对照
+  - b ↔ p：送气与否
+  - d ↔ t / g ↔ k / j ↔ q：送气与否
+  - n ↔ l：鼻音与边音
+  - zh ch sh r ↔ z c s：翘舌与平舌
+  - f ↔ h：唇齿与舌根
+
+## ③ 韵母 · 24个教学韵母
+- 单韵母 6个
+  - a｜啊 ā
+  - o｜喔 ō
+  - e｜鹅 é
+  - i｜衣 yī
+  - u｜乌 wū
+  - ü｜迂 yū
+- 复韵母 8个
+  - ai｜爱 ài
+  - ei｜诶 ēi
+  - ui（uei的省写）｜威 wēi
+  - ao｜熬 áo
+  - ou｜欧 ōu
+  - iu（iou的省写）｜优 yōu
+  - ie｜耶 yē
+  - üe｜约 yuē
+- 特殊韵母 1个
+  - er｜儿 ér
+  - 可自成音节，也参与儿化表达
+- 前鼻韵母 5个
+  - an｜安 ān
+  - en｜恩 ēn
+  - in｜因 yīn
+  - un（uen的省写）｜温 wēn
+  - ün｜晕 yūn
+- 后鼻韵母 4个
+  - ang｜昂 áng
+  - eng｜亨的韵母
+  - ing｜英 yīng
+  - ong｜轰的韵母
+- 结构分析
+  - 韵头/介音：i、u、ü
+  - 韵腹：韵母中最响亮的主要元音
+  - 韵尾：i、u 或 n、ng 等收尾成分
+- 方案中的完整拼写还包括
+  - ia / ua / uo / iao / uai
+  - ian / uan / üan
+  - iang / uang / iong / ueng 等
+  - 所以“24个韵母”是教学表，不是所有可拼韵母组合的穷举
+
+## ④ 声调 · 四声与轻声
+- 第一声 阴平 ˉ
+  - 高而平｜mā 妈
+- 第二声 阳平 ˊ
+  - 由中向高升｜má 麻
+- 第三声 上声 ˇ
+  - 先降后升；连续语流中常不完全上扬｜mǎ 马
+- 第四声 去声 ˋ
+  - 由高快速下降｜mà 骂
+- 轻声
+  - 不标调号｜ma 吗
+  - 音高和时长受前一音节影响
+  - 可能区别词义：dōngxi 东西 vs dōngxī 东西方向
+- 调号标在哪里
+  - 有 a 标 a：hǎo
+  - 没有 a，找 o 或 e：kǒu / hēi
+  - i、u并列标在后：liú / guǐ
+  - i 加调号要去掉上面的点：nǐ / jī
+- 数字声调
+  - 常见输入/教学写法：ma1 ma2 ma3 ma4 ma5
+  - 正式拼写优先使用附加调号：mā má mǎ mà
+
+## ⑤ 整体认读音节 · 16个
+- 舌尖音系列
+  - zhi / chi / shi / ri
+  - zi / ci / si
+  - i 在这里不读普通的 i 音
+- i、u、ü 系零声母音节
+  - yi / wu / yu
+  - ye / yue / yuan
+  - yin / yun / ying
+- 学习意义
+  - 作为整体直接认读，不再机械拆成声母和韵母拼读
+  - “整体认读”是教学方法，不表示音节内部没有语音结构
+
+## ⑥ 音节拼合与拼读
+- 两拼法
+  - 声母 + 韵母
+  - 例：m + ā → mā
+- 三拼法
+  - 声母 + 介音 + 韵母主体
+  - 例：g + u + ā → guā
+  - 例：x + i + óng → xióng
+- 声介合母法
+  - 先合声母与介音，再拼韵母
+  - 例：gu + ā → guā
+- 拼读要点
+  - 声母读得轻而短
+  - 韵母读得响而完整
+  - 快速连读，避免在中间加入额外元音
+- 音节边界
+  - 普通话音节结构规整，但拼写仍需处理零声母与隔音
+
+## ⑦ i、u、ü 开头的拼写规则
+- i 行韵母自成音节
+  - i → yi
+  - ia → ya / ie → ye / iao → yao / iou → you
+  - ian → yan / iang → yang / in → yin / ing → ying / iong → yong
+  - 规则：加 y；有些形式同时省去 i
+- u 行韵母自成音节
+  - u → wu
+  - ua → wa / uo → wo / uai → wai / uei → wei
+  - uan → wan / uen → wen / uang → wang / ueng → weng
+  - 规则：加 w；有些形式同时省去 u
+- ü 行韵母自成音节
+  - ü → yu
+  - üe → yue / üan → yuan / ün → yun
+  - 加 y 后省略 ü 上两点
+- ü 与声母相拼
+  - j / q / x + ü：写作 ju / qu / xu
+  - j / q / x + üe：写作 jue / que / xue
+  - n / l + ü：两点保留，如 nü / lü
+  - 原因：j q x 后的 u 不与普通 u 混淆；n l 后需要用两点区分
+
+## ⑧ 省写与隔音
+- 三个常见省写
+  - iou + 声母 → iu：liù（不是 lìu）
+  - uei + 声母 → ui：guī
+  - uen + 声母 → un：lùn
+- 调号仍按实际字母位置
+  - iu 标在 u：liú
+  - ui 标在 i：shuǐ
+- 隔音符号 ’
+  - a、o、e 开头的音节接在其他音节后面，边界可能混淆时使用
+  - xī’ān 西安：避免误读成先 xiān
+  - pí’ǎo 皮袄
+  - míng’é 名额
+- 不要滥用
+  - 音节边界清楚时不加
+  - 撇号不是声调符号，也不是普通分词标记
+
+## ⑨ 语流音变与标调
+- 第三声变调
+  - 两个三声相连：前一个通常读成近似二声
+  - nǐ hǎo 实际常读 ní hǎo
+  - 拼写仍按原调：写 nǐ hǎo，不写 ní hǎo
+  - 三个以上三声要按词和语义分组处理
+- “一”的变调
+  - 单念/词尾/序数：常读第一声 yī
+  - 四声前：口语常读二声，如 yí ge（一个）
+  - 一、二、三声前：口语常读四声，如 yì tiān（一天）
+- “不”的变调
+  - 四声前读二声：bú shì（不是）
+  - 其他声调前通常读四声：bù hǎo（不好）
+  - 夹在动词/形容词中间常读轻声：kàn bu kàn（看不看）
+- “一”“不”的正词法标调
+  - 一般标原调 yī、bù，不标变调
+  - 在语言教学等场景，可按需要标写实际变调
+- 轻声与儿化
+  - 轻声不标调号
+  - 儿化通常在原音节后加 r：huār（花儿）
+- 提醒
+  - “实际读音”“教学注音”“正词法拼写”的标调口径可能不同
+
+## ⑩ 正词法 · 从音节走向词
+- 基本原则：以词为拼写单位
+  - 双音节或三音节整体概念通常连写
+  - péngyou 朋友 / túshūguǎn 图书馆
+  - 词与词之间分写，而不是每个汉字都空一格
+- 句子
+  - 句首字母大写
+  - 使用规范标点
+- 专名
+  - 人名、地名等专名的首字母大写
+  - Wáng Fāng 王芳 / Běijīng 北京
+  - 姓名、地名还有各自专门国家标准
+- 缩略与大写
+  - 特定缩略语、标题和特殊场景按标准处理
+  - 全部大写不是普通正文的默认写法
+- 移行
+  - 按音节边界移行
+  - 必要时使用短横线并遵守标准格式
+- 拼音不是逐字转写
+  - 要先判断词的边界、词义和语法结构
+  - 同样的汉字串可能因结构不同而分写不同
+
+## ⑪ 键盘输入与字符
+- 26个拉丁字母
+  - 汉语拼音采用拉丁字母
+  - 字母 v 通常不用于正式拼写普通话音节
+- ü 的键盘输入
+  - 输入法中常用 v 键输入 ü
+  - 例：输入 lv 得到 lü / “绿”
+  - 这是键盘约定，不表示正式拼写把 ü 改成 v
+- 带调字符
+  - ā á ǎ à
+  - ē é ě è
+  - ī í ǐ ì
+  - ō ó ǒ ò
+  - ū ú ǔ ù
+  - ǖ ǘ ǚ ǜ
+- 数字形式
+  - 便于输入和检索：lü4 / lv4 / lu:4 等
+  - 不同系统约定不同，正式文本应统一转换
+
+## ⑫ 常见错误检查表
+- 把音节拆成字母逐个念
+  - 应把声母读短、韵母读完整并快速相连
+- 标错声调位置
+  - liú 不是 líu；shuǐ 不是 shǔi
+- 忘记 i 去点
+  - nǐ / xīn，不写 nǐ 时额外保留圆点
+- 混淆 ü 和 u
+  - lǜ（绿）不同于 lù（路）
+  - ju 中写 u，但实际是 ü 韵
+- 把 y、w一律当普通辅音声母
+  - 它们主要承担零声母音节的拼写与隔音功能
+- 漏写隔音符号
+  - Xī’ān 不能写成可能引起歧义的 Xian
+- 每个汉字都分写
+  - 正式拼写以词为单位，不是“一个汉字一个拼音块”
+- 按变调后的声音随意改本调
+  - 三声变调通常仍写原调；“一”“不”按正词法另有规则
+- 把教学表当成全部语音学分析
+  - 23声母、24韵母、16整体认读音节便于启蒙，但不是所有结构问题的最终答案
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const markdown=document.querySelector('#markdown').textContent.trim();
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const colors=d3.schemeCategory10;let currentLevel=2,root;
+    function prepare(tree){const counters=[];const visit=(node,depth=0)=>{const index=counters[depth]||0;counters[depth]=index+1;node.payload={...(node.payload||{}),paletteIndex:index};(node.children||[]).forEach(child=>visit(child,depth+1))};visit(tree);return tree}
+    function colorFor(node){if((node.state?.depth||0)===0)return '#164f78';return colors[(node.payload?.paletteIndex??node.state?.id??0)%colors.length]}
+    root=prepare(transformer.transform(markdown).root);
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:420,maxWidth:270,spacingHorizontal:92,spacingVertical:9,paddingX:14,color:colorFor,colorFreezeLevel:0,initialExpandLevel:2},root);
+    function setLevel(level,remember=true){if(remember)currentLevel=level;root=prepare(transformer.transform(markdown).root);mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('[data-level]').forEach(button=>button.classList.toggle('active',+button.dataset.level===level));document.querySelector('#status').textContent=level>20?'全部展开':`展开至第 ${level} 层`;setTimeout(()=>mm.fit(),380)}
+    document.querySelectorAll('[data-level]').forEach(button=>button.addEventListener('click',()=>setLevel(+button.dataset.level)));
+    document.querySelector('#fit').addEventListener('click',()=>mm.fit());
+    document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}
+    const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;
+    search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){count.textContent='';setLevel(currentLevel,false);return}const matches=[];walk(transformer.transform(markdown).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepare(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'){search.value='';count.textContent='';setLevel(currentLevel,false);search.blur()}});
+    document.querySelector('#reset').addEventListener('click',()=>{search.value='';count.textContent='';setLevel(2)});
+    const fullscreen=document.querySelector('#fullscreen');fullscreen.addEventListener('click',()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen());document.addEventListener('fullscreenchange',()=>fullscreen.textContent=document.fullscreenElement?'退出全屏':'全屏');
+    const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
+    setLevel(2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),700);
+  </script>
+</body>
+</html>
