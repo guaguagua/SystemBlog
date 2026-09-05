@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "轻译 · OpenRouter Free",
+  "version": "1.0.2",
+  "description": "划词即译，中英自动互译，动态选择 OpenRouter 高使用量免费模型。",
+  "minimum_chrome_version": "109",
+  "permissions": ["storage", "contextMenus"],
+  "host_permissions": ["https://openrouter.ai/*"],
+  "background": {"service_worker": "background.js", "type": "module"},
+  "action": {"default_title": "轻译设置", "default_popup": "settings.html"},
+  "options_page": "settings.html",
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["highlights.js", "content.js"],
+    "css": ["highlights.css"],
+    "all_frames": true,
+    "run_at": "document_idle"
+  }]
+}

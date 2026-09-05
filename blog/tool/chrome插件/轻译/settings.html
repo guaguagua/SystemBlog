@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>轻译 · 设置</title><link rel="stylesheet" href="settings.css"></head>
+<body>
+  <main>
+    <header><span class="logo">译</span><div><h1>轻译 <span>FREE</span></h1><p>让理解，留在阅读的地方。</p></div></header>
+    <div class="intro">选中一段文字，点击「译」。<br>已译原文会高亮，单击即可显示 / 收起译文。</div>
+    <div class="history-controls">
+      <button id="clearHistory" type="button">清除全部翻译记录</button>
+      <p class="hint">删除译文和高亮（含旧版本），不可恢复。保留密钥和设置。</p>
+    </div>
+    <form id="settings">
+      <label for="apiKey">OpenRouter API Key <a href="https://openrouter.ai/settings/keys" target="_blank" rel="noreferrer">获取密钥 ↗</a></label>
+      <div class="key-row"><input id="apiKey" type="password" autocomplete="off" placeholder="sk-or-v1-…" spellcheck="false"><button id="showKey" type="button" aria-label="显示或隐藏密钥">显示</button></div>
+      <p class="hint">密钥仅存于本机扩展存储，不同步。免费模型也需要密钥。</p>
+      <label for="direction">翻译方向</label>
+      <select id="direction"><option value="auto">自动识别 · 中英互译</option><option value="zh">始终译为简体中文</option><option value="en">始终译为 English</option></select>
+      <label for="model">免费模型 <button type="button" id="refresh">↻ 刷新列表</button></label>
+      <select id="model"><option value="auto">自动 · 优先使用量最高的免费模型</option></select>
+      <p class="hint" id="modelInfo">正在获取免费模型…</p>
+      <button class="primary" id="save" type="submit" disabled>保存设置</button>
+      <p id="status" role="status" aria-live="polite"></p>
+    </form>
+    <footer>仅发送选中的文字至 OpenRouter 及模型提供商。<br>译文保存在本机，重复划词直接查看，点击「更新」重新翻译。<br>按近一周 Token 使用量排序；免费不代表无限额度。<br>不支持 Chrome 内部页面、应用商店及内置 PDF 阅读器。</footer>
+  </main>
+  <script src="settings.js" type="module"></script>
+</body></html>

@@ -1,0 +1,8 @@
+::highlight(qingyi-translated) {
+  background-color: rgba(255, 220, 65, .48);
+  text-decoration: underline;
+  text-decoration-color: #c39b20;
+}
+::highlight(qingyi-active) {
+  background-color: rgba(255, 202, 40, .7);
+}
