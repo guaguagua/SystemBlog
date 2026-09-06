@@ -13,9 +13,7 @@
 
 ## 文章与实验
 
-- [Chrome 插件：轻译的功能、安装与使用说明](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/tools/chrome-qingyi): 轻译是一款需要安装到 Chrome 的划词翻译插件。本文提供下载、中英互译、荧光笔高亮、本地记录和清除功能的使用说明。
-  - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/tools/chrome-qingyi.md)
-- [Chrome 插件说明：工具目录、安装与更新](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/tools/chrome-extensions): Chrome 插件的统一入口，整理插件功能、下载和独立使用教程，并说明通用安装、更新、权限与卸载方法。新插件将持续加入目录。
+- [Chrome 插件目录](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/tools/chrome-extensions): 用表格汇总 Chrome 插件的功能、下载入口和 README，后续插件持续追加。
   - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/tools/chrome-extensions.md)
 - [方块飞行：中英双语魔法射击游戏](https://guaguagua.github.io/SystemBlog/blog/game/block-wings/): 移动鼠标自动射击，学习 50 个单词和 50 个短句，体验追踪导弹、八种武器和粒子魔法。打开网页即可玩，也可下载完整游戏包。
 - [未解数学猜想全景思维导图](https://guaguagua.github.io/SystemBlog/blog/labs/unsolved-mathematical-conjectures-markmap.html): 按数论、几何、分析、计算、组合与数学物理梳理重要未解猜想，单列六大未解千禧年难题及已知进展。

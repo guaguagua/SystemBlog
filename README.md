@@ -14,11 +14,11 @@
 
 `common/tools/index.html` 是工具区入口。能直接在浏览器使用的工具链接到在线页面；Chrome / VS Code 插件、命令行程序等需要安装的工具，链接到 Markdown 使用说明。
 
-说明文章统一放在 `blog/posts/tools/`，沿用文章 front matter，介绍功能、运行环境、下载位置、安装配置、日常使用和常见问题。工具源文件继续放在 `blog/tool/` 对应的独立子目录，发布用 ZIP 放在 `blog/assets/downloads/`。
+目录文章统一放在 `blog/posts/tools/`，沿用文章 front matter。正文只用几句话介绍，再用表格列出工具名称、功能简介、使用条件、下载和 README 链接；详细说明统一维护在工具自己的 README。源文件放在 `blog/tool/` 对应的独立子目录，发布用 ZIP 放在 `blog/assets/downloads/`。
 
-Chrome 插件统一目录为 `blog/posts/tools/chrome-extensions.md`，工具区卡片链接到 `blog/article.html?post=posts/tools/chrome-extensions`。每个插件另外写独立文章，例如轻译的 `blog/posts/tools/chrome-qingyi.md`。
+Chrome 插件统一目录为 `blog/posts/tools/chrome-extensions.md`，工具区卡片链接到 `blog/article.html?post=posts/tools/chrome-extensions`。不再为每个插件重复写长篇博客教程；旧的轻译文章保留为简短跳转入口，并从公开文章列表隐藏。
 
-以后新增 Chrome 插件时：在 `blog/tool/chrome插件/插件名/` 存放源文件；在 `blog/posts/tools/` 新增独立说明，提供功能、下载、安装和数据处理说明；将已发布插件加入 `chrome-extensions.md` 目录；运行内容索引生成脚本。其他类型工具（例如 VS Code 插件）也可建立自己的目录文章，并从工具区提供标注「需安装」的入口。不为尚未发布的工具创建占位下载链接。
+以后新增 Chrome 插件时：在 `blog/tool/chrome插件/插件名/` 存放源文件和 README；准备下载包；在 `chrome-extensions.md` 表格追加一行；运行内容索引生成脚本。其他类型工具（例如 VS Code 插件）也可建立自己的表格目录，并从工具区提供标注「需安装」的入口。不为尚未发布的工具创建占位下载链接。
 
 仓库根目录保留空的 `.nojekyll` 文件，尽量让 GitHub Pages 按纯静态文件发布。文章阅读页也会在原始 `.md` 不可用时回退读取 Jekyll 生成的同名 `.html`。
 
