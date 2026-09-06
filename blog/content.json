@@ -1,5 +1,16 @@
 [
   {
+    "type": "game",
+    "slug": "block-wings",
+    "source": "game/block-wings/index.html",
+    "url": "game/block-wings/",
+    "title": "方块飞行：中英双语魔法射击游戏",
+    "category": "儿童学习游戏",
+    "summary": "移动鼠标自动射击，学习 50 个单词和 50 个短句，体验追踪导弹、八种武器和粒子魔法。打开网页即可玩，也可下载完整游戏包。",
+    "date": "2026-09-06",
+    "draft": false
+  },
+  {
     "type": "lab",
     "slug": "unsolved-mathematical-conjectures-markmap",
     "source": "labs/unsolved-mathematical-conjectures-markmap.html",

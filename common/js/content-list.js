@@ -26,8 +26,8 @@
     };
 
     const renderItem = (item, index) => {
-        const typeLabel = item.type === "lab" ? "交互实验" : "Markdown 笔记";
-        const sourceLabel = item.type === "lab" ? "labs" : (item.source ? item.source.split("/")[0] : "posts");
+        const typeLabel = item.type === "game" ? "在线游戏" : item.type === "lab" ? "交互实验" : "Markdown 笔记";
+        const sourceLabel = item.type === "game" ? "game" : item.type === "lab" ? "labs" : (item.source ? item.source.split("/")[0] : "posts");
         const category = item.category || sourceLabel;
         const featured = index === 0 ? " featured" : "";
 

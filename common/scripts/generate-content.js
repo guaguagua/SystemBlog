@@ -5,6 +5,7 @@ const rootDir = path.resolve(__dirname, "..", "..");
 const blogDir = path.join(rootDir, "blog");
 const labsDir = path.join(blogDir, "labs");
 const postsDir = path.join(blogDir, "posts");
+const gamesDir = path.join(blogDir, "game");
 const outputPath = path.join(blogDir, "content.json");
 const siteUrl = (process.env.SITE_URL || "https://guaguagua.github.io/SystemBlog").replace(/\/$/, "");
 
@@ -106,21 +107,22 @@ const parseMarkdownPost = (filePath) => {
     };
 };
 
-const parseLabPage = (filePath) => {
+const parseLabPage = (filePath, baseDir = labsDir, type = "lab") => {
     const html = readText(filePath);
     const data = metadataFromHtmlComment(html);
-    const relative = path.relative(labsDir, filePath).replace(/\\/g, "/");
-    const slug = relative.replace(/\.html$/i, "");
+    const relative = path.relative(baseDir, filePath).replace(/\\/g, "/");
+    const slug = relative.replace(/\/index\.html$/i, "").replace(/\.html$/i, "");
+    const source = path.relative(blogDir, filePath).replace(/\\/g, "/");
     const titleTag = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
     const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
     const description = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']+)["']/i);
     const firstParagraph = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
 
     return {
-        type: "lab",
+        type,
         slug,
-        source: `labs/${relative}`,
-        url: `labs/${relative}`,
+        source,
+        url: type === "game" ? source.replace(/index\.html$/i, "") : source,
         title: data.title || stripHtml(titleTag && titleTag[1]) || stripHtml(h1 && h1[1]) || titleFromSlug(path.basename(slug)),
         category: data.category || "labs",
         summary: cleanSummary(data.summary || (description && description[1]) || stripHtml(firstParagraph && firstParagraph[1]) || "可交互 HTML 实验。"),
@@ -150,7 +152,12 @@ const sortItems = (a, b) => {
 };
 
 const items = [
-    ...listFiles(labsDir, ".html").map(parseLabPage),
+    ...listFiles(labsDir, ".html").map(file => parseLabPage(file)),
+    ...(fs.existsSync(gamesDir) ? fs.readdirSync(gamesDir, {withFileTypes:true})
+        .filter(entry => entry.isDirectory())
+        .map(entry => path.join(gamesDir, entry.name, "index.html"))
+        .filter(file => fs.existsSync(file))
+        .map(file => parseLabPage(file, gamesDir, "game")) : []),
     ...listFiles(postsDir, ".md").map(parseMarkdownPost)
 ].sort(sortItems);
 
@@ -163,7 +170,7 @@ const xmlEscape = (value) => String(value)
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
-const itemUrl = (item) => item.type === "lab"
+const itemUrl = (item) => item.type !== "post"
     ? `${siteUrl}/blog/${item.url}`
     : `${siteUrl}/blog/article.html?post=${encodeURIComponent(item.source.replace(/\.md$/i, "")).replace(/%2F/g, "/")}`;
 

@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {chromium}=require('C:/Users/wsy/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+(async()=>{const b=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true,args:['--enable-unsafe-swiftshader']});try{const p=await b.newPage({viewport:{width:1365,height:960}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.clock.install();await p.addInitScript(()=>{window.realRandom=Math.random;Math.random=()=>.999;window.Audio=class{play(){setTimeout(()=>this.onended?.(),300);return Promise.resolve()}pause(){}};});await p.goto('http://127.0.0.1:8765/blog/game/block-wings/');await p.locator('#start').click();await p.evaluate(()=>Math.random=realRandom);
+for(let phase=0;phase<4;phase++){
+ for(let k=0;k<40&&!await p.locator('#targetLabel').isVisible();k++)await p.clock.runFor(150);
+ const t=await p.locator('#targetLabel').boundingBox(),a=await p.locator('canvas').boundingBox();await p.mouse.move(t.x+t.width/2,a.y+a.height*.8);
+ for(let k=0;k<70&&await p.locator('#targetLabel').isVisible();k++)await p.clock.runFor(150);
+ assert.equal(await p.locator('#targetLabel').isVisible(),false);const n=await p.evaluate(()=>blockGame.scene.scenes[0].magicParticles.stats.impacts);if(phase<3)assert.equal(n,0);else assert.ok(n>0);await p.clock.runFor(phase===3?1200:2500);
+}
+await p.screenshot({path:'D:/AI/SystemBlog/tmp/magic-burst-ice.png'});await p.locator('#pause').click();const paused=await p.evaluate(()=>blockGame.scene.scenes[0].emitters.map(e=>e.getAliveParticleCount()));await p.clock.runFor(450);assert.deepEqual(await p.evaluate(()=>blockGame.scene.scenes[0].emitters.map(e=>e.getAliveParticleCount())),paused);
+await p.locator('#levels').click();await p.locator('#start').click();await p.clock.runFor(20);await p.evaluate(()=>{if(blockGame.scene.scenes[0].model.target)blockGame.scene.scenes[0].model.target.age=-999;});
+assert.ok(await p.evaluate(()=>{const m=blockGame.scene.scenes[0].magicParticles;return [m.ice,m.frost,m.flames,m.arcs,m.leaves,m.petals].every(e=>e.getAliveParticleCount()===0);}));
+// Exercise every item's particle identity in the real renderer, then let residue expire.
+const entries=await p.evaluate(()=>BLOCK_CURRICULUM.levels.flatMap(l=>l.words));let maximum=0;
+for(const e of entries){await p.evaluate(e=>{const s=blockGame.scene.scenes[0];s.magicParticles.impact(s.model.w*.52,s.model.h*.4,e.spell,e.id);},e);await p.clock.runFor(250);maximum=Math.max(maximum,await p.evaluate(()=>blockGame.scene.scenes[0].emitters.reduce((n,e)=>n+e.getAliveParticleCount(),0)));if(['fire','lightning','flower','tree'].includes(e.id))await p.screenshot({path:`D:/AI/SystemBlog/tmp/magic-burst-${e.id}.png`});}
+assert.ok(maximum<3000);const ids=await p.evaluate(()=>blockGame.scene.scenes[0].magicParticles.stats.byItem);assert.ok(entries.every(e=>ids[e.id]>0));assert.equal(await p.evaluate(()=>blockGame.scene.scenes[0].magicParticles.items.get('tree').texture.key),'icon_tree');assert.equal(await p.evaluate(()=>blockGame.scene.scenes[0].magicParticles.items.get('flower').texture.key),'icon_flower');
+await p.clock.runFor(2000);assert.ok(await p.evaluate(()=>{const m=blockGame.scene.scenes[0].magicParticles;return [...m.items.values(),m.ice,m.flames,m.petals,m.leaves,m.arcs].every(e=>e.getAliveParticleCount()===0);}));assert.deepEqual(errors,[]);console.log('PASS: spell bursts only on English sentences; 50 item effects; separate tree/flower fragments; pause/reset; bounded particles and residue cleanup. Peak total particles:',maximum);
+}finally{await b.close();}})().catch(e=>{console.error(e);process.exit(1)});

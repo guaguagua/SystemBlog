@@ -1,0 +1,21 @@
+const assert=require('node:assert/strict'),path=require('node:path');
+const {chromium}=require('C:/Users/wsy/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+require('../bullets.js');const B=globalThis.BlockBullets;
+assert.equal(B.names.length,8);const signatures=[];for(let mode=0;mode<8;mode++){const shots=B.emit(mode,300,600,.2);assert.ok(shots.length>=5);for(let i=0;i<30;i++)for(const b of shots)B.advance(b,1/60);signatures.push(JSON.stringify(shots.map(b=>[b.x,b.y])));}assert.equal(new Set(signatures).size,8);
+let crystal=B.emit(7,300,600,0)[0];B.advance(crystal,.5);assert.equal(B.split(crystal).length,2);assert.equal(B.split(crystal).length,0);assert.ok(B.emit(2,0,0,0).every(b=>b.pierce));assert.ok(B.intersects({x:100,y:20},100,200,100,100,5));
+(async()=>{const browser=await chromium.launch({executablePath:'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',headless:true,args:['--enable-unsafe-swiftshader']});
+try{const p=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.clock.install();await p.goto('http://127.0.0.1:8765/blog/game/block-wings/');await p.waitForFunction(()=>window.blockGame?.scene.scenes[0].arsenal);await p.locator('#sound').click();await p.locator('#start').click();await p.mouse.move(710,760);
+await p.clock.runFor(2400);const stats=await p.evaluate(()=>blockGame.scene.scenes[0].arsenal.stats);assert.ok(stats.launched>=4);assert.ok(stats.hits>0);
+// A missile must abandon a removed target, rather than orbit its last position.
+await p.evaluate(()=>{const s=blockGame.scene.scenes[0],r=s.arsenal.missiles.getChildren().find(r=>r.active);if(r)r.target={dead:true,x:0,y:0};});await p.clock.runFor(200);assert.ok((await p.evaluate(()=>blockGame.scene.scenes[0].arsenal.stats.reacquired))>0);
+for(let mode=0;mode<8;mode++){
+ for(let k=0;k<9;k++){const text=await p.locator('#weapon').textContent();if(text.includes(B.names[mode]))break;await p.locator('#changeWeapon').click();await p.clock.runFor(25);}
+ // Keep this vocabulary target present while checking sustained weapon motion.
+ await p.evaluate(()=>{const s=blockGame.scene.scenes[0];if(s.model.target)s.model.target.age=-100;});
+ await p.clock.runFor(350);assert.ok((await p.locator('#weapon').textContent()).includes(B.names[mode]));
+ await p.screenshot({path:path.resolve(__dirname,`../../../../tmp/weapon-v2-${mode}.png`)});
+}
+await p.locator('#pause').click();await p.clock.runFor(50);const before=await p.evaluate(()=>{const s=blockGame.scene.scenes[0];return {t:s.model.time,missiles:s.arsenal.missiles.getChildren().filter(m=>m.active).map(m=>[m.x,m.y]),particles:s.emitters.map(e=>e.getAliveParticleCount()),transients:[...s.arsenal.transients].map(x=>[x.x,x.y,x.alpha])};});await p.clock.runFor(700);const after=await p.evaluate(()=>{const s=blockGame.scene.scenes[0];return {t:s.model.time,missiles:s.arsenal.missiles.getChildren().filter(m=>m.active).map(m=>[m.x,m.y]),particles:s.emitters.map(e=>e.getAliveParticleCount()),transients:[...s.arsenal.transients].map(x=>[x.x,x.y,x.alpha])};});assert.deepEqual(after,before);
+await p.locator('#levels').click();await p.locator('#start').click();await p.clock.runFor(60);assert.equal(await p.evaluate(()=>blockGame.scene.scenes[0].arsenal.transients.size),0);
+const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});mobile.on('pageerror',e=>errors.push(e.message));await mobile.goto('http://127.0.0.1:8765/blog/game/block-wings/');await mobile.waitForFunction(()=>window.blockGame?.scene.scenes[0].arsenal);await mobile.locator('#sound').tap();await mobile.locator('#start').tap();await mobile.touchscreen.tap(130,610);await mobile.waitForTimeout(700);await mobile.screenshot({path:path.resolve(__dirname,'../../../../tmp/arsenal-mobile.png')});assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.deepEqual(errors,[]);console.log('PASS: 8 distinct trajectories, splitting, piercing and swept collision; native homing missile hits/reacquisition; paused physics/particles/tweens; clean restart; mobile touch and reduced motion.');console.log(stats);
+}finally{await browser.close();}})().catch(e=>{console.error(e);process.exit(1)});

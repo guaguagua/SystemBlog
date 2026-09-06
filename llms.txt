@@ -13,6 +13,7 @@
 
 ## 文章与实验
 
+- [方块飞行：中英双语魔法射击游戏](https://guaguagua.github.io/SystemBlog/blog/game/block-wings/): 移动鼠标自动射击，学习 50 个单词和 50 个短句，体验追踪导弹、八种武器和粒子魔法。打开网页即可玩，也可下载完整游戏包。
 - [未解数学猜想全景思维导图](https://guaguagua.github.io/SystemBlog/blog/labs/unsolved-mathematical-conjectures-markmap.html): 按数论、几何、分析、计算、组合与数学物理梳理重要未解猜想，单列六大未解千禧年难题及已知进展。
 - [信息论全景思维导图](https://guaguagua.github.io/SystemBlog/blog/labs/information-theory-markmap.html): 从信息量、熵与互信息出发，串起无损压缩、信道容量、纠错编码、率失真、统计推断与机器学习。
 - [汉语拼音全景思维导图](https://guaguagua.github.io/SystemBlog/blog/labs/chinese-pinyin-markmap.html): 从声母、韵母、声调和整体认读音节，到拼写规则、变调、正词法与常见易错点的交互式汉语拼音图谱。

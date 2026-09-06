@@ -1,0 +1,13 @@
+{
+  "name": "block-wings",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static bilingual learning shooter for SystemBlog",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "package": "node scripts/build.cjs && python scripts/package-game.py"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.9"
+  }
+}
