@@ -11,6 +11,26 @@
     "draft": false
   },
   {
+    "type": "post",
+    "slug": "tools/chrome-qingyi",
+    "source": "posts/tools/chrome-qingyi.md",
+    "title": "Chrome 插件：轻译的功能、安装与使用说明",
+    "category": "工具使用说明",
+    "summary": "轻译是一款需要安装到 Chrome 的划词翻译插件。本文提供下载、中英互译、荧光笔高亮、本地记录和清除功能的使用说明。",
+    "date": "2026-09-06",
+    "draft": false
+  },
+  {
+    "type": "post",
+    "slug": "tools/chrome-extensions",
+    "source": "posts/tools/chrome-extensions.md",
+    "title": "Chrome 插件说明：工具目录、安装与更新",
+    "category": "工具使用说明",
+    "summary": "Chrome 插件的统一入口，整理插件功能、下载和独立使用教程，并说明通用安装、更新、权限与卸载方法。新插件将持续加入目录。",
+    "date": "2026-09-06",
+    "draft": false
+  },
+  {
     "type": "lab",
     "slug": "unsolved-mathematical-conjectures-markmap",
     "source": "labs/unsolved-mathematical-conjectures-markmap.html",
