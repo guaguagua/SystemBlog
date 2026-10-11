@@ -10,6 +10,18 @@
     <loc>https://guaguagua.github.io/SystemBlog/about.html</loc>
   </url>
   <url>
+    <loc>https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/phy-mcu-firmware-logging-and-testing</loc>
+    <lastmod>2026-10-10</lastmod>
+  </url>
+  <url>
+    <loc>https://guaguagua.github.io/SystemBlog/blog/game/block-wings/</loc>
+    <lastmod>2026-09-06</lastmod>
+  </url>
+  <url>
+    <loc>https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/tools/chrome-extensions</loc>
+    <lastmod>2026-09-06</lastmod>
+  </url>
+  <url>
     <loc>https://guaguagua.github.io/SystemBlog/blog/labs/unsolved-mathematical-conjectures-markmap.html</loc>
     <lastmod>2026-09-03</lastmod>
   </url>
@@ -98,13 +110,5 @@
   </url>
   <url>
     <loc>https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/llm-context-prompt-rag-mcp-skills-plugin</loc>
-  </url>
-  <url>
-    <loc>https://guaguagua.github.io/SystemBlog/blog/game/block-wings/</loc>
-    <lastmod>2026-09-06</lastmod>
-  </url>
-  <url>
-    <loc>https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/tools/chrome-extensions</loc>
-    <lastmod>2026-09-06</lastmod>
   </url>
 </urlset>

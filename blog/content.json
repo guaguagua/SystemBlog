@@ -1,5 +1,15 @@
 [
   {
+    "type": "post",
+    "slug": "phy-mcu-firmware-logging-and-testing",
+    "source": "posts/phy-mcu-firmware-logging-and-testing.md",
+    "title": "RISC-V MCU 固件：日志、命令行与测试仿真常用库",
+    "category": "嵌入式固件",
+    "summary": "面向裸机、无 RTOS 的小型 RISC-V MCU，用表格汇总日志调试、命令行、协程、host 通信和测试仿真常用的库与工具。",
+    "date": "2026-10-10",
+    "draft": false
+  },
+  {
     "type": "game",
     "slug": "block-wings",
     "source": "game/block-wings/index.html",
