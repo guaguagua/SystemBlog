@@ -1,0 +1,454 @@
+<!doctype html>
+<!--
+blog-title: 电路原理知识点思维导图
+blog-category: 电子与电路
+blog-summary: 从两类约束、等效变换、节点/网孔法和电路定理出发，串起动态电路、相量法、谐振、三相、拉氏变换与二端口网络，附分析方法与公式速查。
+blog-date: 2026-10-12
+blog-published: 2026-10-12T10:00:00+08:00
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="用交互式 Markmap 系统梳理电路原理的核心概念、分析方法、定理与常用公式" />
+  <title>电路原理知识点思维导图 · Markmap</title>
+  <style>
+    :root{--ink:#164f78;--muted:#4f7e9c;--paper:#EAE7DE;--panel:rgba(249,246,196,.9);--line:rgba(68,172,255,.32);--cyan:#44ACFF;--pink:#FE9EC7;--pale-blue:#89D4FF;--shadow:0 16px 42px rgba(68,172,255,.18)}
+    *{box-sizing:border-box}html,body{min-height:100%;margin:0}body{overflow-x:hidden;color:var(--ink);font-family:Inter,"Microsoft YaHei UI","PingFang SC",system-ui,sans-serif;background:var(--paper)}button,input{font:inherit}
+    .stage{position:relative;width:100%;height:calc(100vh - 68px);min-height:620px}.map-title{position:absolute;z-index:6;left:20px;top:20px;max-width:340px;margin:0;font-size:20px;line-height:1.2;font-weight:800;letter-spacing:.02em}.topbar{position:absolute;z-index:6;left:380px;right:18px;top:16px;display:flex;justify-content:flex-end;align-items:flex-start;pointer-events:none}.actions{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;pointer-events:auto}
+    .tab,.tool{border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);height:38px;padding:0 12px;cursor:pointer;white-space:nowrap;backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:.2s ease}.tab:hover,.tool:hover,.tab.active{transform:translateY(-1px);border-color:var(--cyan);background:var(--pale-blue)}.search{display:flex;align-items:center;gap:7px;height:38px;padding:0 11px;border:1px solid var(--line);border-radius:10px;background:var(--panel);backdrop-filter:blur(14px);box-shadow:var(--shadow)}.search input{width:150px;border:0;outline:0;background:transparent;color:var(--ink)}.search input::placeholder{color:#6392ad}.count{min-width:18px;padding:1px 5px;border-radius:10px;background:var(--cyan);color:#fff;font-size:10px;text-align:center}.count:empty{display:none}
+    #mindmap{width:100%;height:100%;display:block;--markmap-text-color:var(--ink);--markmap-circle-open-bg:#fff}.markmap-node{cursor:pointer}.markmap-node text,.markmap-node foreignObject{font-family:inherit}.markmap-foreign{font-size:14px;color:var(--ink)}.markmap-foreign div{padding:2px 0;text-shadow:0 1px rgba(255,255,255,.65)}.markmap-foreign code{padding:1px 4px;border-radius:4px;background:rgba(255,255,255,.52);font-family:"Cascadia Code",Consolas,monospace;color:#164f78}.markmap-link{stroke-opacity:.68}.markmap-node-circle{fill:#F9F6C4;stroke-width:1.8px}
+    dialog{width:min(780px,calc(100vw - 36px));max-height:78vh;border:1px solid rgba(135,104,35,.3);border-radius:18px;background:#fff2c2;color:var(--ink);box-shadow:0 38px 100px rgba(87,57,18,.36);padding:0}dialog::backdrop{background:rgba(82,67,35,.35);backdrop-filter:blur(5px)}.dialog-head{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line);background:rgba(236,201,107,.28)}.dialog-head h2{margin:0;font-size:16px}.close{border:0;background:transparent;font-size:24px;color:#7a6c43;cursor:pointer}.dialog-body{padding:8px 20px 22px}.source-item{padding:13px 0;border-bottom:1px solid var(--line)}.source-item:last-child{border-bottom:0}.source-item a{color:#287594;font-weight:700;text-decoration:none}.source-item a:hover{text-decoration:underline}.source-item p{margin:5px 0 0;color:#5f643f;font-size:12px;line-height:1.6}
+    .loading{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#EAE7DE;transition:opacity .35s}.loading.hidden{opacity:0;pointer-events:none}.seal{width:38px;height:38px;border:2px solid rgba(68,172,255,.18);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:1080px){.topbar{left:310px}.map-title{max-width:280px}.search input{width:115px}.tool.hide-mobile{display:none}}@media(max-width:760px){.stage{height:calc(100vh - 112px);min-height:700px}.map-title{left:14px;top:14px;font-size:18px}.topbar{left:10px;right:10px;top:50px;justify-content:flex-start}.actions{justify-content:flex-start}.tab,.tool,.search{height:33px;padding:0 10px;font-size:12px}.search{order:9}.search input{width:125px}}@media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading" aria-hidden="true"><div class="seal"></div></div>
+  <div data-site-header data-active="blog"></div><script src="../../common/js/site-header.js"></script>
+  <main class="stage">
+    <h1 class="map-title">电路原理知识点思维导图</h1>
+    <header class="topbar"><nav class="actions" aria-label="图谱工具">
+      <button class="tab active" data-map="world">全景总览</button><button class="tab" data-map="formula">公式速查</button><button class="tab" data-map="system">分析方法</button>
+      <label class="search" aria-label="搜索节点"><span>⌕</span><input id="search" type="search" placeholder="搜索知识点或公式…" /><span class="count" id="count"></span></label>
+      <button class="tool hide-mobile" id="overview">收至二级</button><button class="tool" id="expand">全部展开</button><button class="tool" id="fit">适应画布</button><button class="tool" id="openSources">资料</button>
+    </nav></header>
+    <svg id="mindmap" role="img" aria-label="电路原理核心内容交互式思维导图"></svg><div id="status" class="sr-only" aria-live="polite">全景总览已加载</div>
+  </main>
+  <div data-site-reward></div><script src="../../common/js/site-reward.js"></script>
+
+  <dialog id="sources"><div class="dialog-head"><h2>资料来源与符号约定</h2><button class="close" id="closeSources" aria-label="关闭">×</button></div><div class="dialog-body">
+    <div class="source-item"><a href="https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/" target="_blank" rel="noreferrer">MIT 6.002 · Circuits and Electronics</a><p>集总电路抽象、节点法、戴维南/诺顿、一阶二阶动态电路与运放的经典课程。</p></div>
+    <div class="source-item"><a href="https://ocw.mit.edu/courses/6-01sc-introduction-to-electrical-engineering-and-computer-science-i-spring-2011/" target="_blank" rel="noreferrer">MIT 6.01SC · Introduction to EECS I</a><p>电路建模、受控源与运放抽象的入门资料。</p></div>
+    <div class="source-item"><p><strong>教材参考：</strong>邱关源《电路》（高等教育出版社）、Alexander &amp; Sadiku《Fundamentals of Electric Circuits》、Nilsson &amp; Riedel《Electric Circuits》。本图的章节顺序基本对应国内“电路原理”课程。</p></div>
+    <div class="source-item"><p><strong>符号约定：</strong>小写 <code>u</code>、<code>i</code> 表示瞬时值，大写表示有效值或直流量，带点的 <code>U̇</code>、<code>İ</code> 表示相量；默认采用关联参考方向。公式只展示结构，严格适用条件以教材为准。</p></div>
+  </div></dialog>
+
+  <script type="text/plain" id="map-world">
+# 电路原理 · 从元件约束到网络分析
+
+## 1. 基本概念与电路模型
+- 电路模型
+  - 实际电路 → 理想元件构成的集总参数模型
+  - 集总条件：电路尺寸 `≪` 信号波长
+  - 不满足时需用分布参数（传输线）模型
+- 基本物理量
+  - 电流 `i = dq/dt`，电压 `u = dw/dq`
+  - 功率 `p = u·i`，能量 `w = ∫p dt`
+- 参考方向
+  - 电流、电压的方向是“假设”，算出负值即实际方向相反
+  - 关联参考方向：电流从电压“+”端流入
+  - 关联下 `p>0` 吸收功率，`p<0` 发出功率
+- 电路的拓扑术语
+  - 支路、节点、回路、网孔
+  - `b` 条支路、`n` 个节点 → `n-1` 个独立KCL方程，`b-n+1` 个独立KVL方程
+
+## 2. 电路元件
+- 电阻 R
+  - 欧姆定律 `u = Ri`，电导 `G = 1/R`
+  - 功率 `p = i²R = u²/R ≥ 0`，耗能元件
+  - 短路 `R=0`，开路 `R=∞`
+- 电容 C
+  - `i = C du/dt`，`w = ½Cu²`
+  - 储能元件；电压不能突变（有限电流时）
+  - 直流稳态相当于开路
+- 电感 L
+  - `u = L di/dt`，`w = ½Li²`
+  - 储能元件；电流不能突变（有限电压时）
+  - 直流稳态相当于短路
+- 独立电源
+  - 理想电压源：端电压确定，电流由外电路决定
+  - 理想电流源：电流确定，端电压由外电路决定
+  - 实际电源 = 理想源 + 内阻
+- 受控源（非独立源）
+  - VCVS、VCCS、CCVS、CCCS 四种
+  - 用于晶体管、运放等器件建模
+  - 分析时先当独立源列方程，再补控制量方程
+- 运算放大器（理想模型）
+  - 虚短：`u₊ = u₋`（有负反馈时）
+  - 虚断：`i₊ = i₋ = 0`
+  - 典型电路：反相、同相、加法、积分、微分
+
+## 3. 基尔霍夫定律
+- KCL（电流定律）
+  - 任一节点或闭合面：`Σi = 0`
+  - 本质：电荷守恒
+- KVL（电压定律）
+  - 任一回路：`Σu = 0`
+  - 本质：能量守恒、电位单值
+- 与元件VCR合起来构成“两类约束”
+  - 拓扑约束（KCL/KVL）：只和连接方式有关
+  - 元件约束（VCR）：只和元件性质有关
+  - 所有电路分析都是这两类约束的组织方式
+
+## 4. 电阻电路的等效变换
+- 等效的含义：对外电路端口 VCR 相同，对内不等效
+- 串联与并联
+  - 串联分压：`uₖ = u·Rₖ/ΣR`
+  - 并联分流：`iₖ = i·Gₖ/ΣG`
+- Y–Δ 变换
+  - 三个电阻相等时：`R_Δ = 3R_Y`
+- 电源等效
+  - 电压源串电阻 ⇄ 电流源并电阻
+  - 理想电压源与任何元件并联 → 对外等效为该电压源
+  - 理想电流源与任何元件串联 → 对外等效为该电流源
+- 输入电阻
+  - 含受控源时用外加电源法：`R_in = u/i`
+
+## 5. 电路的一般分析方法
+- 支路电流法：未知量 `b` 个，最直接也最繁
+- 网孔电流法：未知量 `b-n+1` 个，适合平面电路
+- 回路电流法：任选独立回路，适合有电流源的电路
+- 节点电压法：未知量 `n-1` 个，最常用、最适合计算机
+  - 改进节点法 MNA 是 SPICE 的基础
+- 特殊处理
+  - 无伴电压源 / 无伴电流源
+  - 受控源：补充控制量方程
+
+## 6. 电路定理
+- 叠加定理
+  - 线性电路：多个独立源的响应 = 各源单独作用之和
+  - 置零：电压源短路、电流源开路，受控源保留
+  - 功率不能叠加
+- 齐性定理：激励乘 `k`，响应乘 `k`
+- 替代定理：已知支路电压或电流，可用电压源或电流源替代
+- 戴维南定理
+  - 线性有源二端网络 = 电压源 `u_oc` 串电阻 `R_eq`
+- 诺顿定理
+  - 等效为电流源 `i_sc` 并电阻 `R_eq`
+  - `R_eq = u_oc / i_sc`
+- 最大功率传输
+  - `R_L = R_eq` 时，`P_max = u_oc² / (4R_eq)`
+  - 此时传输效率仅50%
+- 特勒根定理：`Σuₖiₖ = 0`，只依赖拓扑
+- 互易定理：线性无受控源网络中激励与响应位置可互换
+- 对偶原理：电压↔电流、串联↔并联、R↔G、L↔C、KCL↔KVL
+
+## 7. 动态电路的时域分析
+- 换路定则
+  - `u_C(0₊) = u_C(0₋)`，`i_L(0₊) = i_L(0₋)`
+  - 其他量需画 `0₊` 等效电路求
+- 一阶电路（RC / RL）
+  - 时间常数：`τ = RC` 或 `τ = L/R`
+  - 零输入响应、零状态响应、全响应
+  - 三要素法：`f(t) = f(∞) + [f(0₊) - f(∞)]e^(-t/τ)`
+  - 约 `3τ~5τ` 认为过渡过程结束
+- 阶跃响应与冲激响应
+  - 单位阶跃 `ε(t)`，单位冲激 `δ(t)`
+  - 冲激响应是阶跃响应的导数
+  - 卷积积分求任意激励的零状态响应
+- 二阶电路（RLC）
+  - 特征方程 `LCs² + RCs + 1 = 0`（串联）
+  - 过阻尼 `R > 2√(L/C)`：非振荡
+  - 临界阻尼 `R = 2√(L/C)`
+  - 欠阻尼 `R < 2√(L/C)`：衰减振荡
+  - 无阻尼 `R = 0`：等幅振荡
+- 状态变量法：以 `u_C`、`i_L` 为状态，列一阶微分方程组
+
+## 8. 正弦稳态分析（相量法）
+- 正弦量三要素：幅值、角频率、初相
+  - 有效值 `I = Iₘ/√2`
+- 相量
+  - 用复数表示同频正弦量：`İ = I∠φ`
+  - 微分 → 乘 `jω`，积分 → 除以 `jω`
+- 阻抗与导纳
+  - `Z_R = R`，`Z_L = jωL`，`Z_C = 1/(jωC)`
+  - `Z = R + jX`，`Y = 1/Z = G + jB`
+  - 感性 `X>0`，容性 `X<0`
+- 相量形式的KCL、KVL、VCR
+  - 直流电路的所有方法和定理全部可以搬过来
+- 相量图：辅助判断相位关系
+
+## 9. 正弦稳态功率
+- 瞬时功率：恒定分量 + 二倍频分量
+- 有功功率 `P = UI cosφ`（W）
+- 无功功率 `Q = UI sinφ`（var）
+- 视在功率 `S = UI`（VA），`S² = P² + Q²`
+- 复功率 `S̃ = U̇İ* = P + jQ`，复功率守恒
+- 功率因数 `λ = cosφ`
+  - 感性负载并联电容提高功率因数
+- 最大功率传输（共轭匹配）
+  - `Z_L = Z_eq*` 时 `P_max = U_oc² / (4R_eq)`
+
+## 10. 频率响应与谐振
+- 网络函数 `H(jω) = 响应相量 / 激励相量`
+  - 幅频特性 `|H(jω)|`，相频特性 `φ(ω)`
+  - 波特图：dB 与对数频率坐标
+- 滤波器
+  - 低通、高通、带通、带阻
+  - 截止频率：幅值下降到 `1/√2`（-3dB）
+- 串联谐振
+  - `ω₀ = 1/√(LC)`，阻抗最小且为纯电阻
+  - 电压谐振：`U_L = U_C = QU`
+- 并联谐振
+  - 阻抗最大，电流谐振
+- 品质因数 Q
+  - 串联 `Q = ω₀L/R = (1/R)√(L/C)`
+  - 带宽 `BW = ω₀/Q`，Q 越大选择性越好
+
+## 11. 耦合电感与理想变压器
+- 互感 `M`，耦合系数 `k = M/√(L₁L₂) ≤ 1`
+- 同名端：决定互感电压的正负
+  - `u₁ = L₁ di₁/dt ± M di₂/dt`
+- 去耦等效（T形等效）
+  - 顺接串联 `L = L₁+L₂+2M`，反接 `L₁+L₂-2M`
+- 空心变压器：反映阻抗 `(ωM)²/Z₂₂`
+- 理想变压器
+  - `u₁/u₂ = n`，`i₁/i₂ = -1/n`
+  - 阻抗变换 `Z_in = n²Z_L`
+  - 不储能、不耗能，只变换
+
+## 12. 三相电路
+- 对称三相电源：幅值相等、频率相同、相位依次差120°
+- 连接方式
+  - Y 形：`U_l = √3 U_p`，线电压超前相电压30°
+  - Δ 形：`I_l = √3 I_p`，线电流滞后相电流30°
+- 对称三相电路：归结为一相计算
+- 不对称三相：中性点位移，中线的作用
+- 三相功率
+  - `P = √3 U_l I_l cosφ`
+  - 二瓦计法测量三相三线制功率
+
+## 13. 非正弦周期电路
+- 傅里叶级数分解：直流 + 基波 + 各次谐波
+- 有效值 `I = √(I₀² + I₁² + I₂² + …)`
+- 平均功率 `P = P₀ + ΣUₖIₖcosφₖ`（只有同频才产生平均功率）
+- 分析方法：各频率分量分别求解，时域叠加
+  - 注意：不同频率的相量不能直接相加
+
+## 14. 复频域分析（拉普拉斯变换）
+- 拉氏变换把微分方程变成代数方程
+  - 自动包含初始条件
+- 元件 s 域模型
+  - `Z_L = sL`，附加源 `L·i_L(0₋)`
+  - `Z_C = 1/(sC)`，附加源 `u_C(0₋)/s`
+- 部分分式展开求反变换
+- 网络函数 `H(s)`
+  - 零点、极点分布决定时域响应形态
+  - 极点全在左半平面 → 稳定
+  - `H(s)` 的反变换就是冲激响应
+  - `s = jω` 得频率响应
+
+## 15. 二端口网络
+- 端口条件：一个端口的流入电流 = 流出电流
+- 六种参数
+  - Z 参数（开路阻抗）
+  - Y 参数（短路导纳）
+  - H 参数（混合参数，晶体管常用）
+  - T / A 参数（传输参数，级联常用）
+- 互易：`Z₁₂ = Z₂₁`；对称：再加 `Z₁₁ = Z₂₂`
+- 等效电路：T形、Π形
+- 连接
+  - 级联：T 参数矩阵相乘
+  - 串联：Z 相加；并联：Y 相加
+- 回转器、负阻抗变换器
+
+## 16. 进阶专题
+- 图论与矩阵方程
+  - 关联矩阵 A、回路矩阵 B、割集矩阵 Q
+  - 系统化列写节点方程 `AYAᵀUₙ = …`
+- 非线性电路
+  - 非线性电阻：图解法、小信号分析、分段线性化
+  - 静态工作点与小信号等效
+- 分布参数电路（均匀传输线）
+  - 电报方程、特性阻抗 `Z_c`、传播常数 `γ`
+  - 反射系数、驻波、阻抗匹配
+- 计算机辅助分析
+  - SPICE：MNA + 牛顿迭代 + 数值积分
+
+## 17. 学习主线与常见误区
+- 主线
+  - 两类约束 → 等效 → 系统方程 → 定理 → 动态 → 相量 → s 域
+  - 每进一步，只是把“元件约束”换了一种数学形式
+- 常见误区
+  - 忘记参考方向，功率正负判断错
+  - 叠加时把受控源也置零
+  - 求等效电阻时含受控源却直接串并联
+  - 换路时认为电容电流、电感电压也不能突变
+  - 不同频率的相量直接相加
+  - 有功、无功、视在功率混用单位
+  </script>
+
+  <script type="text/plain" id="map-system">
+# 电路分析方法 · 怎样选、怎样做
+
+## 第一步：识别电路类型
+- 电阻电路（直流）
+  - 代数方程
+- 动态电路（含 L、C，换路过程）
+  - 一阶 → 三要素法
+  - 二阶及以上 → 微分方程 / 拉氏变换
+- 正弦稳态电路
+  - 相量法：把微分变成复数代数
+- 非正弦周期激励
+  - 傅里叶分解 + 逐频率相量法 + 叠加
+- 任意激励的暂态
+  - 复频域（s 域）分析
+
+## 第二步：选择列方程的方法
+- 节点电压法（首选）
+  - 节点少、电流源多时最佳
+  - 步骤：选参考点 → 自导、互导 → 注入电流 → 解方程
+  - 无伴电压源：设其电流为未知量或选其一端为参考点
+- 网孔/回路电流法
+  - 网孔少、电压源多时最佳
+  - 步骤：选网孔 → 自阻、互阻 → 回路电压源 → 解方程
+  - 无伴电流源：让它只属于一个回路
+- 支路电流法
+  - 小电路、教学推导用
+- 含受控源
+  - 先当独立源处理，再把控制量用未知量表示
+
+## 第三步：只关心某一条支路时
+- 戴维南 / 诺顿等效
+  - 求 `u_oc`：断开负载求开路电压
+  - 求 `R_eq`
+    - 无受控源：独立源置零后串并联
+    - 有受控源：外加电源法或开路短路法
+  - 负载变化多次时尤其省事
+- 最大功率问题 → 必用戴维南
+- 多个电源分别作用 → 叠加定理
+
+## 第四步：动态电路怎么做
+- 一阶：三要素法
+  - 求 `f(0₊)`：换路前稳态得 `u_C(0₋)`、`i_L(0₋)`，画 `0₊` 图
+  - 求 `f(∞)`：C 开路、L 短路
+  - 求 `τ`：从 L/C 两端看进去的 `R_eq`
+- 二阶：先判断阻尼类型，再写通解
+- 高阶或复杂激励：s 域
+  - 画运算电路（含初始值附加源）
+  - 用节点法/网孔法求 `F(s)`
+  - 部分分式 → 反变换
+
+## 第五步：正弦稳态怎么做
+- 时域 → 相量域
+  - 元件换阻抗，源换相量
+- 用直流方法求解相量
+- 相量 → 时域，或求功率
+- 校验
+  - 复功率守恒：发出 = 吸收
+  - 画相量图检查相位
+
+## 第六步：结果校验
+- 量纲是否正确
+- 功率平衡：`Σp_发出 = Σp_吸收`
+- 极端情况：`t=0`、`t→∞`、`ω→0`、`ω→∞`
+- 用 SPICE / 仿真工具复核
+  </script>
+
+  <script type="text/plain" id="map-formula">
+# 电路原理 · 公式速查
+
+## 元件 VCR
+- 电阻：`u = Ri`，`p = i²R`
+- 电容：`i = C du/dt`，`w = ½Cu²`
+- 电感：`u = L di/dt`，`w = ½Li²`
+- 串联：`R = ΣRₖ`，`1/C = Σ1/Cₖ`，`L = ΣLₖ`
+- 并联：`G = ΣGₖ`，`C = ΣCₖ`，`1/L = Σ1/Lₖ`
+- Y→Δ：`R₁₂ = R₁ + R₂ + R₁R₂/R₃`
+- Δ→Y：`R₁ = R₁₂R₃₁ / (R₁₂ + R₂₃ + R₃₁)`
+
+## 网络定理
+- 方程数：节点 `n-1`，网孔 `b-n+1`
+- 戴维南：`R_eq = u_oc / i_sc`
+- 最大功率（直流）：`R_L = R_eq`，`P = u_oc²/(4R_eq)`
+- 最大功率（交流）：`Z_L = Z_eq*`，`P = U_oc²/(4R_eq)`
+- 特勒根：`Σuₖiₖ = 0`
+
+## 一阶电路
+- `τ = RC`，`τ = L/R`
+- 三要素：`f(t) = f(∞) + [f(0₊) - f(∞)]e^(-t/τ)`
+- 零输入：`u_C = U₀e^(-t/τ)`
+- 零状态（RC充电）：`u_C = U_s(1 - e^(-t/τ))`
+
+## 二阶电路（串联 RLC）
+- 特征根：`s = -α ± √(α² - ω₀²)`
+- `α = R/(2L)`，`ω₀ = 1/√(LC)`
+- 阻尼比 `ζ = α/ω₀`
+  - `ζ>1` 过阻尼，`ζ=1` 临界，`ζ<1` 欠阻尼
+- 欠阻尼振荡频率 `ω_d = √(ω₀² - α²)`
+
+## 相量与阻抗
+- 有效值：`U = Uₘ/√2`
+- `Z_L = jωL`，`Z_C = -j/(ωC)`
+- `Z = |Z|∠φ`，`φ = arctan(X/R)`
+- 感抗 `X_L = ωL`，容抗 `X_C = 1/(ωC)`
+
+## 功率
+- `P = UI cosφ`
+- `Q = UI sinφ`
+- `S = UI = √(P² + Q²)`
+- `S̃ = U̇İ* = P + jQ`
+- 补偿电容：`C = P(tanφ₁ - tanφ₂)/(ωU²)`
+
+## 谐振
+- `ω₀ = 1/√(LC)`，`f₀ = 1/(2π√(LC))`
+- 串联：`Q = ω₀L/R = 1/(ω₀CR)`
+- 并联（GLC）：`Q = R/(ω₀L) = ω₀CR`
+- 带宽：`BW = ω₀/Q`
+
+## 耦合电感与变压器
+- `k = M/√(L₁L₂)`
+- 顺串 `L₁+L₂+2M`，反串 `L₁+L₂-2M`
+- 反映阻抗：`Z_ref = (ωM)²/Z₂₂`
+- 理想变压器：`u₁/u₂ = n`，`i₁/i₂ = -1/n`，`Z_in = n²Z_L`
+
+## 三相
+- Y：`U_l = √3U_p`，`I_l = I_p`
+- Δ：`I_l = √3I_p`，`U_l = U_p`
+- `P = √3U_lI_l cosφ`
+
+## 非正弦周期
+- 有效值：`U = √(U₀² + U₁² + U₂² + …)`
+- 平均功率：`P = U₀I₀ + ΣUₖIₖcosφₖ`
+
+## 拉氏变换常用对
+- `δ(t) ↔ 1`
+- `ε(t) ↔ 1/s`
+- `e^(-at) ↔ 1/(s+a)`
+- `sin ωt ↔ ω/(s²+ω²)`
+- `cos ωt ↔ s/(s²+ω²)`
+- `f'(t) ↔ sF(s) - f(0₋)`
+- `∫f dt ↔ F(s)/s`
+
+## 二端口
+- Z：`U̇₁ = Z₁₁İ₁ + Z₁₂İ₂`，`U̇₂ = Z₂₁İ₁ + Z₂₂İ₂`
+- Y：`İ₁ = Y₁₁U̇₁ + Y₁₂U̇₂`，`İ₂ = Y₂₁U̇₁ + Y₂₂U̇₂`
+- T：`U̇₁ = AU̇₂ - Bİ₂`，`İ₁ = CU̇₂ - Dİ₂`
+- 互易：`Z₁₂ = Z₂₁`，`AD - BC = 1`
+- 级联：`T = T₁·T₂`
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script><script src="https://cdn.jsdelivr.net/npm/markmap-lib"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view"></script>
+  <script>
+    const {Transformer,Markmap}=window.markmap;const transformer=new Transformer();const texts={world:document.querySelector('#map-world').textContent.trim(),formula:document.querySelector('#map-formula').textContent.trim(),system:document.querySelector('#map-system').textContent.trim()};const nodeColors=d3.schemeCategory10;let active='world',level=2,root;
+    function prepareTree(tree){const counters=[];const visit=(node,depth=0)=>{const index=counters[depth]||0;counters[depth]=index+1;node.payload={...(node.payload||{}),paletteIndex:index};(node.children||[]).forEach(child=>visit(child,depth+1))};visit(tree);return tree}
+    const mm=Markmap.create('#mindmap',{autoFit:false,duration:360,maxWidth:292,spacingHorizontal:98,spacingVertical:10,paddingX:14,colorFreezeLevel:0,initialExpandLevel:2},prepareTree(transformer.transform(texts.world).root));
+    function colorFor(node){if((node.state?.depth||0)===0)return '#164f78';return nodeColors[(node.payload?.paletteIndex??node.state?.id??0)%nodeColors.length]}mm.options.color=colorFor;
+    function render(map=active,nextLevel=level){active=map;level=nextLevel;root=prepareTree(transformer.transform(texts[active]).root);mm.options.color=colorFor;mm.setData(root,{initialExpandLevel:level>20?-1:level});document.querySelectorAll('.tab').forEach(button=>button.classList.toggle('active',button.dataset.map===active));document.querySelector('#search').value='';document.querySelector('#count').textContent='';document.querySelector('#status').textContent=`${document.querySelector('.tab.active').textContent}已加载`;setTimeout(()=>mm.fit(),380)}
+    document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>render(button.dataset.map,2)));document.querySelector('#overview').addEventListener('click',()=>render(active,2));document.querySelector('#expand').addEventListener('click',()=>render(active,99));document.querySelector('#fit').addEventListener('click',()=>mm.fit());document.querySelector('#mindmap').addEventListener('click',event=>{const node=event.target?.closest?.('g.markmap-node');if(!node||event.target.closest?.('circle'))return;node.querySelector('circle')?.dispatchEvent(new MouseEvent('click',{bubbles:true,clientX:event.clientX,clientY:event.clientY}))});
+    const strip=value=>{const el=document.createElement('div');el.innerHTML=String(value||'');return el.textContent.replace(/[\r\n]/g,' ')};function walk(node,fn,path=[]){fn(node,path);(node.children||[]).forEach(child=>walk(child,fn,[...path,node]))}const search=document.querySelector('#search'),count=document.querySelector('#count');let timer;search.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>{const query=search.value.trim().toLocaleLowerCase();if(!query){render(active,level);return}const matches=[];walk(transformer.transform(texts[active]).root,(node,path)=>{if(strip(node.content).toLocaleLowerCase().includes(query))matches.push([...path.slice(1),node].map(item=>strip(item.content)).join(' › '))});count.textContent=String(matches.length);const result=`# 搜索：${search.value.replace(/[\r\n]/g,' ')}\n${matches.length?matches.map(item=>`- ${item}`).join('\n'):'- 没有匹配节点'}`;root=prepareTree(transformer.transform(result).root);mm.setData(root,{initialExpandLevel:-1});setTimeout(()=>mm.fit(),280);document.querySelector('#status').textContent=`找到 ${matches.length} 个节点`},100)});
+    document.addEventListener('keydown',event=>{if(event.key==='/'&&document.activeElement!==search){event.preventDefault();search.focus()}if(event.key==='Escape'&&document.activeElement===search){search.value='';render(active,level);search.blur()}});const dialog=document.querySelector('#sources');document.querySelector('#openSources').addEventListener('click',()=>dialog.showModal());document.querySelector('#closeSources').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});render('world',2);setTimeout(()=>document.querySelector('#loading').classList.add('hidden'),650);
+  </script>
+</body>
+</html>

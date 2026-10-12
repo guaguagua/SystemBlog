@@ -1,5 +1,17 @@
 [
   {
+    "type": "lab",
+    "slug": "circuit-theory-markmap",
+    "source": "labs/circuit-theory-markmap.html",
+    "url": "labs/circuit-theory-markmap.html",
+    "title": "电路原理知识点思维导图",
+    "category": "电子与电路",
+    "summary": "从两类约束、等效变换、节点/网孔法和电路定理出发，串起动态电路、相量法、谐振、三相、拉氏变换与二端口网络，附分析方法与公式速查。",
+    "date": "2026-10-12",
+    "published": "2026-10-12T10:00:00+08:00",
+    "draft": false
+  },
+  {
     "type": "post",
     "slug": "phy-mcu-firmware-logging-and-testing",
     "source": "posts/phy-mcu-firmware-logging-and-testing.md",

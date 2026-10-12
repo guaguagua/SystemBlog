@@ -13,6 +13,7 @@
 
 ## 文章与实验
 
+- [电路原理知识点思维导图](https://guaguagua.github.io/SystemBlog/blog/labs/circuit-theory-markmap.html): 从两类约束、等效变换、节点/网孔法和电路定理出发，串起动态电路、相量法、谐振、三相、拉氏变换与二端口网络，附分析方法与公式速查。
 - [RISC-V MCU 固件：日志、命令行与测试仿真常用库](https://guaguagua.github.io/SystemBlog/blog/article.html?post=posts/phy-mcu-firmware-logging-and-testing): 面向裸机、无 RTOS 的小型 RISC-V MCU，用表格汇总日志调试、命令行、协程、host 通信和测试仿真常用的库与工具。
   - [Markdown 原文](https://guaguagua.github.io/SystemBlog/blog/posts/phy-mcu-firmware-logging-and-testing.md)
 - [方块飞行：中英双语魔法射击游戏](https://guaguagua.github.io/SystemBlog/blog/game/block-wings/): 移动鼠标自动射击，学习 50 个单词和 50 个短句，体验追踪导弹、八种武器和粒子魔法。打开网页即可玩，也可下载完整游戏包。
